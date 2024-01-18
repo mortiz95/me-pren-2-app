@@ -1,0 +1,7 @@
+{
+  "name": "#MePren2-App",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "vue-vite"
+}
