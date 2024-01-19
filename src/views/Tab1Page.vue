@@ -12,12 +12,24 @@
         </ion-toolbar>
       </ion-header>
 
-      <ExploreContainer name="Tab 1 page" />
+      <ul>
+      <li v-for="item in items" :key="item.id">
+        {{ item.id }}
+        <button>Update</button>
+        <button>Delete</button>
+      </li>
+    </ul>
     </ion-content>
   </ion-page>
 </template>
 
 <script setup lang="ts">
-import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent } from '@ionic/vue';
-import ExploreContainer from '@/components/ExploreContainer.vue';
+import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, onIonViewWillEnter } from '@ionic/vue';
+import { loadItems, items } from '../composables/firestore/useMatches';
+
+onIonViewWillEnter(async ()  => {
+  await loadItems(); // Load items when the component is mounted
+})
+
+
 </script>
