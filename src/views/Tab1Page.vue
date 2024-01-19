@@ -28,9 +28,7 @@ import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, onIonViewWillEnte
 import { loadItems, items } from '../composables/firestore/useMatches';
 
 onIonViewWillEnter(async ()  => {
-
   await loadItems(); // Load items when the component is mounted
-
 })
 
 
