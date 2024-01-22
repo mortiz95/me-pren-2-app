@@ -13,10 +13,8 @@
       </ion-header>
 
       <ul>
-      <li v-for="item in items" :key="item.id">
+      <li v-for="item in gameStore.games" :key="item.id">
         {{ item.id }}
-        <button>Update</button>
-        <button>Delete</button>
       </li>
     </ul>
     </ion-content>
@@ -24,11 +22,13 @@
 </template>
 
 <script setup lang="ts">
-import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, onIonViewWillEnter } from '@ionic/vue';
-import { loadItems, items } from '../composables/firestore/useMatches';
+import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, onIonViewDidEnter } from '@ionic/vue';
+import { useGameStore } from '../store/game';
 
-onIonViewWillEnter(async ()  => {
-  await loadItems(); // Load items when the component is mounted
+const gameStore = useGameStore();
+
+onIonViewDidEnter(()  => {
+   gameStore.loadGames()
 })
 
 
