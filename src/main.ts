@@ -3,10 +3,15 @@ import App from './App.vue'
 import router from './router';
 import { IonicVue } from '@ionic/vue';
 
-/* Vuex */
-import store from './store';
+/* Pinia */
+import { createPinia } from 'pinia';
 
-
+/* Ionic components */
+import {
+  IonPage,IonContent,IonHeader,IonGrid,IonRow,IonCol,IonToolbar,IonIcon,IonButton,
+  IonFabButton,IonItem,IonToggle,IonList,IonSelect,IonSelectOption,IonLabel,
+  IonCard,IonSpinner,
+} from "@ionic/vue";
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/vue/css/core.css';
@@ -27,10 +32,31 @@ import '@ionic/vue/css/display.css';
 /* Theme variables */
 import './theme/variables.css';
 
+const pinia = createPinia();
+
 const app = createApp(App)
   .use(IonicVue)
   .use(router)
-  .use(store)
+  .use(pinia)
+  app.component('ion-page', IonPage)
+  app.component('ion-content', IonContent)
+  app.component('ion-header', IonHeader)
+  app.component('ion-grid', IonGrid)
+  app.component('ion-row', IonRow)
+  app.component('ion-col', IonCol)
+  app.component('ion-toolbar', IonToolbar)
+  app.component('ion-icon', IonIcon)
+  app.component('ion-button', IonButton)
+  app.component('ion-fab-button', IonFabButton)
+  app.component('ion-item', IonItem)
+  app.component('ion-toggle', IonToggle)
+  app.component('ion-list', IonList)
+  app.component('ion-select', IonSelect)
+  app.component('ion-select-option', IonSelectOption)
+  app.component('ion-label', IonLabel)
+  app.component('ion-card', IonCard)
+  app.component('ion-spinner', IonSpinner)
+
   
 router.isReady().then(() => {
   app.mount('#app');
