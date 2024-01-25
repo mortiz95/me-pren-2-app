@@ -15,6 +15,7 @@ http://ionicframework.com/docs/theming/ */
 
   --white: #ffffff;
   --black: #000000;
+  --light-black: #575656;
   --gray: #707070;
   --light-gray: #e4e4e4;
   --gold: #d7a752;
@@ -25,7 +26,17 @@ http://ionicframework.com/docs/theming/ */
   --green: #16A398;
   --light-blue: #b8e3e0;
   --yellow: #f1c40e;
-  --transparent: rgba(255, 255, 255, 0)
+  --transparent: rgba(255, 255, 255, 0);
+
+
+
+ 
+  --ion-color-step-300: #b26178;
+
+  --ion-color-step-500: var(--white);
+
+  --ion-color-step-650: var(--white);
+
 
 }
 
@@ -95,3 +106,8 @@ html {
   https://ionicframework.com/docs/layout/dynamic-font-scaling */
   --ion-dynamic-font: var(--ion-default-dynamic-font);
 }
+
+ion-datetime {
+ background-color: var(--black);
+}
+

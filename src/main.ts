@@ -10,7 +10,7 @@ import { createPinia } from 'pinia';
 import {
   IonPage,IonContent,IonHeader,IonGrid,IonRow,IonCol,IonToolbar,IonIcon,IonButton,
   IonFabButton,IonItem,IonToggle,IonList,IonSelect,IonSelectOption,IonLabel,
-  IonCard,IonSpinner,IonInput,IonText
+  IonCard,IonSpinner,IonInput,IonText,IonDatetimeButton, IonModal, IonDatetime,IonButtons, IonTitle
 } from "@ionic/vue";
 
 /* Core CSS required for Ionic components to work properly */
@@ -58,8 +58,13 @@ const app = createApp(App)
   app.component('ion-spinner', IonSpinner)
   app.component('ion-input', IonInput)
   app.component('ion-text', IonText)
-
+  app.component('ion-datetime-button', IonDatetimeButton)
+  app.component('ion-datetime', IonDatetime)
+  app.component('ion-modal', IonModal)
+  app.component('ion-buttons', IonButtons)
+  app.component('ion-title', IonTitle)
   
+
 router.isReady().then(() => {
   app.mount('#app');
 });

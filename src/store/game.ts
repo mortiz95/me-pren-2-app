@@ -8,9 +8,34 @@ import {
   doc,
   deleteDoc,
   getDoc,
-  arrayUnion
+  arrayUnion,
+  setDoc
 } from 'firebase/firestore';
+import { Timestamp } from 'firebase/firestore';
 
+
+type Game = {
+  country: string;
+  province: string;
+  city: string;
+  date: string;
+  place: string;
+  createdByUser: string;
+  dateCreated: Timestamp,
+  spots: number;
+  genderGame: string;
+  gameType: string;
+  gameSize: string;
+  grassType: string;
+  status: string;
+  description: string;
+  usersAttending: {
+    userId: number
+  }[];
+  usersWaiting: {
+    userId: number
+  }[];
+};
 
 export const useGameStore = defineStore('game', {
 
@@ -37,10 +62,25 @@ export const useGameStore = defineStore('game', {
 
     async addGame(newGame: any) {
       try {
-        const docRef = doc(db, "games", auth!.currentUser!.uid)
-        await updateDoc(docRef, {
-          games: arrayUnion(newGame)
-        })
+        const newGameInfo: Game = {
+          country: newGame.country,
+          province: newGame.province,
+          city:  newGame.city,
+          place:  newGame.place,
+          date:  newGame.date,
+          createdByUser: auth!.currentUser!.uid,
+          dateCreated: Timestamp.now(),
+          spots: newGame.spots,
+          genderGame: newGame.genderGame,
+          gameType: newGame.gameType,
+          gameSize: newGame.gameSize,
+          grassType: newGame.grassType,
+          status: newGame.status,
+          description: newGame.description,
+          usersAttending:  [],
+          usersWaiting:  [],
+        };
+        await setDoc(doc(db, "users", auth!.currentUser!.uid), newGameInfo);
 
       } catch (error: any) {
         console.error('Error adding game:', error.message);

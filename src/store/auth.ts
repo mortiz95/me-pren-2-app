@@ -1,9 +1,36 @@
 import { defineStore } from 'pinia';
 import { createUserWithEmailAndPassword , signInWithEmailAndPassword, signOut } from 'firebase/auth';
-
 import { db, auth } from '@/firebase';
-import { setDoc, doc } from 'firebase/firestore';
+import { setDoc, doc, serverTimestamp } from 'firebase/firestore';
 import { useGameStore } from '../store/game'
+import { Timestamp } from 'firebase/firestore';
+
+type User = {
+  name: string;
+  email: string;
+  password: string,
+  country: string;
+  province: string;
+  city: string;
+  age: number;
+  registerDate: Timestamp;
+  createdGames: {
+    GameId: string;
+    Title: string;
+    date: string;
+  }[];
+  attendedGames: {
+    GameId: string;
+  }[];
+  ownerField: boolean;
+  subscriptionType: number;
+  rating:  {
+    GameId: string;
+    Rating: number;
+  }[];
+  phone: number;
+  lastLogin: Timestamp;
+};
 
 export const useAuthStore = defineStore('auth', {
   state: () => ({
@@ -15,9 +42,26 @@ export const useAuthStore = defineStore('auth', {
        async register(user: any) {
         await createUserWithEmailAndPassword(auth, user.email, user.password)
        .then(async (userCredential) => {
+        const userInfo: User = {
+          name: '',
+          email: user.email,
+          password: user.password,
+          country: 'Argentina',
+          province: 'Salta',
+          city: '',
+          age: 30,
+          registerDate: Timestamp.now(),
+          createdGames: [],
+          attendedGames:  [],
+          ownerField: false,
+          subscriptionType: 1,
+          rating: [],
+          phone: 0,
+          lastLogin: Timestamp.now(),
+        };
          // Signed up 
          this.isLoggedIn = true;
-         await setDoc(doc(db, "users", userCredential.user.uid), {});
+         await setDoc(doc(db, "users", userCredential.user.uid), userInfo);
          this.error = null
        })
        .catch((error) => {
