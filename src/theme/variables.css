@@ -10,8 +10,8 @@ http://ionicframework.com/docs/theming/ */
   --ion-background-color: rgb(2,0,36);
   --ion-background-color:linear-gradient(180deg, rgb(100 101 103) 20%, rgb(48,223,117)100%, rgb(79 87 42) 100%);
 
-  --ion-item-background: rgba(255, 255, 255, 0); /* Example: white with 50% transparency */
-  --ion-card-background: rgba(255, 255, 255, 0); /* Example: white with 50% transparency */
+  --ion-item-background: var(--transparent) ; /* Example: white with 50% transparency */
+  --ion-card-background: var(--black); /* Example: white with 50% transparency */
 
   --white: #ffffff;
   --black: #000000;
@@ -25,6 +25,7 @@ http://ionicframework.com/docs/theming/ */
   --green: #16A398;
   --light-blue: #b8e3e0;
   --yellow: #f1c40e;
+  --transparent: rgba(255, 255, 255, 0)
 
 }
 
