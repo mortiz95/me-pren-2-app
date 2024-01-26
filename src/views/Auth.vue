@@ -66,7 +66,6 @@ import { useAuthStore } from "../store/auth";
 import { useGameStore } from "@/store/game";
 import { ref, computed } from "vue";
 import { useRouter } from "vue-router";
-import { onIonViewDidLeave } from "@ionic/vue";
 
 const userCredentials = ref({
   email: "",

@@ -11,7 +11,8 @@ import {
   IonPage,IonContent,IonHeader,IonGrid,IonRow,IonCol,IonToolbar,IonIcon,IonButton,
   IonFabButton,IonItem,IonToggle,IonList,IonSelect,IonSelectOption,IonLabel,
   IonCard,IonSpinner,IonInput,IonText,IonDatetimeButton, IonModal, IonDatetime,
-  IonButtons, IonTitle, IonBadge, IonToast
+  IonButtons, IonTitle, IonBadge, IonToast, IonTextarea, IonCardContent, IonCardHeader,
+  IonCardTitle, IonCardSubtitle
 } from "@ionic/vue";
 
 /* Core CSS required for Ionic components to work properly */
@@ -66,7 +67,12 @@ const app = createApp(App)
   app.component('ion-title', IonTitle)
   app.component('ion-badge', IonBadge)
   app.component('ion-toast', IonToast)
-  
+  app.component('ion-textarea', IonTextarea)
+  app.component('ion-card-content', IonCardContent)
+  app.component('ion-card-header', IonCardHeader)
+  app.component('ion-card-title', IonCardTitle)
+  app.component('ion-card-subtitle', IonCardSubtitle)
+
 
 router.isReady().then(() => {
   app.mount('#app');

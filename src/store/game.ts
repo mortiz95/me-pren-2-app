@@ -2,14 +2,11 @@ import { defineStore } from 'pinia';
 import { db, auth } from '@/firebase';
 import {
   collection,
-  getDocs,
-  addDoc,
-  updateDoc,
   doc,
-  deleteDoc,
-  getDoc,
-  arrayUnion,
-  setDoc
+  setDoc,
+  onSnapshot,
+  query,
+  where
 } from 'firebase/firestore';
 import { Timestamp } from 'firebase/firestore';
 
@@ -18,10 +15,11 @@ type Game = {
   country: string;
   province: string;
   city: string;
-  date: string;
+  date: Timestamp;
   place: string;
   createdByUser: string;
   dateCreated: Timestamp,
+  sport: string;
   spots: number;
   genderGame: string;
   gameType: string;
@@ -44,44 +42,52 @@ export const useGameStore = defineStore('game', {
   }),
 
   actions: {
-    async loadGames() {
+      loadGames() {
       try {
-        const docRef = doc(db, "games", auth!.currentUser!.uid)
-        const docSnap = await getDoc(docRef)
-
-        if(docSnap.exists()){
-          const data = docSnap.data();
-          console.log("Doc data: ", docSnap.data())
-          this.games = [...data.records]
-        }
-
+       const currentDate = Timestamp.now();
+          const q = query(collection(db, "games"), where('date', '>=', currentDate));
+          const unsubscribe =  onSnapshot(q, (querySnapshot) => {
+            querySnapshot.forEach((doc) => {
+                this.games.push(doc.data());
+            });
+          });
+        
       } catch (error: any) {
         console.error('Error loading games:', error.message);
       }
     },
 
     async addGame(newGame: any) {
+
+      const gameDate = new Date(newGame.date);
+
       try {
         const newGameInfo: Game = {
           country: newGame.country,
           province: newGame.province,
           city:  newGame.city,
           place:  newGame.place,
-          date:  newGame.date,
+          date:  Timestamp.fromDate(gameDate),
           createdByUser: auth!.currentUser!.uid,
           dateCreated: Timestamp.now(),
+          sport: newGame.sport,
           spots: newGame.spots,
-          genderGame: newGame.genderGame,
-          gameType: newGame.gameType,
-          gameSize: newGame.gameSize,
+          genderGame: newGame.gender,
+          gameType: newGame.type,
+          gameSize: newGame.size,
           grassType: newGame.grassType,
           status: newGame.status,
           description: newGame.description,
           usersAttending:  [],
           usersWaiting:  [],
         };
-        await setDoc(doc(db, "users", auth!.currentUser!.uid), newGameInfo);
 
+
+        // Generate a new random ID for the game created
+       const newGameRef = doc(collection(db,"games"))
+
+        await setDoc(doc(db, "games", newGameRef.id), newGameInfo);
+  
       } catch (error: any) {
         console.error('Error adding game:', error.message);
       }

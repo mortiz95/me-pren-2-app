@@ -39,13 +39,8 @@ const isSelected = (option: { value: any, text: string }) => {
 </script>
 
 <style scoped>
-ion-badge {
-  font-size: 12px;
-  padding: 5px;
-  display: inline-flex;
-}
 
-ion-icon{
+ion-icon {
   margin-left: 3px;
 }
 
@@ -53,8 +48,4 @@ ion-icon{
   color: var(--rose) !important;
 }
 
-.tags {
-  margin-left: 5px;
-  margin-right: 5px;
-}
 </style>

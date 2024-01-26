@@ -9,7 +9,15 @@ export default function useDateParser() {
     return formattedDate;
   };
 
+  const parseDateTimeStampToISO = (date_TIMESTAMP: any) => {
+    const newDate = date_TIMESTAMP.toDate();
+    const formattedDate = format(newDate, 'd MMMM, yyyy HH:mm', { locale: es });
+    return formattedDate;
+  };
+
+
   return {
-    parseDate
+    parseDate,
+    parseDateTimeStampToISO
   }
 }

@@ -2,17 +2,16 @@
   <ion-page>
     <ion-header>
       <ion-toolbar>
-        <ion-grid class="ion-no-padding">
-          <ion-row class="ion-align-items-center ion-margin">
-            <ion-col>
-              <div class="left-title ion-align-items-center">
-                <ion-title>Crear juego</ion-title>
-              </div>
+        <ion-grid class="ion-padding">
+          <ion-row>
+            <ion-col size="9" class="ion-padding-horizontal">
+                <h2>Crear Partido</h2>
+                <p>Publica un partido indicando cuanto jugadores necesitas para que se sumen a tu equipo.</p>
             </ion-col>
             <ion-col>
               <ion-button
                 @click="handleSubmit"
-                class="ion-float-right"
+                class="ion-float-right ion-margin-top"
                 fill="outline"
               >
                 <ion-icon :icon="checkmarkOutline"></ion-icon>
@@ -24,11 +23,28 @@
     </ion-header>
     <ion-content :fullscreen="true">
       <form @submit.prevent="handleSubmit()">
-        <ion-list lines="none" class="ion-padding-horizontal">
-          <ion-item>
+        <ion-list class="ion-padding-horizontal">
+          <ion-item lines="none" class="ion-margin-top">
+            <ion-select
+              :value="game.sport"
+              @ionChange="handleSport($event)"
+              label="* Deporte"
+              label-placement="stacked"
+            >
+              <ion-select-option selected value="futbol"
+                >Futbol</ion-select-option
+              >
+              <ion-select-option value="basket">Basket</ion-select-option>
+              <ion-select-option value="paddle">Paddle</ion-select-option>
+              <ion-select-option value="tenis">Tenis</ion-select-option>
+              <ion-select-option value="hockey">Hockey</ion-select-option>
+            </ion-select>
+          </ion-item>
+
+          <ion-item lines="none" class="ion-padding-top">
             <ion-input
               v-model="game.province"
-              :disabled="true"
+              readonly
               label="* Provincia"
               label-placement="floating"
             ></ion-input>
@@ -36,6 +52,7 @@
 
           <ion-item lines="none" class="ion-padding-top">
             <ion-input
+              required
               autofocus="true"
               v-model="game.city"
               label="* Municipio"
@@ -46,14 +63,16 @@
 
           <ion-item lines="none" class="ion-padding-top">
             <ion-input
+              required
               v-model="game.place"
-              label="* En que cancha jugas?"
+              label="* En que cancha jugaras?"
               label-placement="floating"
             ></ion-input>
           </ion-item>
 
           <ion-item lines="none" class="ion-padding-top">
             <ion-input
+              required
               v-model="game.spots"
               type="number"
               label="* Cuantos jugadores necesitas?"
@@ -63,6 +82,7 @@
 
           <ion-item lines="none" class="ion-padding-top">
             <ion-input
+              required
               v-model="selectedDateTimeParsed"
               label="* Fecha"
               label-placement="floating"
@@ -99,12 +119,12 @@
                   <Tags :tags="gameType" @tagClicked="saveTagGameType"> </Tags>
                 </ion-col>
               </ion-row>
-              <ion-row>
+              <ion-row v-if="game.sport === 'futbol'">
                 <ion-col>
                   <Tags :tags="gameSize" @tagClicked="saveTagGameSize"> </Tags>
                 </ion-col>
               </ion-row>
-              <ion-row>
+              <ion-row v-if="game.sport === 'futbol'">
                 <ion-col>
                   <Tags
                     :tags="gameGrassType"
@@ -114,6 +134,17 @@
                 </ion-col>
               </ion-row>
             </ion-grid>
+          </ion-item>
+
+          <ion-item lines="none" class="ion-margin-vertical">
+            <ion-textarea
+              class="custom"
+              :counter="true"
+              maxlength="100"
+              label="Descripcion"
+              label-placement="floating"
+              placeholder="Enter text"
+            ></ion-textarea>
           </ion-item>
         </ion-list>
       </form>
@@ -129,7 +160,7 @@
   </ion-page>
 </template>
 
-<script setup lang="ts">
+<script setup lang='ts'>
 import {
   femaleOutline,
   maleOutline,
@@ -148,6 +179,7 @@ import { auth } from "@/firebase";
 import { Timestamp } from "firebase/firestore";
 import { format } from "date-fns";
 import useDateParser from "@/composables/date";
+import { useGameStore } from "@/store/game";
 
 const { parseDate } = useDateParser();
 
@@ -166,6 +198,8 @@ const selectedDateTimeParsed = ref(
   parseDate(currentDateFormattedDate_ISO_8601)
 );
 
+const store = useGameStore();
+
 const game = ref({
   country: "Argentina",
   province: "Salta",
@@ -174,6 +208,7 @@ const game = ref({
   place: "",
   createdByUser: auth!.currentUser!.uid,
   dateCreated: Timestamp.now(),
+  sport: "futbol",
   spots: null,
   gender: "",
   type: "",
@@ -190,7 +225,6 @@ const gameGender = [
   { text: "Femenino", value: "F", icon: femaleOutline },
   { text: "Mixto", value: "Mix", icon: maleFemaleOutline },
 ];
-
 const gameType = [
   { text: "Entrenamiento", value: "T", icon: barbellOutline },
   { text: "Amistoso", value: "F", icon: bodyOutline },
@@ -238,34 +272,40 @@ const saveTagGameGrassType = (gameGrassType: any) => {
   game.value.type = gameGrassType;
 };
 
+const handleSport = (ev: any) => {
+  game.value.sport = ev.detail.value;
+};
+
 const handleSubmit = () => {
   if (game.value.city != "") {
     if (game.value.place != "") {
       if (game.value.date != "") {
         if (game.value.spots && game.value.spots > 0 && game.value.spots < 6) {
           isFormError.value = false;
+          store.addGame(game.value)
         } else {
           formErrorText.value = "Debe elegir entre 1 y 5 jugadores";
           isFormError.value = true;
-          return
+          return;
         }
       } else {
         formErrorText.value = "Debe completar los campos obligatorios";
         isFormError.value = true;
-        return
+        return;
       }
     } else {
       formErrorText.value = "Debe completar los campos obligatorios";
       isFormError.value = true;
-      return
+      return;
     }
   } else {
     formErrorText.value = "Debe completar los campos obligatorios";
     isFormError.value = true;
-    return
+    return;
   }
 };
 </script>
 
 <style scoped>
+
 </style>

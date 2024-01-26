@@ -112,11 +112,36 @@ ion-datetime {
  background-color: var(--black);
 }
 
+ion-textarea.custom.ios .textarea-bottom .helper-text,
+ion-textarea.custom.ios .textarea-bottom .counter,
+ion-textarea.custom.md .textarea-bottom .helper-text,
+ion-textarea.custom.md .textarea-bottom .counter {
+  color: var(--white);
+}
+
+
+ion-badge {
+  font-size: 12px;
+  padding: 5px;
+  display: inline-flex;
+}
+
+p {
+  font-size: 12px;
+}
+
 .custom-toast {
   --background: var(--light-black);
   --box-shadow: 3px 3px 10px 0 rgba(0, 0, 0, 0.2);
   --color: var(--white) !important;
   --height: 100px;
   font-size: 18px;
+}
 
+
+.tags {
+  margin-left: 5px;
+  margin-right: 5px;
+  padding: 10px;
+  border-radius: 15px;
 }
