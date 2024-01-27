@@ -8,7 +8,7 @@ http://ionicframework.com/docs/theming/ */
   --ion-color-primary-rgb: 45, 211, 111;
 
   --ion-background-color: rgb(2,0,36);
-  --ion-background-color:linear-gradient(180deg, rgb(100 101 103) 20%, rgb(48,223,117)100%, rgb(79 87 42) 100%);
+  --ion-background-color:linear-gradient(180deg, rgb(100 101 103) 24%, rgb(48,223,117)100%, rgb(79 87 42) 100%);
 
   --ion-item-background: var(--transparent) ; /* Example: white with 50% transparency */
   --ion-card-background: var(--black); /* Example: white with 50% transparency */
@@ -28,15 +28,11 @@ http://ionicframework.com/docs/theming/ */
   --yellow: #f1c40e;
   --rose: #d88ca1;
   --transparent: rgba(255, 255, 255, 0);
-
-
-
- 
-  --ion-color-step-300: #d88ca1;
-
+  --ion-color-step-300: var(--rose);
   --ion-color-step-500: var(--white);
-
   --ion-color-step-650: var(--white);
+  --ion-text-color: var(--white) !important;
+  --ion-text-color-rgb: 255,255,255;
 
 
 }
@@ -59,9 +55,6 @@ http://ionicframework.com/docs/theming/ */
   .ios body {
 /*     --ion-background-color: #000000;
     --ion-background-color-rgb: 0,0,0; */
-
-    --ion-text-color: #ffffff;
-    --ion-text-color-rgb: 255,255,255;
 
     /*--ion-item-background: #000000;*/
     /*--ion-card-background: #1c1c1d;*/
@@ -89,10 +82,7 @@ http://ionicframework.com/docs/theming/ */
 /*  --ion-background-color:  rgb(0,124,0);
     --ion-background-color:  linear-gradient(0deg, rgba(0,124,0,1) 0%, rgba(0,0,0,1) 100%); */
 
-    --ion-text-color: #ffffff;
-    --ion-text-color-rgb: 255,255,255;
     --ion-border-color: #222222;
-
     --ion-toolbar-background: #1f1f1f;
     --ion-tab-bar-background: #1f1f1f;
 
@@ -142,6 +132,72 @@ p {
 .tags {
   margin-left: 5px;
   margin-right: 5px;
-  padding: 10px;
+  padding: 8px;
   border-radius: 15px;
+}
+
+/* checkbox radius color md */
+.my-custom-interface
+  .select-interface-option[aria-checked="true"].sc-ion-alert-md
+  .alert-radio-icon.sc-ion-alert-md {
+  border-color: var(--rose) !important;
+}
+
+/* checkbox radius color md */
+.my-custom-interface
+  .select-interface-option[aria-checked="false"].sc-ion-alert-md
+  .alert-radio-icon.sc-ion-alert-md {
+  border-color: var(--white) !important;
+}
+
+/* checkbox color md */
+.my-custom-interface
+  .select-interface-option[aria-checked="true"].sc-ion-alert-md
+  .alert-radio-inner.sc-ion-alert-md {
+  background-color: var(--rose) !important;
+}
+
+/* Select alert bg color */
+.my-custom-interface .alert-wrapper {
+  background: var(--black);
+}
+
+/* Alert: Select opactiy */
+.my-custom-interface .sc-ion-alert-md {
+  --backdrop-opacity: var(--ion-backdrop-opacity, 0.5);
+}
+
+/* option name label color */
+.my-custom-interface
+  .select-interface-option[aria-checked="true"]
+  .alert-radio-label {
+  color: var(--rose) !important;
+}
+
+/* checkbox color ios */
+.my-custom-interface
+  .select-interface-option[aria-checked="true"]
+  .sc-ion-alert-ios
+  .alert-radio-inner.sc-ion-alert-ios {
+  border-color: var(--rose) !important;
+}
+
+/* bottons color ios */
+.my-custom-interface .alert-button.sc-ion-alert-ios {
+  color: var(--white) !important;
+}
+
+/* bottons color md */
+.my-custom-interface .alert-button.sc-ion-alert-md {
+  color: var(--white) !important;
+}
+
+/* Alert Interface: set color for alert options (single selection) */
+.my-custom-interface .select-interface-option .alert-radio-label {
+  color: var(--white)  !important;
+}
+
+/* Alert Interface: title color */
+.my-custom-interface .alert-title.sc-ion-alert-md {
+  color: var(--white);
 }

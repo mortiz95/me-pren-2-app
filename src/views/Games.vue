@@ -5,26 +5,29 @@
         <ion-grid class="ion-padding">
           <ion-row>
             <ion-col size="9" class="ion-padding-horizontal">
-                <h2>Busca Partidos</h2>
-                <p>Aqui encontraras a las jugadores que estan buscando sumar gente a su equipo .</p>
+              <h2>Busca Partidos</h2>
+              <p>
+                Aqui encontraras a las jugadores que estan buscando sumar gente
+                a su equipo .
+              </p>
             </ion-col>
-            <ion-col>
-            </ion-col>
+            <ion-col> </ion-col>
           </ion-row>
         </ion-grid>
       </ion-toolbar>
     </ion-header>
     <ion-content :fullscreen="true">
-
-      <Game 
-        v-for="item in gameStore.games" 
-        :key="item.id"
-        :gameInfo="item"
+      <Calendar class="fixed-component"></Calendar>
+      <div class="scrolling-list">
+        <GameItem
+          v-for="item in gameStore.games"
+          :key="item.id"
+          :gameInfo="item"
         >
-      </Game>
-
+        </GameItem>
+      </div>
     </ion-content>
-  </ion-page> 
+  </ion-page>
 </template>
 
 <script setup lang="ts">
@@ -40,19 +43,28 @@ import {
   checkmarkOutline,
 } from "ionicons/icons";
 
-import { onIonViewDidEnter, onIonViewDidLeave } from '@ionic/vue';
-import { useGameStore } from '../store/game';
-import Game from '../components/Item/GameItem.vue'
+import {
+  onIonViewDidEnter,
+  onIonViewDidLeave,
+  onIonViewWillLeave,
+} from "@ionic/vue";
+import { useGameStore } from "../store/game";
+import GameItem from "../components/Item/GameItem.vue";
+import Calendar from "../components/Calendar/Calendar.vue";
 
 const gameStore = useGameStore();
 
-onIonViewDidEnter(()  => {
-   gameStore.loadGames()
-})
+onIonViewWillLeave(() => {
+  gameStore.clearData();
+});
 
-onIonViewDidLeave(()  => {
-   gameStore.clearData()
-})
+onIonViewDidEnter(() => {
+  gameStore.loadGames();
+});
+
+onIonViewDidLeave(() => {
+  gameStore.clearData();
+});
 
 const gameGender = [
   { text: "Masculino", value: "M", icon: maleOutline },
@@ -75,5 +87,20 @@ const gameGrassType = [
   { text: "Cesped Sintetico", value: "CS", icon: invertMode },
   { text: "Cesped Natural", value: "CN", icon: leafOutline },
 ];
-
 </script>
+
+<style scoped>
+.scrolling-list {
+  margin-top: 80px; /* Adjust to match the height of the fixed component */
+  overflow-y: auto; /* Enable vertical scrolling for the list */
+  height: calc(100vh - 80px); /* Adjust to fit the remaining viewport height */
+}
+
+.fixed-component {
+  width: 100%;
+  overflow-x: auto;
+  position: fixed;
+  z-index: 999; /* Ensure it's above the scrolling list */
+  background-color: rgb(100,101,103);
+}
+</style>

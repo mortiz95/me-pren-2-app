@@ -15,9 +15,23 @@ export default function useDateParser() {
     return formattedDate;
   };
 
+  const parseDateTimeStampToISO_GetHours = (date_TIMESTAMP: any) => {
+    const newDate = date_TIMESTAMP.toDate();
+    const formattedDate = format(newDate, 'HH:mm', { locale: es });
+    return formattedDate;
+  };
+
+  const parseDateTimeStampToISO_GetDay = (date_TIMESTAMP: any) => {
+    const newDate = date_TIMESTAMP.toDate();
+    const formattedDate = format(newDate, 'd MMMM, yyyy', { locale: es });
+    return formattedDate;
+  };
+
 
   return {
     parseDate,
-    parseDateTimeStampToISO
+    parseDateTimeStampToISO,
+    parseDateTimeStampToISO_GetHours,
+    parseDateTimeStampToISO_GetDay
   }
 }

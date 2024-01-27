@@ -43,7 +43,6 @@ const isSelected = (option: { value: any, text: string }) => {
 ion-icon {
   margin-left: 3px;
 }
-
 .selected {
   color: var(--rose) !important;
 }

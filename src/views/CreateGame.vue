@@ -30,6 +30,7 @@
               @ionChange="handleSport($event)"
               label="* Deporte"
               label-placement="stacked"
+              :interface-options="options"
             >
               <ion-select-option selected value="futbol"
                 >Futbol</ion-select-option
@@ -219,6 +220,10 @@ const game = ref({
   usersAttending: [],
   usersWaiting: [],
 });
+
+const options: any = {
+      cssClass: "my-custom-interface",
+    };
 
 const gameGender = [
   { text: "Masculino", value: "M", icon: maleOutline },
