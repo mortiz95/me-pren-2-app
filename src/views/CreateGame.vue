@@ -5,8 +5,8 @@
         <ion-grid class="ion-padding">
           <ion-row>
             <ion-col size="9" class="ion-padding-horizontal">
-                <h2>Crear Partido</h2>
-                <p>Publica un partido indicando cuanto jugadores necesitas para que se sumen a tu equipo.</p>
+                <h2>Crear Evento</h2>
+                <p>Haz un post indicando cuanto jugadores necesitas para que se sumen a tu equipo.</p>
             </ion-col>
             <ion-col>
               <ion-button
@@ -95,6 +95,8 @@
               ref="refDatetime"
               class="ion-margin-vertical"
               @ionChange="handleDateTimeChange"
+              :min="currentDateFormattedDate_ISO_8601" 
+              :max="datetimeMaxDate"
             >
               <ion-buttons slot="buttons">
                 <ion-button color="success" @click="toggleDateTimeInput()"
@@ -171,10 +173,10 @@ import {
   barbellOutline,
   leafOutline,
   invertMode,
-  checkmarkOutline,
+  checkmarkOutline 
 } from "ionicons/icons";
 
-import { ref } from "vue";
+import { computed, ref } from "vue";
 import Tags from "../components/Tags.vue";
 import { auth } from "@/firebase";
 import { Timestamp } from "firebase/firestore";
@@ -211,10 +213,10 @@ const game = ref({
   dateCreated: Timestamp.now(),
   sport: "futbol",
   spots: null,
-  gender: "",
-  type: "",
-  size: "",
-  grassType: "",
+  gender: [],
+  type: [],
+  size: [],
+  grassType: [],
   status: "",
   description: "",
   usersAttending: [],
@@ -226,13 +228,13 @@ const options: any = {
     };
 
 const gameGender = [
-  { text: "Masculino", value: "M", icon: maleOutline },
-  { text: "Femenino", value: "F", icon: femaleOutline },
+  { text: "Masculino", value: "Male", icon: maleOutline },
+  { text: "Femenino", value: "Female", icon: femaleOutline },
   { text: "Mixto", value: "Mix", icon: maleFemaleOutline },
 ];
 const gameType = [
-  { text: "Entrenamiento", value: "T", icon: barbellOutline },
-  { text: "Amistoso", value: "F", icon: bodyOutline },
+  { text: "Entrenamiento", value: "Training", icon: barbellOutline },
+  { text: "Amistoso", value: "Friendly", icon: bodyOutline },
   { text: "Partido de campeonato", value: "GC", icon: trophyOutline },
 ];
 const gameSize = [
@@ -243,8 +245,8 @@ const gameSize = [
   { text: "11 VS 11", value: "5VS5" },
 ];
 const gameGrassType = [
-  { text: "Cesped Sintetico", value: "CS", icon: invertMode },
-  { text: "Cesped Natural", value: "CN", icon: leafOutline },
+  { text: "Cesped Sintetico", value: "SGrass", icon: invertMode },
+  { text: "Cesped Natural", value: "NGrass", icon: leafOutline },
 ];
 
 const toggleDateTimeInput = () => {
@@ -266,15 +268,15 @@ const saveTagGameType = (gameType: any) => {
 };
 
 const saveTagGameGender = (gameGender: any) => {
-  game.value.type = gameGender;
+  game.value.gender = gameGender;
 };
 
 const saveTagGameSize = (gameSize: any) => {
-  game.value.type = gameSize;
+  game.value.size = gameSize;
 };
 
 const saveTagGameGrassType = (gameGrassType: any) => {
-  game.value.type = gameGrassType;
+  game.value.grassType = gameGrassType;
 };
 
 const handleSport = (ev: any) => {
@@ -309,6 +311,18 @@ const handleSubmit = () => {
     return;
   }
 };
+
+const datetimeMaxDate = computed(() => {
+  const today = new Date();
+  const next30Days = new Date(today);
+  next30Days.setDate(today.getDate() + 30);
+  return format(
+  next30Days,
+  "yyyy-MM-dd'T'HH:mm:ssXXX"
+); 
+}
+
+)
 </script>
 
 <style scoped>

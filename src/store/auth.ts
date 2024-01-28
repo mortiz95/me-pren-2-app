@@ -88,7 +88,7 @@ export const useAuthStore = defineStore('auth', {
           .catch((error) => {
             console.log('error.code', error.code)
             if(error.code === "auth/invalid-credential"){
-               this.error = "* Datos Invalidos";
+               this.error = "* Datos Invalidos. Eres nuevo? Reguistrate.";
             }
             
           });

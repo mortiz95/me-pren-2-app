@@ -28,9 +28,9 @@ const selectedOption = ref<string | null>(null);
 
 const emits = defineEmits(['tagClicked']);
 
-const emitTagClicked = (option: { value: any, text: string }) => {
+const emitTagClicked = (option: { value: any, text: string, icon: string }) => {
   selectedOption.value = option.text;
-  emits('tagClicked', option.text);
+  emits('tagClicked', option);
 };
 
 const isSelected = (option: { value: any, text: string }) => {

@@ -21,10 +21,25 @@ type Game = {
   dateCreated: Timestamp,
   sport: string;
   spots: number;
-  genderGame: string;
-  gameType: string;
-  gameSize: string;
-  grassType: string;
+  gender: {
+    text: string,
+    value: string,
+    icon: string
+  }[];
+  type: {
+    text: string,
+    value: string,
+    icon: string
+  }[];
+  size: {
+    text: string,
+    value: string
+  }[];
+  grassType: {
+    text: string,
+    value: string,
+    icon: string
+  }[];
   status: string;
   description: string;
   usersAttending: {
@@ -72,9 +87,9 @@ export const useGameStore = defineStore('game', {
           dateCreated: Timestamp.now(),
           sport: newGame.sport,
           spots: newGame.spots,
-          genderGame: newGame.gender,
-          gameType: newGame.type,
-          gameSize: newGame.size,
+          gender: newGame.gender,
+          type: newGame.type,
+          size: newGame.size,
           grassType: newGame.grassType,
           status: newGame.status,
           description: newGame.description,

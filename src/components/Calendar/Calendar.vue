@@ -1,11 +1,12 @@
 <template>
     <div class="scrollable-container">
-      <div class="scrollable-content ion-padding" ref="contentRef">
+      <div class="scrollable-content ion-padding ion-text-capitalize" ref="contentRef">
         <div
-          v-for="day in next30Days"
-          :key="day"
+          v-for="(day, index) in next30Days"
+          :key="index"
           class="day-box ion-text-center"
           @click="selectDay(day)"
+          :class="{ 'selected': isSelected(day)}"
         >
           {{ day }}
         </div>
@@ -17,13 +18,15 @@
 
   import { ref, onMounted } from 'vue';
   
-  const contentRef: any = ref(null);
-  const next30Days: any = ref([]);
-  const selectedDay = ref(null);
-  
+  const contentRef: any = ref(null)
+  const next30Days: any = ref([])
+  const today = new Date()
+  const selectedDay = ref()
+
   onMounted(() => {
     generateNext30Days();
     scrollToToday();
+    selectedDay.value = formatDate(today) // set today as default
   });
   
   const generateNext30Days = () => {
@@ -50,9 +53,14 @@
   };
 
   const selectDay = (index: any) => {
-    alert(index)
     selectedDay.value = index;
   };
+
+  const isSelected = (day: any) => {
+  return selectedDay.value === day;
+};
+
+
   </script>
   
   <style scoped>
@@ -82,6 +90,12 @@
 
 .scrollable-container::-webkit-scrollbar {
   display: none; /* Webkit browsers */
+}
+
+.selected {
+  color: var(--white) !important;
+  border-color: var(--white) !important;
+  background: var(--black) !important;
 }
 
   </style>

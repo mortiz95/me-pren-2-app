@@ -48,7 +48,20 @@ const routes: Array<RouteRecordRaw> = [
         meta: {
           requiresAuth: true
         }
-      }
+      },
+      {
+        path: '/tab1/:id',
+        name: 'GameInfo',
+        component: () => import('@/views/GameInfo.vue'),
+        props: (route) => {
+          return {
+            id: route.params.id,
+          };
+        },
+        meta: {
+          requiresAuth: true,
+        },
+      },
     ]
   },
   {

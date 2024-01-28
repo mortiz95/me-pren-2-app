@@ -4,14 +4,13 @@
       <ion-toolbar>
         <ion-grid class="ion-padding">
           <ion-row>
-            <ion-col size="9" class="ion-padding-horizontal">
-              <h2>Busca Partidos</h2>
+            <ion-col size="12" class="ion-padding-horizontal">
+              <h2>Partidos <ion-text class="title-place">en Salta</ion-text></h2>
               <p>
-                Aqui encontraras a las jugadores que estan buscando sumar gente
+                Aqui encontraras los eventos asociados a los jugadores que estan buscando sumar gente
                 a su equipo .
               </p>
             </ion-col>
-            <ion-col> </ion-col>
           </ion-row>
         </ion-grid>
       </ion-toolbar>
@@ -102,5 +101,10 @@ const gameGrassType = [
   position: fixed;
   z-index: 999; /* Ensure it's above the scrolling list */
   background-color: rgb(100,101,103);
+}
+
+.title-place{
+  font-size: 20px;
+  color: var(--light-black)
 }
 </style>

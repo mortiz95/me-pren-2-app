@@ -111,9 +111,9 @@ ion-textarea.custom.md .textarea-bottom .counter {
 
 
 ion-badge {
-  font-size: 12px;
-  padding: 5px;
-  display: inline-flex;
+  font-size: 12px !important;
+  padding: 5px !important;
+  display: inline-flex !important;
 }
 
 p {
@@ -130,10 +130,10 @@ p {
 
 
 .tags {
-  margin-left: 5px;
-  margin-right: 5px;
-  padding: 8px;
-  border-radius: 15px;
+  margin-left: 5px !important;
+  margin-right: 5px !important;
+  padding: 8px !important;
+  border-radius: 15px !important;
 }
 
 /* checkbox radius color md */
