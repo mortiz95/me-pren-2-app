@@ -238,11 +238,11 @@ const gameType = [
   { text: "Partido de campeonato", value: "GC", icon: trophyOutline },
 ];
 const gameSize = [
-  { text: "5 VS 5", value: "5VS5" },
-  { text: "7 VS 7", value: "7VS7" },
-  { text: "8 VS 8", value: "8VS8" },
-  { text: "9 VS 9", value: "9VS9" },
-  { text: "11 VS 11", value: "5VS5" },
+  { text: "5 VS 5", value: "5VS5", icon: '' },
+  { text: "7 VS 7", value: "7VS7", icon: '' },
+  { text: "8 VS 8", value: "8VS8", icon: '' },
+  { text: "9 VS 9", value: "9VS9", icon: '' },
+  { text: "11 VS 11", value: "5VS5", icon: '' },
 ];
 const gameGrassType = [
   { text: "Cesped Sintetico", value: "SGrass", icon: invertMode },

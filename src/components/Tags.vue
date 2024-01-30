@@ -19,7 +19,7 @@ import { ref } from "vue";
 
 const props = defineProps({
   tags: {
-    type: Array as () => Array<{ value: any, text: string, icon?: string }>,
+    type: Array as () => Array<{ value: string, text: string, icon: string  }>,
     required: true
   }
 });

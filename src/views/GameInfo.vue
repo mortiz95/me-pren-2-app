@@ -28,32 +28,62 @@
       </ion-toolbar>
     </ion-header>
     <ion-content :fullscreen="true">
-      <div v-if="selectedTab === 'info'" class="ion-padding">
-        <ion-grid class="border-bottom">
-          <ion-row class="ion-align-items-center">
-            <ion-col size="2">
-              <ion-icon :icon="locationOutline"></ion-icon>
-            </ion-col>
-            <ion-col size="10">
-              <ion-text class="ion-text-uppercase">
-                {{ gameInfo.place }}</ion-text
-              >
-            </ion-col>
-          </ion-row>
-          <ion-row class="ion-align-items-center">
-            <ion-col size="2">
-              <ion-icon :icon="calendarOutline"></ion-icon>
-            </ion-col>
-            <ion-col size="10">
-              {{ gameDateParsed }}
-            </ion-col>
-          </ion-row>
+      <div v-if="selectedTab === 'info'" class="ion-padding-horizontal">
+        <ion-grid>
+          <div>
+            <ion-row>
+
+              <ion-col size="10">
+               <h1>{{ gameInfo.province }}, {{ gameInfo.city }} </h1>
+              </ion-col>
+            </ion-row>
+
+          </div>
+          <div class="border-bottom">
+            <ion-row class="ion-align-items-center">
+              <ion-col size="2">
+                <ion-icon :icon="locationOutline"></ion-icon>
+              </ion-col>
+              <ion-col size="10">
+                <ion-text class="ion-text-uppercase">
+                  {{ gameInfo.place }}</ion-text
+                >
+              </ion-col>
+            </ion-row>
+            <ion-row class="ion-align-items-center">
+              <ion-col size="2">
+                <ion-icon :icon="calendarOutline"></ion-icon>
+              </ion-col>
+              <ion-col size="10">
+                {{ gameDateParsed }}
+              </ion-col>
+            </ion-row>
+          </div>
+          <div class="border-bottom">
+            <div class="ion-padding-vertical">
+              <Tags :tags="gameSize"> </Tags>
+
+              <Tags :tags="gameType"> </Tags>
+
+              <Tags :tags="gameGender"> </Tags>
+
+              <Tags :tags="gameGrassType"> </Tags>
+            </div>
+          </div>
+          <div class="border-bottom">
+            <ion-grid class="ion-no-padding">
+              <ion-row class="ion-padding-vertical">
+                <ion-col size="3">Creado por: </ion-col>
+                <ion-col size="9">{{ gameInfo.createdByUser }}</ion-col>
+              </ion-row>
+            </ion-grid>
+          </div>
         </ion-grid>
         <div v-if="loading" class="spinner-container">
           <ion-spinner></ion-spinner>
         </div>
       </div>
-      <div v-if="selectedTab === 'players'">
+      <div v-if="selectedTab === 'players'"  class="ion-padding-horizontal">
         <ion-grid>
           <ion-row>
             <ion-col>
@@ -85,12 +115,14 @@ import { useRouter, useRoute } from "vue-router";
 import { Game } from "../types/Game";
 import useDateParser from "@/composables/date";
 import { Timestamp } from "firebase/firestore";
+import Tags from "@/components/Tags.vue";
 
 const router = useRouter();
 const route = useRoute();
 const loading = ref(true);
 const selectedTab = ref("info");
 
+//Param info
 const routeParam: any = route?.params?.info;
 const gameInfo: Game = JSON.parse(routeParam);
 
@@ -102,6 +134,22 @@ const gameDateParsed = computed(() => {
     gameInfo.date.nanoseconds
   );
   return parseDateTimeStampToISO(firestoreTimestamp);
+});
+
+const gameSize = computed(() => {
+  return [gameInfo.size];
+});
+
+const gameType = computed(() => {
+  return [gameInfo.type];
+});
+
+const gameGender = computed(() => {
+  return [gameInfo.gender];
+});
+
+const gameGrassType = computed(() => {
+  return [gameInfo.grassType];
 });
 
 const goBack = () => {
