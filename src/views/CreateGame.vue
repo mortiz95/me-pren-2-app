@@ -23,7 +23,7 @@
     </ion-header>
     <ion-content :fullscreen="true">
       <form @submit.prevent="handleSubmit()">
-        <ion-list class="ion-padding-horizontal">
+        <ion-list :inset="true" >
           <ion-item lines="none" class="ion-margin-top">
             <ion-select
               :value="game.sport"
@@ -51,7 +51,7 @@
             ></ion-input>
           </ion-item>
 
-          <ion-item lines="none" class="ion-padding-top">
+          <ion-item lines="none"  class="ion-padding-top">
             <ion-input
               required
               autofocus="true"
@@ -108,26 +108,26 @@
           </ion-item>
 
           <ion-item lines="none" class="ion-padding-top">
-            <ion-label> Anade informacion extra a tu partido: </ion-label>
+            <ion-text> Anade informacion extra a tu partido:</ion-text>
 
-            <ion-grid class="ion-padding-top ion-padding">
-              <ion-row>
+            <ion-grid class="ion-padding-vertical ion-no-padding">
+              <ion-row class="ion-margin-bottom">
                 <ion-col>
                   <Tags :tags="gameGender" @tagClicked="saveTagGameGender">
                   </Tags>
                 </ion-col>
               </ion-row>
-              <ion-row>
+              <ion-row class="ion-margin-bottom">
                 <ion-col>
                   <Tags :tags="gameType" @tagClicked="saveTagGameType"> </Tags>
                 </ion-col>
               </ion-row>
-              <ion-row v-if="game.sport === 'futbol'">
+              <ion-row v-if="game.sport === 'futbol'"  class="ion-margin-bottom">
                 <ion-col>
                   <Tags :tags="gameSize" @tagClicked="saveTagGameSize"> </Tags>
                 </ion-col>
               </ion-row>
-              <ion-row v-if="game.sport === 'futbol'">
+              <ion-row v-if="game.sport === 'futbol'"  class="ion-margin-bottom">
                 <ion-col>
                   <Tags
                     :tags="gameGrassType"

@@ -53,11 +53,8 @@ import Calendar from "../components/Calendar/Calendar.vue";
 
 const gameStore = useGameStore();
 
-onIonViewWillLeave(() => {
-  gameStore.clearData();
-});
-
 onIonViewDidEnter(() => {
+  gameStore.clearData();
   gameStore.loadGames();
 });
 

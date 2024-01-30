@@ -8,52 +8,13 @@ import {
   query,
   where
 } from 'firebase/firestore';
+import { Game } from '../types/Game'
 import { Timestamp } from 'firebase/firestore';
-
-
-type Game = {
-  country: string;
-  province: string;
-  city: string;
-  date: Timestamp;
-  place: string;
-  createdByUser: string;
-  dateCreated: Timestamp,
-  sport: string;
-  spots: number;
-  gender: {
-    text: string,
-    value: string,
-    icon: string
-  }[];
-  type: {
-    text: string,
-    value: string,
-    icon: string
-  }[];
-  size: {
-    text: string,
-    value: string
-  }[];
-  grassType: {
-    text: string,
-    value: string,
-    icon: string
-  }[];
-  status: string;
-  description: string;
-  usersAttending: {
-    userId: number
-  }[];
-  usersWaiting: {
-    userId: number
-  }[];
-};
 
 export const useGameStore = defineStore('game', {
 
   state: () => ({
-    games: [] as any[] 
+    games: [] as Game[] 
   }),
 
   actions: {
@@ -63,7 +24,7 @@ export const useGameStore = defineStore('game', {
           const q = query(collection(db, "games"), where('date', '>=', currentDate));
           const unsubscribe =  onSnapshot(q, (querySnapshot) => {
             querySnapshot.forEach((doc) => {
-                this.games.push(doc.data());
+                this.games.push(doc.data() as Game);
             });
           });
         

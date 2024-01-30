@@ -1,5 +1,5 @@
 <template>
-  <ion-card>
+  <ion-card @click="goToGameInfo()" >
     <ion-card-header>
       <ion-grid class="ion-no-padding ion-no-margin">
         <ion-row class="ion-align-items-center">
@@ -17,7 +17,7 @@
             </ion-card-subtitle>
           </ion-col>
           <ion-col>
-            <ion-icon @click="goToGameInfo" class="ion-float-end" :icon="chevronForward"></ion-icon>
+            <ion-icon class="ion-float-end" :icon="chevronForward"></ion-icon>
           </ion-col>
         </ion-row>
       </ion-grid>
@@ -44,7 +44,7 @@
              color="warning" 
              class="ion-text-center tags"
            >
-             {{ gameInfo.size.text }}
+             {{ gameInfo?.size?.text }}
            </ion-badge>
 
            <ion-badge 
@@ -52,7 +52,7 @@
              class="ion-text-center tags"
            >
            <div>
-             {{ gameInfo.gender.text }}
+             {{ gameInfo?.gender?.text }}
            </div>
              <ion-icon class="game-info-badge__icon " v-if="gameInfo.gender" :icon="gameInfo.gender.icon"></ion-icon>
            </ion-badge>
@@ -67,26 +67,22 @@
   <script setup lang="ts">
 import { chevronForward, locationOutline, calendarOutline } from "ionicons/icons";
 import { useRouter } from 'vue-router';
-
+import { Game } from '../../types/Game'
 import useDateParser from "@/composables/date";
 
-const props = defineProps({
-  gameInfo: {
-    type: Object,
-    required: true,
-  },
-});
+
+const props = defineProps<{
+  gameInfo: Game;
+}>();
 
 const router =  useRouter();
 
 const {
-  parseDateTimeStampToISO,
-  parseDateTimeStampToISO_GetHours,
-  parseDateTimeStampToISO_GetDay,
+  parseDateTimeStampToISO
 } = useDateParser();
 
 const goToGameInfo = ()  => {
-  router.push({name: 'GameInfo', params:  {id: '12'}});
+  router.push({ name: 'GameInfo', params:  { info: JSON.stringify(props.gameInfo) } });
 }
 
 </script>

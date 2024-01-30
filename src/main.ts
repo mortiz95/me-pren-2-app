@@ -1,19 +1,18 @@
 import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router';
-import { IonicVue } from '@ionic/vue';
 
 /* Pinia */
 import { createPinia } from 'pinia';
 
 /* Ionic components */
-import {
+ import {
   IonPage,IonContent,IonHeader,IonGrid,IonRow,IonCol,IonToolbar,IonIcon,IonButton,
   IonFabButton,IonItem,IonToggle,IonList,IonSelect,IonSelectOption,IonLabel,
   IonCard,IonSpinner,IonInput,IonText,IonDatetimeButton, IonModal, IonDatetime,
   IonButtons, IonTitle, IonBadge, IonToast, IonTextarea, IonCardContent, IonCardHeader,
-  IonCardTitle, IonCardSubtitle
-} from "@ionic/vue";
+  IonCardTitle, IonCardSubtitle, IonicVue, IonSegment, IonSegmentButton
+} from "@ionic/vue"; 
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/vue/css/core.css';
@@ -72,6 +71,8 @@ const app = createApp(App)
   app.component('ion-card-header', IonCardHeader)
   app.component('ion-card-title', IonCardTitle)
   app.component('ion-card-subtitle', IonCardSubtitle)
+  app.component('ion-segment', IonSegment)
+  app.component('ion-segment-button', IonSegmentButton)
 
 
 router.isReady().then(() => {

@@ -136,6 +136,15 @@ p {
   border-radius: 15px !important;
 }
 
+
+.spinner-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 50vh; /* Set the height to take the full viewport height */
+}
+
+
 /* checkbox radius color md */
 .my-custom-interface
   .select-interface-option[aria-checked="true"].sc-ion-alert-md
@@ -201,3 +210,4 @@ p {
 .my-custom-interface .alert-title.sc-ion-alert-md {
   color: var(--white);
 }
+
