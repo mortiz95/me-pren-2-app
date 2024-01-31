@@ -10,6 +10,7 @@ export type Game = {
     dateCreated: Timestamp,
     sport: string;
     spots: number;
+    payment: string;
     gender: {
       text: string,
       value: string,

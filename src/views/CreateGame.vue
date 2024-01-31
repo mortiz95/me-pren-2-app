@@ -71,6 +71,21 @@
             ></ion-input>
           </ion-item>
 
+          <ion-item lines="none" class="ion-margin-top">
+            <ion-select
+              :value="game.payment"
+              @ionChange="handleHasToPay($event)"
+              label="* Es un evento pago?"
+              label-placement="stacked"
+              :interface-options="options"
+            >
+              <ion-select-option selected value='true'
+                >Si</ion-select-option
+              >
+              <ion-select-option value="false">No</ion-select-option>
+            </ion-select>
+          </ion-item>
+
           <ion-item lines="none" class="ion-padding-top">
             <ion-input
               required
@@ -141,12 +156,13 @@
 
           <ion-item lines="none" class="ion-margin-vertical">
             <ion-textarea
+              v-model="game.description"
               class="custom"
               :counter="true"
               maxlength="100"
               label="Descripcion"
               label-placement="floating"
-              placeholder="Enter text"
+              placeholder="Agrega informacion extra, por ej: Buscas arquero, defensor o delantero"
             ></ion-textarea>
           </ion-item>
         </ion-list>
@@ -177,7 +193,7 @@ import {
 } from "ionicons/icons";
 
 import { computed, ref } from "vue";
-import Tags from "../components/Tags.vue";
+import Tags from "../components/Tags/Tags.vue";
 import { auth } from "@/firebase";
 import { Timestamp } from "firebase/firestore";
 import { format } from "date-fns";
@@ -213,6 +229,7 @@ const game = ref({
   dateCreated: Timestamp.now(),
   sport: "futbol",
   spots: null,
+  payment: 'true',
   gender: [],
   type: [],
   size: [],
@@ -282,6 +299,11 @@ const saveTagGameGrassType = (gameGrassType: any) => {
 const handleSport = (ev: any) => {
   game.value.sport = ev.detail.value;
 };
+
+const handleHasToPay = (ev: any) => {
+  game.value.payment = ev.detail.value;
+};
+
 
 const handleSubmit = () => {
   if (game.value.city != "") {

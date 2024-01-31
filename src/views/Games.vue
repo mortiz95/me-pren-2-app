@@ -7,8 +7,7 @@
             <ion-col size="12" class="ion-padding-horizontal">
               <h2>Partidos <ion-text class="title-place">en Salta</ion-text></h2>
               <p>
-                Aqui encontraras los eventos asociados a los jugadores que estan buscando sumar gente
-                a su equipo .
+                Aqui encontraras los partidos creados por personas que necesitan sumar jugadores para completar su equipo.
               </p>
             </ion-col>
           </ion-row>

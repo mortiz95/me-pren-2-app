@@ -34,10 +34,10 @@
           <ion-col size="3"> Info </ion-col>
           <ion-col>
             <ion-badge color="light" class="tags">
-              Spots: {{ gameInfo?.spots }}</ion-badge
+              Lugares: {{ gameInfo?.spots }}</ion-badge
             >
-            <ion-badge color="tertiary" class="tags">
-              Disponibles: 1 / {{ gameInfo?.spots }}
+            <ion-badge color="dark" class="tags">
+              {{checkIsFull() }}
             </ion-badge>
 
             <ion-badge 
@@ -83,6 +83,10 @@ const {
 
 const goToGameInfo = ()  => {
   router.push({ name: 'GameInfo', params:  { info: JSON.stringify(props.gameInfo) } });
+}
+
+const checkIsFull = ()  => {
+ return props.gameInfo ? (props.gameInfo.spots === props.gameInfo.usersAttending.length ? 'FULL' : 'Quedan: ' + props.gameInfo.spots + ' lugares') : ''
 }
 
 </script>
