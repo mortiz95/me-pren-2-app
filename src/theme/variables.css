@@ -116,6 +116,11 @@ ion-badge {
   display: inline-flex !important;
 }
 
+.flex-column{
+  display: flex;
+  flex-direction: column;
+}
+
 p {
   font-size: 14px;
 }
@@ -211,3 +216,10 @@ p {
   color: var(--white);
 }
 
+.ml-5{
+  margin-left: 5px;
+}
+
+.mr-5{
+  margin-right: 5px;
+}

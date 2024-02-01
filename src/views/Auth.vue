@@ -191,7 +191,7 @@ const authenticate = async () => {
 };
 
 const goToTabs = () => {
-  router.push("/tabs/tab1");
+  router.replace("/tabs/tab1");
 };
 
 const toggleRegisterAndResetError = () => {

@@ -22,12 +22,11 @@ export const useGameStore = defineStore('game', {
       try {
        const currentDate = Timestamp.now();
           const q = query(collection(db, "games"), where('date', '>=', currentDate));
-          const unsubscribe =  onSnapshot(q, (querySnapshot) => {
+            const unsubscribe = onSnapshot(q, (querySnapshot) => {
             querySnapshot.forEach((doc) => {
                 this.games.push(doc.data() as Game);
             });
           });
-        
       } catch (error: any) {
         console.error('Error loading games:', error.message);
       }
@@ -48,6 +47,7 @@ export const useGameStore = defineStore('game', {
           dateCreated: Timestamp.now(),
           sport: newGame.sport,
           spots: newGame.spots,
+          payment: newGame.payment,
           gender: newGame.gender,
           type: newGame.type,
           size: newGame.size,

@@ -79,9 +79,6 @@ export const useAuthStore = defineStore('auth', {
           .then((userCredential) => {
             // Signed in 
             this.isLoggedIn = true;
-            const store = useGameStore();
-             store.clearData()
-             store.loadGames()
              this.error = null
             // ...
           })

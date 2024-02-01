@@ -41,15 +41,14 @@
             </ion-badge>
 
             <ion-badge 
-             color="warning" 
+             color="light" 
              class="ion-text-center tags"
            >
              {{ gameInfo?.size?.text }}
            </ion-badge>
 
            <ion-badge 
-             color="secondary" 
-             class="ion-text-center tags"
+             class="ion-text-center tags purple"
            >
            <div>
              {{ gameInfo?.gender?.text }}
@@ -116,5 +115,11 @@ ion-card-content {
   align-items: center;
 }
 
+ion-badge.purple {
+    --background: purple;
+    --color: white;
+    --padding-end: 20px;
+    --padding-start: 20px;
+  }
 
 </style>

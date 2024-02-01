@@ -37,7 +37,7 @@ const routes: Array<RouteRecordRaw> = [
       },
       {
         path: 'tab3',
-        component: () => import('@/views/Fields.vue'),
+        component: () => import('@/views/MyGames.vue'),
         meta: {
           requiresAuth: true
         }

@@ -5,9 +5,9 @@
         <ion-grid class="ion-padding">
           <ion-row>
             <ion-col size="12">
-              <h2>Partidos <ion-text class="title-place">en Salta</ion-text></h2>
+              <h2>Mis Eventos</h2>
               <p>
-                Aqui encontraras los partidos creados por personas que necesitan sumar jugadores para completar su equipo.
+                Aqui encontraras los eventos que has creados para poder editarlos o eliminarlos.
               </p>
             </ion-col>
           </ion-row>
@@ -15,14 +15,23 @@
       </ion-toolbar>
     </ion-header>
     <ion-content :fullscreen="true">
-      <Calendar class="fixed-component"></Calendar>
-      <div class="scrolling-list">
-        <GameItem
+      <div>
+        <h1 class="ion-margin-start">Eventos activos</h1>
+        <ActiveGameItem
           v-for="item in gameStore.games"
           :key="item.id"
           :gameInfo="item"
         >
-        </GameItem>
+        </ActiveGameItem>
+      </div>
+      <div>
+        <h1 class="ion-margin-start">Eventos pasados</h1>
+        <ActiveGameItem
+          v-for="item in gameStore.games"
+          :key="item.id"
+          :gameInfo="item"
+        >
+        </ActiveGameItem>
       </div>
     </ion-content>
   </ion-page>
@@ -37,7 +46,8 @@ import {
   trophyOutline,
   barbellOutline,
   leafOutline,
-  invertMode
+  invertMode,
+  checkmarkOutline,
 } from "ionicons/icons";
 
 import {
@@ -46,8 +56,7 @@ import {
   onIonViewWillLeave,
 } from "@ionic/vue";
 import { useGameStore } from "../store/game";
-import GameItem from "../components/Item/GameItem.vue";
-import Calendar from "../components/Calendar/Calendar.vue";
+import ActiveGameItem from "../components/Item/ActiveGameItem.vue";
 
 const gameStore = useGameStore();
 

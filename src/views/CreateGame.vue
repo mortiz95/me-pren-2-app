@@ -4,12 +4,23 @@
       <ion-toolbar>
         <ion-grid class="ion-padding">
           <ion-row>
-            <ion-col size="9" class="ion-padding-horizontal">
+            <ion-col v-if="showForm" size="9">
                 <h2>Crear Evento</h2>
                 <p>Haz un post indicando cuanto jugadores necesitas para que se sumen a tu equipo.</p>
             </ion-col>
+            <ion-col v-else>
+              <ion-button
+                @click="showForm = true"
+                class="ion-margin-top"
+                fill="outline"
+              > 
+                <ion-icon :icon="chevronBackOutline" class="mr-5"></ion-icon>
+                Atras
+              </ion-button>
+            </ion-col>
             <ion-col>
               <ion-button
+                v-if="showForm"
                 @click="handleSubmit"
                 class="ion-float-right ion-margin-top"
                 fill="outline"
@@ -22,7 +33,7 @@
       </ion-toolbar>
     </ion-header>
     <ion-content :fullscreen="true">
-      <form @submit.prevent="handleSubmit()">
+      <form v-if="showForm" @submit.prevent="handleSubmit()">
         <ion-list :inset="true" >
           <ion-item lines="none" class="ion-margin-top">
             <ion-select
@@ -167,6 +178,20 @@
           </ion-item>
         </ion-list>
       </form>
+      <div v-else>
+        <ion-grid class="wrapper">
+          <ion-row style="flex: 1" class="ion-align-items-center ion-justify-content-center">
+            <ion-col size="10">
+              <div class="ion-align-items-center flex-column">
+                <ion-icon :icon="checkmarkCircleOutline" class="icon-60"></ion-icon>
+                <h1>Creado correctamente</h1>
+                <ion-text class="ion-text-center"> Puede ver tus eventos creados en el  apartado de <u @click="goToMyEvents()"> Mis Eventos </u>.</ion-text>
+              </div>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </div>
+
       <ion-toast
         :isOpen="isFormError"
         class="custom-toast"
@@ -189,7 +214,9 @@ import {
   barbellOutline,
   leafOutline,
   invertMode,
-  checkmarkOutline 
+  checkmarkOutline,
+  checkmarkCircleOutline,
+  chevronBackOutline
 } from "ionicons/icons";
 
 import { computed, ref } from "vue";
@@ -199,13 +226,18 @@ import { Timestamp } from "firebase/firestore";
 import { format } from "date-fns";
 import useDateParser from "@/composables/date";
 import { useGameStore } from "@/store/game";
+import { useRouter } from "vue-router";
+import { onIonViewDidLeave } from "@ionic/vue";
 
 const { parseDate } = useDateParser();
 
+const showForm = ref(true)
 const dateTimeVisible = ref(false);
 const refDatetime = ref();
 const formErrorText = ref();
 const isFormError = ref(false);
+const eventHasBeenCreated = ref(false)
+const router = useRouter()
 
 const currentDate = new Date();
 const currentDateFormattedDate_ISO_8601 = format(
@@ -239,6 +271,10 @@ const game = ref({
   usersAttending: [],
   usersWaiting: [],
 });
+
+onIonViewDidLeave(() => {
+  showForm.value = true
+})
 
 const options: any = {
       cssClass: "my-custom-interface",
@@ -304,7 +340,6 @@ const handleHasToPay = (ev: any) => {
   game.value.payment = ev.detail.value;
 };
 
-
 const handleSubmit = () => {
   if (game.value.city != "") {
     if (game.value.place != "") {
@@ -312,6 +347,8 @@ const handleSubmit = () => {
         if (game.value.spots && game.value.spots > 0 && game.value.spots < 6) {
           isFormError.value = false;
           store.addGame(game.value)
+          showForm.value = false
+          eventHasBeenCreated.value = true
         } else {
           formErrorText.value = "Debe elegir entre 1 y 5 jugadores";
           isFormError.value = true;
@@ -334,6 +371,10 @@ const handleSubmit = () => {
   }
 };
 
+const goToMyEvents = () => {
+  router.push("/tabs/tab3")
+};
+
 const datetimeMaxDate = computed(() => {
   const today = new Date();
   const next30Days = new Date(today);
@@ -349,4 +390,13 @@ const datetimeMaxDate = computed(() => {
 
 <style scoped>
 
+.icon-60{
+  font-size: 60px;
+}
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 65vh;
+  padding: 0;
+}
 </style>
