@@ -1,7 +1,23 @@
 <template>
   <ion-page>
     <ion-content :fullscreen="true">
-            <ion-card class="ion-padding centered-card">
+      <ion-grid class="centered-card">
+        <ion-row>
+            <ion-col size="12">
+              <img class="logo" src="../assets/img/peltbaa.png" />
+            </ion-col>
+
+          <ion-col size="12" class="ion-text-center ion-margin-vertical">
+             <div class="login-title">   
+              &iexcl;Bienvenido&excl;
+             </div>
+             <div class="login-subtitle">   
+              Ya tienes una cuenta? Iniciar sesion.
+             </div>
+          </ion-col>
+
+          <ion-col size="12">
+            <ion-card class="ion-padding ion-no-margin">
               <ion-input
                 type="email"
                 v-model="userCredentials.email"
@@ -10,10 +26,33 @@
                 @click="resetError"
                 color="success"
               />
+
+              <ion-input
+                v-if="isRegistering"
+                v-model="userCredentials.name"
+                type="text"
+                label="Nombre"
+                label-placement="floating"
+                class="ion-margin-top"
+                @click="resetError"
+                color="success"
+              />
+
+              <ion-input
+                v-if="isRegistering"
+                v-model="userCredentials.lastName"
+                type="text"
+                label="Apellido"
+                label-placement="floating"
+                class="ion-margin-top"
+                @click="resetError"
+                color="success"
+              />
               <ion-input
                 type="password"
                 v-model="userCredentials.password"
                 label="Contraseña"
+                :placeholder=" isRegistering? 'La contraseña debe contener al menos 6 caracteres' : ''"
                 label-placement="floating"
                 @click="resetError"
                 class="ion-margin-top"
@@ -45,18 +84,23 @@
                 @click="authenticate"
                 color="success"
               >
-                ENTRAR
+               {{ isRegistering ? 'REGISTRARSE' : 'ENTRAR' }}
               </ion-button>
-
               <div class="ion-margin-top ion-text-center">
                 <span
-                  @click="toggleRegisterAndResetError"
                   class="ion-padding-top"
-                  ><u>Registrarse</u></span
+                  ><u>Olvidaste tu contraseña?</u></span
                 >
               </div>
             </ion-card>
- 
+          </ion-col>
+          <ion-col size="12" class="ion-text-center ion-margin-vertical">
+             <div @click="toggleRegisterAndResetError">
+               No tienes una cuenta? <u>Registrarse</u>
+             </div>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
     </ion-content>
   </ion-page>
 </template>
@@ -66,12 +110,14 @@ import { useAuthStore } from "../store/auth";
 import { useGameStore } from "@/store/game";
 import { ref, computed } from "vue";
 import { useRouter } from "vue-router";
-import { onIonViewDidLeave } from "@ionic/vue";
 
 const userCredentials = ref({
-  email: "",
-  password: "",
-  confirmPassword: "",
+  email: '',
+  password: '',
+  confirmPassword: '',
+  name: '',
+  lastName: '',
+
 });
 
 const isRegistering = ref(false);
@@ -92,23 +138,24 @@ const isConfirmPasswordValid = computed(() => {
     : true;
 });
 
-const isFormValid = computed(
-  () =>
-    isEmailValid.value && isPasswordValid.value && isConfirmPasswordValid.value
-);
+const isNameValid = computed(() => isValidName(userCredentials.value.name));
+const isLastNameValid = computed(() => isValidLastName(userCredentials.value.lastName));
 
 const isValidEmail = (email: any) => {
-  // Implement your email validation logic here
-  // Return true if the email is valid, otherwise false
   return email.trim() !== "" && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 };
 
 const isValidPassword = (password: any) => {
-  // Implement your password validation logic here
-  // Return true if the password is valid, otherwise false
   return password.trim() !== "" && password.length >= 6;
 };
 
+const isValidName = (name: any) => {
+  return name.trim() !== "" 
+};
+
+const isValidLastName = (lastName: any) => {
+  return lastName.trim() !== "" 
+};
 const resetError = () => {
   error.value = null;
 };
@@ -119,13 +166,13 @@ const authenticate = async () => {
     // new user
     if (isRegistering.value) {
       if (isConfirmPasswordValid.value) {
-        if (isEmailValid.value && isPasswordValid.value) {
+        if (isEmailValid.value && isPasswordValid.value && isNameValid.value && isLastNameValid.value ) {
           await authStore.register(userCredentials.value);
           if (!authStore.error) {
             store.clearData();
             goToTabs();
           } else error.value = authStore.error;
-        } else error.value = "* Datos invalidos";
+        } else error.value = "* Datos invalidos. Debe completar todos los campos";
       } else error.value = "* Las contraseñas no coinciden";
       //login
     } else {
@@ -144,7 +191,7 @@ const authenticate = async () => {
 };
 
 const goToTabs = () => {
-  router.push("/tabs/tab1");
+  router.replace("/tabs/tab1");
 };
 
 const toggleRegisterAndResetError = () => {
@@ -161,15 +208,30 @@ const toggleRegisterAndResetError = () => {
 <style scoped>
 
 .centered-card {
-  /* Additional styling for the centered card */
-  max-width: 400px; /* Set a maximum width if needed */
-  margin: auto; /* Center horizontally */
-  margin-top: 50vh; /* Center vertically */
-  transform: translateY(-50%);
+  max-width: 400px;
+  margin: auto;
+  margin-top: 15vh; 
+  transform: translateY(-15%);
 }
 
-ion-card{
+ion-card {
   border-radius: 15px;
+}
+
+.logo {
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+  width: 200px;
+  height: 200px;
+}
+
+.login-title{
+  font-size: 35px;
+}
+
+.login-subtitle{
+  font-size: 18px;
 }
 
 </style>

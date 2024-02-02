@@ -37,7 +37,7 @@ const routes: Array<RouteRecordRaw> = [
       },
       {
         path: 'tab3',
-        component: () => import('@/views/Fields.vue'),
+        component: () => import('@/views/MyGames.vue'),
         meta: {
           requiresAuth: true
         }
@@ -48,7 +48,16 @@ const routes: Array<RouteRecordRaw> = [
         meta: {
           requiresAuth: true
         }
-      }
+      },
+      {
+        path: '/tab1/:info',
+        name: 'GameInfo',
+        component: () => import('@/views/GameInfo.vue'),
+        props: true ,
+        meta: {
+          requiresAuth: true,
+        },
+      },
     ]
   },
   {

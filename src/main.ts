@@ -1,17 +1,18 @@
 import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router';
-import { IonicVue } from '@ionic/vue';
 
 /* Pinia */
 import { createPinia } from 'pinia';
 
 /* Ionic components */
-import {
+ import {
   IonPage,IonContent,IonHeader,IonGrid,IonRow,IonCol,IonToolbar,IonIcon,IonButton,
   IonFabButton,IonItem,IonToggle,IonList,IonSelect,IonSelectOption,IonLabel,
-  IonCard,IonSpinner,IonInput,IonText
-} from "@ionic/vue";
+  IonCard,IonSpinner,IonInput,IonText,IonDatetimeButton, IonModal, IonDatetime,
+  IonButtons, IonTitle, IonBadge, IonToast, IonTextarea, IonCardContent, IonCardHeader,
+  IonCardTitle, IonCardSubtitle, IonicVue, IonSegment, IonSegmentButton, IonAccordion, IonAccordionGroup
+} from "@ionic/vue"; 
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/vue/css/core.css';
@@ -58,8 +59,24 @@ const app = createApp(App)
   app.component('ion-spinner', IonSpinner)
   app.component('ion-input', IonInput)
   app.component('ion-text', IonText)
-
+  app.component('ion-datetime-button', IonDatetimeButton)
+  app.component('ion-datetime', IonDatetime)
+  app.component('ion-modal', IonModal)
+  app.component('ion-buttons', IonButtons)
+  app.component('ion-title', IonTitle)
+  app.component('ion-badge', IonBadge)
+  app.component('ion-toast', IonToast)
+  app.component('ion-textarea', IonTextarea)
+  app.component('ion-card-content', IonCardContent)
+  app.component('ion-card-header', IonCardHeader)
+  app.component('ion-card-title', IonCardTitle)
+  app.component('ion-card-subtitle', IonCardSubtitle)
+  app.component('ion-segment', IonSegment)
+  app.component('ion-segment-button', IonSegmentButton)
+  app.component('ion-accordion', IonAccordion)
+  app.component('ion-accordion-group', IonAccordionGroup)
   
+
 router.isReady().then(() => {
   app.mount('#app');
 });
