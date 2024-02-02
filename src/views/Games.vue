@@ -16,14 +16,24 @@
     </ion-header>
     <ion-content :fullscreen="true">
       <Calendar class="fixed-component"></Calendar>
-      <div class="scrolling-list">
+      <div v-show="!loading">
+        <div v-if="gameStore.games.length > 0" class="scrolling-list">
         <GameItem
           v-for="item in gameStore.games"
           :key="item.id"
           :gameInfo="item"
         >
         </GameItem>
+        </div>
+        <div v-else class="flex-justify-center no-data">
+           No hay datos disponibles.
+        </div>
+
       </div>
+      <div v-show="loading" class="loading">
+        <ion-spinner></ion-spinner>
+      </div>
+
     </ion-content>
   </ion-page>
 </template>
@@ -42,21 +52,24 @@ import {
 
 import {
   onIonViewDidEnter,
-  onIonViewDidLeave,
-  onIonViewWillLeave,
+  onIonViewDidLeave
 } from "@ionic/vue";
 import { useGameStore } from "../store/game";
 import GameItem from "../components/Item/GameItem.vue";
 import Calendar from "../components/Calendar/Calendar.vue";
+import { ref } from "vue";
 
 const gameStore = useGameStore();
+const loading = ref(true)
 
-onIonViewDidEnter(() => {
+onIonViewDidEnter(async () => {
   gameStore.clearData();
-  gameStore.loadGames();
+  await gameStore.loadGames();
+  loading.value = false
 });
 
 onIonViewDidLeave(() => {
+  loading.value = true
   gameStore.clearData();
 });
 
@@ -90,6 +103,11 @@ const gameGrassType = [
   height: calc(100vh - 80px); /* Adjust to fit the remaining viewport height */
 }
 
+.no-data {
+  margin-top: 35vh; /* Adjust to match the height of the fixed component */
+  overflow-y: auto; /* Enable vertical scrolling for the list */
+  height: calc(100vh - 35vh); /* Adjust to fit the remaining viewport height */
+}
 .fixed-component {
   width: 100%;
   overflow-x: auto;
@@ -101,5 +119,12 @@ const gameGrassType = [
 .title-place{
   font-size: 20px;
   color: var(--light-black)
+}
+
+.loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 75vh;
 }
 </style>

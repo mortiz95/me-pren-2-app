@@ -27,7 +27,7 @@
         <ion-row class="ion-margin-top">
           <ion-col size="3"> Creado por </ion-col>
           <ion-col>
-            <ion-card-subtitle>{{ gameInfo?.createdByUser }}</ion-card-subtitle>
+            <ion-card-subtitle class="ion-text-capitalize">{{ gameInfo?.organizerInfo.fullName }}</ion-card-subtitle>
           </ion-col>
         </ion-row>
         <ion-row class="ion-margin-top">
@@ -36,11 +36,12 @@
             <ion-badge color="light" class="tags">
               Lugares: {{ gameInfo?.spots }}</ion-badge
             >
-            <ion-badge color="dark" class="tags">
+            <ion-badge color="warning" class="tags">
               {{checkIsFull() }}
             </ion-badge>
 
             <ion-badge 
+             v-if="gameInfo.size.length > 0"
              color="light" 
              class="ion-text-center tags"
            >
@@ -48,7 +49,9 @@
            </ion-badge>
 
            <ion-badge 
-             class="ion-text-center tags purple"
+            v-if="gameInfo.gender.text != ''"
+             color="light" 
+             class="ion-text-center tags"
            >
            <div>
              {{ gameInfo?.gender?.text }}
@@ -108,18 +111,12 @@ ion-card-content {
 
 .game-info-badge__icon  {
   margin-left: 3px;
+  color: var(--dark)
 }
 
 .container-card-title, .container-card-subtitle {
   display: flex;
   align-items: center;
 }
-
-ion-badge.purple {
-    --background: purple;
-    --color: white;
-    --padding-end: 20px;
-    --padding-start: 20px;
-  }
 
 </style>

@@ -7,7 +7,8 @@
             <ion-col size="12">
               <h2>Mis Eventos</h2>
               <p>
-                Aqui encontraras los eventos que has creados para poder editarlos o eliminarlos.
+                Aqui encontraras los eventos que has creados para poder
+                editarlos o eliminarlos.
               </p>
             </ion-col>
           </ion-row>
@@ -15,23 +16,48 @@
       </ion-toolbar>
     </ion-header>
     <ion-content :fullscreen="true">
-      <div>
-        <h1 class="ion-margin-start">Eventos activos</h1>
-        <ActiveGameItem
-          v-for="item in gameStore.games"
-          :key="item.id"
-          :gameInfo="item"
-        >
-        </ActiveGameItem>
+      <div v-show="!loading">
+        <ion-accordion-group ref="accordionGroup">
+          <ion-accordion value="first">
+            <ion-item lines="none" slot="header">
+              <h3>Eventos activos</h3>
+            </ion-item>
+            <div slot="content">
+              <div v-if="gameStore.gamesActiveByUser.length != 0">
+                <ActiveGameItem
+                  v-for="(item, index) in gameStore.gamesActiveByUser"
+                  :key="index"
+                  :gameInfo="item"
+                >
+                </ActiveGameItem>
+              </div>
+              <div v-else class="flex-justify-center">
+                No hay datos disponibles.
+              </div>
+            </div>
+          </ion-accordion>
+          <ion-accordion value="second">
+            <ion-item lines="none" slot="header">
+              <h3>Eventos pasados</h3>
+            </ion-item>
+            <div slot="content">
+              <div v-if="gameStore.gamesPreviousByUser.length != 0">
+                <ActiveGameItem
+                  v-for="(item, index) in gameStore.gamesPreviousByUser"
+                  :key="index"
+                  :gameInfo="item"
+                >
+                </ActiveGameItem>
+              </div>
+              <div v-else class="flex-justify-center">
+                No hay datos disponibles.
+              </div>
+            </div>
+          </ion-accordion>
+        </ion-accordion-group>
       </div>
-      <div>
-        <h1 class="ion-margin-start">Eventos pasados</h1>
-        <ActiveGameItem
-          v-for="item in gameStore.games"
-          :key="item.id"
-          :gameInfo="item"
-        >
-        </ActiveGameItem>
+      <div v-show="loading" class="loading">
+        <ion-spinner></ion-spinner>
       </div>
     </ion-content>
   </ion-page>
@@ -47,26 +73,32 @@ import {
   barbellOutline,
   leafOutline,
   invertMode,
-  checkmarkOutline,
 } from "ionicons/icons";
 
 import {
   onIonViewDidEnter,
   onIonViewDidLeave,
+  onIonViewWillEnter,
   onIonViewWillLeave,
 } from "@ionic/vue";
+import { ref } from "vue";
 import { useGameStore } from "../store/game";
 import ActiveGameItem from "../components/Item/ActiveGameItem.vue";
 
+import GameInfo from "./GameInfo.vue";
+
+const loading = ref(true);
 const gameStore = useGameStore();
 
-onIonViewDidEnter(() => {
+onIonViewWillEnter(async() => {
   gameStore.clearData();
-  gameStore.loadGames();
+  await gameStore.loadActiveGamesByUser();
+  await gameStore.loadPastGamesByUser();
+  loading.value = false;
 });
 
 onIonViewDidLeave(() => {
-  gameStore.clearData();
+  loading.value = true;
 });
 
 const gameGender = [
@@ -93,22 +125,10 @@ const gameGrassType = [
 </script>
 
 <style scoped>
-.scrolling-list {
-  margin-top: 80px; /* Adjust to match the height of the fixed component */
-  overflow-y: auto; /* Enable vertical scrolling for the list */
-  height: calc(100vh - 80px); /* Adjust to fit the remaining viewport height */
-}
-
-.fixed-component {
-  width: 100%;
-  overflow-x: auto;
-  position: fixed;
-  z-index: 999; /* Ensure it's above the scrolling list */
-  background-color: rgb(100,101,103);
-}
-
-.title-place{
-  font-size: 20px;
-  color: var(--light-black)
+.loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 75vh;
 }
 </style>

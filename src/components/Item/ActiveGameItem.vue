@@ -1,5 +1,5 @@
 <template>
-    <ion-card @click="goToGameInfo()" >
+    <ion-card>
       <ion-card-header>
         <ion-grid class="ion-no-padding ion-no-margin">
           <ion-row>
@@ -14,38 +14,83 @@
                  <ion-icon :icon="calendarOutline" class="ion-margin-end game-info__icon"></ion-icon>
                  {{ parseDateTimeStampToISO(gameInfo?.date) }}
                 </div>
+                <div class="container-card-subtitle">
+                 <ion-icon :icon="ticketOutline" class="ion-margin-end game-info__icon"></ion-icon>
+                 {{checkIsFull() }}  
+                </div>
               </ion-card-subtitle>
             </ion-col>
             <ion-col size="1">
               <ion-icon class="ion-float-end" :icon="pencilOutline"></ion-icon>
             </ion-col>
             <ion-col size="1">
-              <ion-icon class="ion-float-end" :icon="removeCircleOutline"></ion-icon>
+              <ion-icon class="ion-float-end" :icon="trashOutline"></ion-icon>
             </ion-col>
           </ion-row>
         </ion-grid>
       </ion-card-header>
-      <ion-card-content>
-        <ion-grid class="ion-no-padding">
-          <ion-row class="ion-margin-top">
-            <ion-col size="2"> Info </ion-col>
-            <ion-col class="">
-              <div color="light" class="tags">
-                Lugares: {{ gameInfo?.spots }} /   {{checkIsFull() }} /   {{ gameInfo?.size?.text }} /    {{ gameInfo?.gender?.text }}
-               <ion-icon class="game-info-badge__icon " v-if="gameInfo.gender" :icon="gameInfo.gender.icon"></ion-icon>
-              </div>
-            </ion-col>
-          </ion-row>
-        </ion-grid>
+      <ion-card-content >
+        <div v-if="showAllInfo">
+            <ion-grid class="ion-no-padding">
+              <ion-row>
+                <ion-col size="1">
+                 <ion-icon class="game-info__icon" :icon="informationCircleOutline"></ion-icon> 
+                </ion-col>
+                <ion-col size="11">
+                  <ion-row>
+                    <ion-col size="auto"> Lugares totales: {{ gameInfo?.spots }} </ion-col>
+                    <ion-col size="auto"> 
+                      <span class="ml-5"> / </span> {{ gameInfo?.size?.text }} </ion-col>
+                    <ion-col size="auto"> 
+                      <span class="ml-5"> / </span>  {{ gameInfo?.gender?.text }} <ion-icon class="game-info-badge__icon " v-if="gameInfo.gender" :icon="gameInfo.gender.icon"></ion-icon>
+                    </ion-col>
+                  </ion-row>
+
+                </ion-col>
+              </ion-row>
+              <ion-row>
+                <ion-col size="1">
+                 <ion-icon class="game-info__icon" :icon="peopleOutline"></ion-icon> 
+                </ion-col>
+                <ion-col size="11">
+                  <ion-row>
+                    <ion-col 
+                      size="12"
+                      v-if="gameInfo.usersAttending.length > 0" 
+                      >
+                      <div     
+                        v-for="(item, index) in gameInfo.usersAttending"
+                       :key="index">
+                      </div>
+                    </ion-col>
+                    <ion-col v-else size="12">
+                      <div>No hay jugadores anotados</div>
+                    </ion-col>
+                  </ion-row>
+                </ion-col>
+              </ion-row>
+          </ion-grid>
+        </div>
+        <div>
+          <ion-grid class="ion-no-padding mt-5">
+            <ion-row>
+              <ion-col class="ion-text-center">
+                <div v-if="!showAllInfo"   @click="showAllInfo = !showAllInfo">Ver mas</div>
+                <div v-else  @click="showAllInfo = !showAllInfo" >Ver menos</div>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+        </div>
       </ion-card-content>
     </ion-card>
   </template>
     
     <script setup lang="ts">
-  import { chevronForward, locationOutline, calendarOutline, pencilOutline, removeCircleOutline } from "ionicons/icons";
+  import { chevronForward, locationOutline, calendarOutline, pencilOutline, trashOutline, informationCircleOutline, ticketOutline, peopleOutline } from "ionicons/icons";
   import { useRouter } from 'vue-router';
   import { Game } from '../../types/Game'
   import useDateParser from "@/composables/date";
+  import { ref } from "vue";
   
   
   const props = defineProps<{
@@ -57,13 +102,11 @@
   const {
     parseDateTimeStampToISO
   } = useDateParser();
-  
-  const goToGameInfo = ()  => {
-    router.push({ name: 'GameInfo', params:  { info: JSON.stringify(props.gameInfo) } });
-  }
-  
+
+  const showAllInfo  = ref(false);
+    
   const checkIsFull = ()  => {
-   return props.gameInfo ? (props.gameInfo.spots === props.gameInfo.usersAttending.length ? 'FULL' : 'Quedan: ' + props.gameInfo.spots + ' lugares') : ''
+   return props.gameInfo ? (props.gameInfo.spots === props.gameInfo.usersAttending.length ? 'FULL' : 'Disponibles: '  + props.gameInfo.spots) : ''
   }
   
   </script>
@@ -92,6 +135,12 @@
     display: flex;
     align-items: center;
   }
+
+  .container-card-subtitle{
+    margin-top:5px;
+    margin-bottom: 5px;
+  }
+
   
   ion-badge.purple {
       --background: purple;

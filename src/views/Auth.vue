@@ -40,7 +40,7 @@
 
               <ion-input
                 v-if="isRegistering"
-                v-model="userCredentials.surname"
+                v-model="userCredentials.lastName"
                 type="text"
                 label="Apellido"
                 label-placement="floating"
@@ -116,7 +116,7 @@ const userCredentials = ref({
   password: '',
   confirmPassword: '',
   name: '',
-  surname: '',
+  lastName: '',
 
 });
 
@@ -139,7 +139,7 @@ const isConfirmPasswordValid = computed(() => {
 });
 
 const isNameValid = computed(() => isValidName(userCredentials.value.name));
-const isSurnameValid = computed(() => isValidSurname(userCredentials.value.surname));
+const isLastNameValid = computed(() => isValidLastName(userCredentials.value.lastName));
 
 const isValidEmail = (email: any) => {
   return email.trim() !== "" && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
@@ -153,8 +153,8 @@ const isValidName = (name: any) => {
   return name.trim() !== "" 
 };
 
-const isValidSurname = (surname: any) => {
-  return surname.trim() !== "" 
+const isValidLastName = (lastName: any) => {
+  return lastName.trim() !== "" 
 };
 const resetError = () => {
   error.value = null;
@@ -166,7 +166,7 @@ const authenticate = async () => {
     // new user
     if (isRegistering.value) {
       if (isConfirmPasswordValid.value) {
-        if (isEmailValid.value && isPasswordValid.value && isNameValid.value && isSurnameValid.value ) {
+        if (isEmailValid.value && isPasswordValid.value && isNameValid.value && isLastNameValid.value ) {
           await authStore.register(userCredentials.value);
           if (!authStore.error) {
             store.clearData();

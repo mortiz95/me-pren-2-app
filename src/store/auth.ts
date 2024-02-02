@@ -2,35 +2,9 @@ import { defineStore } from 'pinia';
 import { createUserWithEmailAndPassword , signInWithEmailAndPassword, signOut } from 'firebase/auth';
 import { db, auth } from '@/firebase';
 import { setDoc, doc, serverTimestamp } from 'firebase/firestore';
-import { useGameStore } from '../store/game'
 import { Timestamp } from 'firebase/firestore';
-
-type User = {
-  name: string;
-  email: string;
-  password: string,
-  country: string;
-  province: string;
-  city: string;
-  age: number;
-  registerDate: Timestamp;
-  createdGames: {
-    GameId: string;
-    Title: string;
-    date: string;
-  }[];
-  attendedGames: {
-    GameId: string;
-  }[];
-  ownerField: boolean;
-  subscriptionType: number;
-  rating:  {
-    GameId: string;
-    Rating: number;
-  }[];
-  phone: number;
-  lastLogin: Timestamp;
-};
+import User from '../types/User'
+import { useUserStore } from "@/store/user";
 
 export const useAuthStore = defineStore('auth', {
   state: () => ({
@@ -43,9 +17,9 @@ export const useAuthStore = defineStore('auth', {
         await createUserWithEmailAndPassword(auth, user.email, user.password)
        .then(async (userCredential) => {
         const userInfo: User = {
-          name: '',
+          name: user.name,
+          lastName: user.lastName,
           email: user.email,
-          password: user.password,
           country: 'Argentina',
           province: 'Salta',
           city: '',
@@ -76,10 +50,12 @@ export const useAuthStore = defineStore('auth', {
 
      async login(user :any){
         await signInWithEmailAndPassword(auth, user.email, user.password)
-          .then((userCredential) => {
+          .then(async(userCredential) => {
             // Signed in 
             this.isLoggedIn = true;
              this.error = null
+             const store = useUserStore();
+             await store.loadMyUserInfo(auth!.currentUser!.uid)
             // ...
           })
           .catch((error) => {

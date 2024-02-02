@@ -1,12 +1,18 @@
 import { Timestamp } from 'firebase/firestore';
 
-export type Game = {
+type Game = {
     country: string;
     province: string;
     city: string;
     date: Timestamp;
     place: string;
-    createdByUser: string;
+    organizerId : string;
+    organizerInfo: {
+      userId: string,
+      fullName: string,
+      email: string,
+      phoneNumber: string
+    };
     dateCreated: Timestamp,
     sport: string;
     spots: number;
@@ -40,3 +46,4 @@ export type Game = {
     }[];
   };
   
+  export default Game;

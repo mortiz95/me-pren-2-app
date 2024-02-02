@@ -121,6 +121,20 @@ ion-badge {
   flex-direction: column;
 }
 
+.flex-center {
+  display: flex;
+  align-items: center;
+}
+
+.flex-justify-center {
+  display: flex;
+  justify-content: center;
+}
+
+.inline-flex{
+display: inline-flex;
+}
+
 p {
   font-size: 14px;
 }
@@ -133,14 +147,12 @@ p {
   font-size: 18px;
 }
 
-
 .tags {
   margin-left: 5px !important;
   margin-right: 5px !important;
   padding: 8px !important;
   border-radius: 15px !important;
 }
-
 
 .spinner-container {
   display: flex;
@@ -222,4 +234,12 @@ p {
 
 .mr-5{
   margin-right: 5px;
+}
+
+.mt-5{
+  margin-top: 5px;
+}
+
+.text-nowrap {
+  white-space: nowrap;
 }

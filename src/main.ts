@@ -11,7 +11,7 @@ import { createPinia } from 'pinia';
   IonFabButton,IonItem,IonToggle,IonList,IonSelect,IonSelectOption,IonLabel,
   IonCard,IonSpinner,IonInput,IonText,IonDatetimeButton, IonModal, IonDatetime,
   IonButtons, IonTitle, IonBadge, IonToast, IonTextarea, IonCardContent, IonCardHeader,
-  IonCardTitle, IonCardSubtitle, IonicVue, IonSegment, IonSegmentButton
+  IonCardTitle, IonCardSubtitle, IonicVue, IonSegment, IonSegmentButton, IonAccordion, IonAccordionGroup
 } from "@ionic/vue"; 
 
 /* Core CSS required for Ionic components to work properly */
@@ -73,7 +73,9 @@ const app = createApp(App)
   app.component('ion-card-subtitle', IonCardSubtitle)
   app.component('ion-segment', IonSegment)
   app.component('ion-segment-button', IonSegmentButton)
-
+  app.component('ion-accordion', IonAccordion)
+  app.component('ion-accordion-group', IonAccordionGroup)
+  
 
 router.isReady().then(() => {
   app.mount('#app');

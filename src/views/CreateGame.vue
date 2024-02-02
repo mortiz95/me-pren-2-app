@@ -5,15 +5,18 @@
         <ion-grid class="ion-padding">
           <ion-row>
             <ion-col v-if="showForm" size="9">
-                <h2>Crear Evento</h2>
-                <p>Haz un post indicando cuanto jugadores necesitas para que se sumen a tu equipo.</p>
+              <h2>Crear Evento</h2>
+              <p>
+                Haz un post indicando cuanto jugadores necesitas para que se
+                sumen a tu equipo.
+              </p>
             </ion-col>
             <ion-col v-else>
               <ion-button
                 @click="showForm = true"
                 class="ion-margin-top"
                 fill="outline"
-              > 
+              >
                 <ion-icon :icon="chevronBackOutline" class="mr-5"></ion-icon>
                 Atras
               </ion-button>
@@ -34,7 +37,7 @@
     </ion-header>
     <ion-content :fullscreen="true">
       <form v-if="showForm" @submit.prevent="handleSubmit()">
-        <ion-list :inset="true" >
+        <ion-list :inset="true">
           <ion-item lines="none" class="ion-margin-top">
             <ion-select
               :value="game.sport"
@@ -62,7 +65,7 @@
             ></ion-input>
           </ion-item>
 
-          <ion-item lines="none"  class="ion-padding-top">
+          <ion-item lines="none" class="ion-padding-top">
             <ion-input
               required
               autofocus="true"
@@ -90,9 +93,7 @@
               label-placement="stacked"
               :interface-options="options"
             >
-              <ion-select-option selected value='true'
-                >Si</ion-select-option
-              >
+              <ion-select-option selected value="true">Si</ion-select-option>
               <ion-select-option value="false">No</ion-select-option>
             </ion-select>
           </ion-item>
@@ -121,7 +122,7 @@
               ref="refDatetime"
               class="ion-margin-vertical"
               @ionChange="handleDateTimeChange"
-              :min="currentDateFormattedDate_ISO_8601" 
+              :min="currentDateFormattedDate_ISO_8601"
               :max="datetimeMaxDate"
             >
               <ion-buttons slot="buttons">
@@ -148,12 +149,12 @@
                   <Tags :tags="gameType" @tagClicked="saveTagGameType"> </Tags>
                 </ion-col>
               </ion-row>
-              <ion-row v-if="game.sport === 'futbol'"  class="ion-margin-bottom">
+              <ion-row v-if="game.sport === 'futbol'" class="ion-margin-bottom">
                 <ion-col>
                   <Tags :tags="gameSize" @tagClicked="saveTagGameSize"> </Tags>
                 </ion-col>
               </ion-row>
-              <ion-row v-if="game.sport === 'futbol'"  class="ion-margin-bottom">
+              <ion-row v-if="game.sport === 'futbol'" class="ion-margin-bottom">
                 <ion-col>
                   <Tags
                     :tags="gameGrassType"
@@ -180,12 +181,21 @@
       </form>
       <div v-else>
         <ion-grid class="wrapper">
-          <ion-row style="flex: 1" class="ion-align-items-center ion-justify-content-center">
+          <ion-row
+            style="flex: 1"
+            class="ion-align-items-center ion-justify-content-center"
+          >
             <ion-col size="10">
               <div class="ion-align-items-center flex-column">
-                <ion-icon :icon="checkmarkCircleOutline" class="icon-60"></ion-icon>
+                <ion-icon
+                  :icon="checkmarkCircleOutline"
+                  class="icon-60"
+                ></ion-icon>
                 <h1>Creado correctamente</h1>
-                <ion-text class="ion-text-center"> Puede ver tus eventos creados en el  apartado de <u @click="goToMyEvents()"> Mis Eventos </u>.</ion-text>
+                <ion-text class="ion-text-center">
+                  Puede ver tus eventos creados en el apartado de
+                  <u @click="goToMyEvents()"> Mis Eventos </u>.</ion-text
+                >
               </div>
             </ion-col>
           </ion-row>
@@ -216,7 +226,7 @@ import {
   invertMode,
   checkmarkOutline,
   checkmarkCircleOutline,
-  chevronBackOutline
+  chevronBackOutline,
 } from "ionicons/icons";
 
 import { computed, ref } from "vue";
@@ -226,18 +236,19 @@ import { Timestamp } from "firebase/firestore";
 import { format } from "date-fns";
 import useDateParser from "@/composables/date";
 import { useGameStore } from "@/store/game";
+import { useUserStore } from "@/store/user";
 import { useRouter } from "vue-router";
-import { onIonViewDidLeave } from "@ionic/vue";
+import { onIonViewDidEnter, onIonViewDidLeave } from "@ionic/vue";
 
 const { parseDate } = useDateParser();
 
-const showForm = ref(true)
+const showForm = ref(true);
 const dateTimeVisible = ref(false);
 const refDatetime = ref();
 const formErrorText = ref();
 const isFormError = ref(false);
-const eventHasBeenCreated = ref(false)
-const router = useRouter()
+const eventHasBeenCreated = ref(false);
+const router = useRouter();
 
 const currentDate = new Date();
 const currentDateFormattedDate_ISO_8601 = format(
@@ -249,7 +260,9 @@ const selectedDateTimeParsed = ref(
   parseDate(currentDateFormattedDate_ISO_8601)
 );
 
-const store = useGameStore();
+const store = useGameStore()
+const userStore = useUserStore()
+console.log(userStore.myUserInfo)
 
 const game = ref({
   country: "Argentina",
@@ -257,11 +270,15 @@ const game = ref({
   city: "",
   date: currentDateFormattedDate_ISO_8601,
   place: "",
-  createdByUser: auth!.currentUser!.uid,
+  organizerId: auth!.currentUser!.uid,
+  organizerInfo: {
+    fullName: userStore.myUserInfo.name + " " + userStore.myUserInfo.lastName,
+    email: userStore.myUserInfo.email,
+  },
   dateCreated: Timestamp.now(),
   sport: "futbol",
   spots: null,
-  payment: 'true',
+  payment: "true",
   gender: [],
   type: [],
   size: [],
@@ -273,12 +290,12 @@ const game = ref({
 });
 
 onIonViewDidLeave(() => {
-  showForm.value = true
-})
+  showForm.value = true;
+});
 
 const options: any = {
-      cssClass: "my-custom-interface",
-    };
+  cssClass: "my-custom-interface",
+};
 
 const gameGender = [
   { text: "Masculino", value: "Male", icon: maleOutline },
@@ -291,11 +308,11 @@ const gameType = [
   { text: "Partido de campeonato", value: "GC", icon: trophyOutline },
 ];
 const gameSize = [
-  { text: "5 VS 5", value: "5VS5", icon: '' },
-  { text: "7 VS 7", value: "7VS7", icon: '' },
-  { text: "8 VS 8", value: "8VS8", icon: '' },
-  { text: "9 VS 9", value: "9VS9", icon: '' },
-  { text: "11 VS 11", value: "5VS5", icon: '' },
+  { text: "5 VS 5", value: "5VS5", icon: "" },
+  { text: "7 VS 7", value: "7VS7", icon: "" },
+  { text: "8 VS 8", value: "8VS8", icon: "" },
+  { text: "9 VS 9", value: "9VS9", icon: "" },
+  { text: "11 VS 11", value: "5VS5", icon: "" },
 ];
 const gameGrassType = [
   { text: "Cesped Sintetico", value: "SGrass", icon: invertMode },
@@ -340,17 +357,27 @@ const handleHasToPay = (ev: any) => {
   game.value.payment = ev.detail.value;
 };
 
-const handleSubmit = () => {
-  if (game.value.city != "") {
-    if (game.value.place != "") {
-      if (game.value.date != "") {
-        if (game.value.spots && game.value.spots > 0 && game.value.spots < 6) {
-          isFormError.value = false;
-          store.addGame(game.value)
-          showForm.value = false
-          eventHasBeenCreated.value = true
+const handleSubmit = async () => {
+  try {
+    if (game.value.city != "") {
+      if (game.value.place != "") {
+        if (game.value.date != "") {
+          if (
+            game.value.spots &&
+            game.value.spots > 0 &&
+            game.value.spots < 6
+          ) {
+            isFormError.value = false;
+            await store.addGame(game.value);
+            showForm.value = false;
+            eventHasBeenCreated.value = true;
+          } else {
+            formErrorText.value = "Debe elegir entre 1 y 5 jugadores";
+            isFormError.value = true;
+            return;
+          }
         } else {
-          formErrorText.value = "Debe elegir entre 1 y 5 jugadores";
+          formErrorText.value = "Debe completar los campos obligatorios";
           isFormError.value = true;
           return;
         }
@@ -364,33 +391,25 @@ const handleSubmit = () => {
       isFormError.value = true;
       return;
     }
-  } else {
-    formErrorText.value = "Debe completar los campos obligatorios";
-    isFormError.value = true;
-    return;
+  } catch (error) {
+    console.log(error);
   }
 };
 
 const goToMyEvents = () => {
-  router.push("/tabs/tab3")
+  router.push("/tabs/tab3");
 };
 
 const datetimeMaxDate = computed(() => {
   const today = new Date();
   const next30Days = new Date(today);
   next30Days.setDate(today.getDate() + 30);
-  return format(
-  next30Days,
-  "yyyy-MM-dd'T'HH:mm:ssXXX"
-); 
-}
-
-)
+  return format(next30Days, "yyyy-MM-dd'T'HH:mm:ssXXX");
+});
 </script>
 
 <style scoped>
-
-.icon-60{
+.icon-60 {
   font-size: 60px;
 }
 .wrapper {

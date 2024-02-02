@@ -93,9 +93,10 @@
 }
 
 .selected {
-  color: var(--white) !important;
+  color: var(--rose) !important;
   border-color: var(--white) !important;
   background: var(--black) !important;
+  opacity: 0.5 ;
 }
 
   </style>
