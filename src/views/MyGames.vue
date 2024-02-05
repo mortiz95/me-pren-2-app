@@ -5,60 +5,63 @@
         <ion-grid class="ion-padding">
           <ion-row>
             <ion-col size="12">
-              <h2>Mis Eventos</h2>
+              <h2>Mis Busquedas</h2>
               <p>
-                Aqui encontraras los eventos que has creados para poder
-                editarlos o eliminarlos.
+                Aqui encontraras el historial de las busquedas que has creado.
               </p>
             </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-segment :value="selectedTab">
+              <ion-segment-button
+                value="active"
+                @click="selectedTab = 'active'"
+              >
+                <ion-label>Activas</ion-label>
+              </ion-segment-button>
+              <ion-segment-button
+                value="past"
+                @click="selectedTab = 'past'"
+              >
+                <ion-label>Pasadas</ion-label>
+              </ion-segment-button>
+            </ion-segment>
           </ion-row>
         </ion-grid>
       </ion-toolbar>
     </ion-header>
     <ion-content :fullscreen="true">
-      <div v-show="!loading">
-        <ion-accordion-group ref="accordionGroup">
-          <ion-accordion value="first">
-            <ion-item lines="none" slot="header">
-              <h3>Eventos activos</h3>
-            </ion-item>
-            <div slot="content">
-              <div v-if="gameStore.gamesActiveByUser.length != 0">
-                <ActiveGameItem
-                  v-for="(item, index) in gameStore.gamesActiveByUser"
-                  :key="index"
-                  :gameInfo="item"
-                >
-                </ActiveGameItem>
-              </div>
-              <div v-else class="flex-justify-center">
-                No hay datos disponibles.
-              </div>
-            </div>
-          </ion-accordion>
-          <ion-accordion value="second">
-            <ion-item lines="none" slot="header">
-              <h3>Eventos pasados</h3>
-            </ion-item>
-            <div slot="content">
-              <div v-if="gameStore.gamesPreviousByUser.length != 0">
-                <ActiveGameItem
-                  v-for="(item, index) in gameStore.gamesPreviousByUser"
-                  :key="index"
-                  :gameInfo="item"
-                >
-                </ActiveGameItem>
-              </div>
-              <div v-else class="flex-justify-center">
-                No hay datos disponibles.
-              </div>
-            </div>
-          </ion-accordion>
-        </ion-accordion-group>
+      <div v-show="!loading"  v-if="selectedTab === 'active'" class="ion-padding-horizontal">
+        <div v-if="gameStore.gamesActiveByUser.length != 0">
+          <ActiveGameItem
+            v-for="(item, index) in gameStore.gamesActiveByUser"
+            :key="index"
+            :gameInfo="item"
+          >
+          </ActiveGameItem>
+        </div>
+        <div v-else class="flex-justify-center ion-padding">
+          No hay datos disponibles.
+        </div>
+      </div>
+
+      <div v-if="selectedTab === 'past'" class="ion-padding-horizontal">
+        <div v-if="gameStore.gamesPreviousByUser.length != 0">
+          <ActiveGameItem
+            v-for="(item, index) in gameStore.gamesPreviousByUser"
+            :key="index"
+            :gameInfo="item"
+          >
+          </ActiveGameItem>
+        </div>
+        <div v-else class="flex-justify-center ion-padding">
+          No hay datos disponibles.
+        </div>
       </div>
       <div v-show="loading" class="loading">
         <ion-spinner></ion-spinner>
       </div>
+
     </ion-content>
   </ion-page>
 </template>
@@ -85,12 +88,11 @@ import { ref } from "vue";
 import { useGameStore } from "../store/game";
 import ActiveGameItem from "../components/Item/ActiveGameItem.vue";
 
-import GameInfo from "./GameInfo.vue";
-
 const loading = ref(true);
 const gameStore = useGameStore();
+const selectedTab = ref("active");
 
-onIonViewWillEnter(async() => {
+onIonViewWillEnter(async () => {
   gameStore.clearData();
   await gameStore.loadActiveGamesByUser();
   await gameStore.loadPastGamesByUser();

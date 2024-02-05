@@ -24,12 +24,16 @@ export const useGameStore = defineStore('game', {
   }),
 
   actions: {
-     async loadGames() {
+     async loadGames(city: string) {
       try {
           const currentDate = Timestamp.now();
-          const q = query(gamesCollection, where('date', '>=', currentDate));
+          const q = query(gamesCollection, 
+            where('city', '==', city),
+            where('date', '>=', currentDate)
+            );
           const querySnapshot = await getDocs(q);
           querySnapshot.forEach((doc) => {
+            if(doc.data().organizerId != auth!.currentUser!.uid)
             this.games.push(doc.data() as Game)
           });
           
@@ -49,7 +53,6 @@ export const useGameStore = defineStore('game', {
         querySnapshot.forEach((doc) => {
           this.gamesActiveByUser.push(doc.data() as Game)
         });
-        console.log(' this.gamesActiveByUser', this.gamesActiveByUser)
       } catch (error: any) {
         console.error('Error loading games:', error.message);
       }
@@ -74,7 +77,6 @@ export const useGameStore = defineStore('game', {
     },
 
     async addGame(newGame: any) {
-      console.log(newGame)
       const gameDate = new Date(newGame.date);
       try {
         const newGameInfo: Game = {

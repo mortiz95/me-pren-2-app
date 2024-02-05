@@ -43,7 +43,6 @@ export const useUserStore= defineStore('user', {
         if(userDocSnapshot.exists()){
           this.myUserInfo = userDocSnapshot.data() as User
         }
-        console.log('loadMyUserInfo', this.myUserInfo)
 
       } catch (error: any) {
         console.error('Error loading games:', error.message);

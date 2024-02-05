@@ -4,7 +4,7 @@
     :key="option.value"
     @click="emitTagClicked(option)" 
     color="dark" 
-    class="ion-text-center tags"
+    class="ion-text-center tags mr-5"
     :class="{ 'selected': isSelected(option) }"
   >
   <div>

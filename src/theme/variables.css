@@ -9,6 +9,7 @@ http://ionicframework.com/docs/theming/ */
 
   --ion-background-color: rgb(2,0,36);
   --ion-background-color:linear-gradient(180deg, rgb(100 101 103) 24%, rgb(48,223,117)100%, rgb(79 87 42) 100%);
+  --ion-border-color: var(--gray);
 
   --ion-item-background: var(--transparent) ; /* Example: white with 50% transparency */
   --ion-card-background: var(--black); /* Example: white with 50% transparency */
@@ -82,7 +83,7 @@ http://ionicframework.com/docs/theming/ */
 /*  --ion-background-color:  rgb(0,124,0);
     --ion-background-color:  linear-gradient(0deg, rgba(0,124,0,1) 0%, rgba(0,0,0,1) 100%); */
 
-    --ion-border-color: #222222;
+    --ion-border-color: var(--white);
     --ion-toolbar-background: #1f1f1f;
     --ion-tab-bar-background: #1f1f1f;
 
@@ -148,8 +149,6 @@ p {
 }
 
 .tags {
-  margin-left: 5px !important;
-  margin-right: 5px !important;
   padding: 8px !important;
   border-radius: 15px !important;
 }
@@ -239,7 +238,13 @@ p {
 .mt-5{
   margin-top: 5px;
 }
-
+.mb-5{
+  margin-bottom: 5px;
+}
+.pv-10{
+  margin-bottom: 10px;
+  margin-top: 10px;
+}
 .text-nowrap {
   white-space: nowrap;
 }

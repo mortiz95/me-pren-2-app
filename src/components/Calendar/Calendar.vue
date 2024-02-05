@@ -77,7 +77,7 @@
   
   .day-box {
     min-width: 50px !important;
-    height: 60px;
+    height: 50px;
     border: 1px solid #ccc;
     display: flex;
     justify-content: center;

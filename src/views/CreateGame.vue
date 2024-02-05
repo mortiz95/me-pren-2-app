@@ -5,10 +5,10 @@
         <ion-grid class="ion-padding">
           <ion-row>
             <ion-col v-if="showForm" size="9">
-              <h2>Crear Evento</h2>
+              <h2>Crear Busqueda</h2>
               <p>
-                Haz un post indicando cuanto jugadores necesitas para que se
-                sumen a tu equipo.
+                Indica cuantos jugadores necesitas para que se sumen a tu
+                equipo.
               </p>
             </ion-col>
             <ion-col v-else>
@@ -37,13 +37,15 @@
     </ion-header>
     <ion-content :fullscreen="true">
       <form v-if="showForm" @submit.prevent="handleSubmit()">
-        <ion-list :inset="true">
-          <ion-item lines="none" class="ion-margin-top">
-            <ion-select
+        <div>
+          <ion-list :inset="true" lines="inset">
+            <ion-item>
+              <!--             <ion-select
               :value="game.sport"
               @ionChange="handleSport($event)"
-              label="* Deporte"
+              label="Deporte"
               label-placement="stacked"
+              disabled
               :interface-options="options"
             >
               <ion-select-option selected value="futbol"
@@ -52,132 +54,168 @@
               <ion-select-option value="basket">Basket</ion-select-option>
               <ion-select-option value="paddle">Paddle</ion-select-option>
               <ion-select-option value="tenis">Tenis</ion-select-option>
-              <ion-select-option value="hockey">Hockey</ion-select-option>
-            </ion-select>
-          </ion-item>
+              <ion-select-option value="hockey">Hockey</ion-select-option> -
+            </ion-select> -->
+              <ion-input
+                v-model="game.sport"
+                readonly
+                label="Deporte"
+                label-placement="floating"
+                class="ion-text-capitalize"
+              ></ion-input>
+            </ion-item>
 
-          <ion-item lines="none" class="ion-padding-top">
-            <ion-input
-              v-model="game.province"
-              readonly
-              label="* Provincia"
-              label-placement="floating"
-            ></ion-input>
-          </ion-item>
+            <ion-item class="ion-margin-top">
+              <ion-input
+                v-model="game.province"
+                readonly
+                label="Provincia"
+                label-placement="floating"
+                class="ion-text-capitalize"
+              ></ion-input>
+            </ion-item>
 
-          <ion-item lines="none" class="ion-padding-top">
-            <ion-input
-              required
-              autofocus="true"
-              v-model="game.city"
-              label="* Municipio"
-              label-placement="floating"
-            >
-            </ion-input>
-          </ion-item>
-
-          <ion-item lines="none" class="ion-padding-top">
-            <ion-input
-              required
-              v-model="game.place"
-              label="* En que cancha jugaras?"
-              label-placement="floating"
-            ></ion-input>
-          </ion-item>
-
-          <ion-item lines="none" class="ion-margin-top">
-            <ion-select
-              :value="game.payment"
-              @ionChange="handleHasToPay($event)"
-              label="* Es un evento pago?"
-              label-placement="stacked"
-              :interface-options="options"
-            >
-              <ion-select-option selected value="true">Si</ion-select-option>
-              <ion-select-option value="false">No</ion-select-option>
-            </ion-select>
-          </ion-item>
-
-          <ion-item lines="none" class="ion-padding-top">
-            <ion-input
-              required
-              v-model="game.spots"
-              type="number"
-              label="* Cuantos jugadores necesitas?"
-              label-placement="floating"
-            ></ion-input>
-          </ion-item>
-
-          <ion-item lines="none" class="ion-padding-top">
-            <ion-input
-              required
-              v-model="selectedDateTimeParsed"
-              label="* Fecha"
-              label-placement="floating"
-              @click="toggleDateTimeInput()"
-            ></ion-input>
-            <ion-datetime
-              v-if="dateTimeVisible"
-              v-model="game.date"
-              ref="refDatetime"
-              class="ion-margin-vertical"
-              @ionChange="handleDateTimeChange"
-              :min="currentDateFormattedDate_ISO_8601"
-              :max="datetimeMaxDate"
-            >
-              <ion-buttons slot="buttons">
-                <ion-button color="success" @click="toggleDateTimeInput()"
-                  >Cancelar</ion-button
-                >
-                <ion-button color="success" @click="confirm()">Ok</ion-button>
-              </ion-buttons>
-            </ion-datetime>
-          </ion-item>
-
-          <ion-item lines="none" class="ion-padding-top">
-            <ion-text> Anade informacion extra a tu partido:</ion-text>
-
-            <ion-grid class="ion-padding-vertical ion-no-padding">
-              <ion-row class="ion-margin-bottom">
-                <ion-col>
-                  <Tags :tags="gameGender" @tagClicked="saveTagGameGender">
-                  </Tags>
-                </ion-col>
-              </ion-row>
-              <ion-row class="ion-margin-bottom">
-                <ion-col>
-                  <Tags :tags="gameType" @tagClicked="saveTagGameType"> </Tags>
-                </ion-col>
-              </ion-row>
-              <ion-row v-if="game.sport === 'futbol'" class="ion-margin-bottom">
-                <ion-col>
-                  <Tags :tags="gameSize" @tagClicked="saveTagGameSize"> </Tags>
-                </ion-col>
-              </ion-row>
-              <ion-row v-if="game.sport === 'futbol'" class="ion-margin-bottom">
-                <ion-col>
-                  <Tags
-                    :tags="gameGrassType"
-                    @tagClicked="saveTagGameGrassType"
+            <ion-item class="ion-margin-top">
+              <ion-select
+                    :value="city"
+                    @ionChange="handleChangeCity($event)"
+                    label="Municipio"
+                    label-placement="stacked"
+                    class="title-city ion-text-capitalize"
+                    :interface-options="options"
                   >
-                  </Tags>
-                </ion-col>
-              </ion-row>
-            </ion-grid>
-          </ion-item>
+                    <ion-select-option selected value="capital"
+                      >Capital</ion-select-option
+                    >
+                    <ion-select-option value="san Lorenzo"
+                      >San Lorenzo</ion-select-option
+                    >
+                    <ion-select-option value="cerrillos">
+                      Cerrillos
+                    </ion-select-option>
+                    <ion-select-option value="vaqueros">
+                      Vaqueros</ion-select-option
+                    >
+                    <ion-select-option value="san luis"
+                      >San Luis</ion-select-option
+                    >
+              </ion-select>
+            </ion-item>
 
-          <ion-item lines="none" class="ion-margin-vertical">
-            <ion-textarea
-              v-model="game.description"
-              class="custom"
-              :counter="true"
-              maxlength="100"
-              label="Descripcion"
-              label-placement="floating"
-              placeholder="Agrega informacion extra, por ej: Buscas arquero, defensor o delantero"
-            ></ion-textarea>
-          </ion-item>
-        </ion-list>
+            <ion-item class="ion-margin-top">
+              <ion-select
+                :value="game.payment"
+                @ionChange="handleHasToPay($event)"
+                label="* Es un evento pago?"
+                label-placement="stacked"
+                :interface-options="options"
+              >
+                <ion-select-option selected value="true">Si</ion-select-option>
+                <ion-select-option value="false">No</ion-select-option>
+              </ion-select>
+            </ion-item>
+
+            <ion-item class="ion-margin-top">
+              <ion-input
+                required
+                v-model="game.place"
+                label="* En que cancha jugaras?"
+                label-placement="floating"
+              ></ion-input>
+            </ion-item>
+
+            <ion-item class="ion-margin-top">
+              <ion-input
+                required
+                v-model="game.spots"
+                type="number"
+                label="* Cuantos jugadores necesitas?"
+                label-placement="floating"
+              ></ion-input>
+            </ion-item>
+
+            <ion-item class="ion-margin-top">
+              <ion-input
+                required
+                v-model="selectedDateTimeParsed"
+                label="* Fecha"
+                label-placement="floating"
+                @click="toggleDateTimeInput()"
+              ></ion-input>
+              <ion-datetime
+                v-if="dateTimeVisible"
+                v-model="game.date"
+                ref="refDatetime"
+                class="ion-margin-vertical"
+                @ionChange="handleDateTimeChange"
+                :min="currentDateFormattedDate_ISO_8601"
+                :max="datetimeMaxDate"
+              >
+                <ion-buttons slot="buttons">
+                  <ion-button color="success" @click="toggleDateTimeInput()"
+                    >Cancelar</ion-button
+                  >
+                  <ion-button color="success" @click="confirm()">Ok</ion-button>
+                </ion-buttons>
+              </ion-datetime>
+            </ion-item>
+
+            <ion-item class="ion-margin-top">
+              <ion-text class="ion-padding-top">
+                Agrega informacion extra a tu partido:</ion-text
+              >
+
+              <ion-grid class="ion-padding-vertical ion-no-padding">
+                <ion-row class="ion-margin-bottom">
+                  <ion-col>
+                    <Tags :tags="gameGender" @tagClicked="saveTagGameGender">
+                    </Tags>
+                  </ion-col>
+                </ion-row>
+                <ion-row class="ion-margin-bottom">
+                  <ion-col>
+                    <Tags :tags="gameType" @tagClicked="saveTagGameType">
+                    </Tags>
+                  </ion-col>
+                </ion-row>
+                <ion-row
+                  v-if="game.sport === 'futbol'"
+                  class="ion-margin-bottom"
+                >
+                  <ion-col>
+                    <Tags :tags="gameSize" @tagClicked="saveTagGameSize">
+                    </Tags>
+                  </ion-col>
+                </ion-row>
+                <ion-row
+                  v-if="game.sport === 'futbol'"
+                  class="ion-margin-bottom"
+                >
+                  <ion-col>
+                    <Tags
+                      :tags="gameGrassType"
+                      @tagClicked="saveTagGameGrassType"
+                    >
+                    </Tags>
+                  </ion-col>
+                </ion-row>
+              </ion-grid>
+            </ion-item>
+
+            <div class="ion-margin-start ion-margin-top">
+              <ion-textarea
+                v-model="game.description"
+                class="custom"
+                :clear-on-edit="true"
+                :counter="true"
+                maxlength="100"
+                label="Descripcion"
+                label-placement="floating"
+                placeholder="Agrega informacion extra, por ej: Buscas arquero, defensor o delantero"
+              ></ion-textarea>
+            </div>
+          </ion-list>
+        </div>
       </form>
       <div v-else>
         <ion-grid class="wrapper">
@@ -194,7 +232,7 @@
                 <h1>Creado correctamente</h1>
                 <ion-text class="ion-text-center">
                   Puede ver tus eventos creados en el apartado de
-                  <u @click="goToMyEvents()"> Mis Eventos </u>.</ion-text
+                  <u @click="goToMyEvents()"> Mis Busquedas </u>.</ion-text
                 >
               </div>
             </ion-col>
@@ -242,6 +280,7 @@ import { onIonViewDidEnter, onIonViewDidLeave } from "@ionic/vue";
 
 const { parseDate } = useDateParser();
 
+const city = ref('capital')
 const showForm = ref(true);
 const dateTimeVisible = ref(false);
 const refDatetime = ref();
@@ -260,20 +299,19 @@ const selectedDateTimeParsed = ref(
   parseDate(currentDateFormattedDate_ISO_8601)
 );
 
-const store = useGameStore()
-const userStore = useUserStore()
-console.log(userStore.myUserInfo)
+const store = useGameStore();
+const userStore = useUserStore();
 
 const game = ref({
-  country: "Argentina",
-  province: "Salta",
-  city: "",
+  country: "argentina",
+  province: "salta",
+  city: city.value,
   date: currentDateFormattedDate_ISO_8601,
   place: "",
   organizerId: auth!.currentUser!.uid,
   organizerInfo: {
     fullName: userStore.myUserInfo.name + " " + userStore.myUserInfo.lastName,
-    email: userStore.myUserInfo.email,
+    email: userStore.myUserInfo.email ,
   },
   dateCreated: Timestamp.now(),
   sport: "futbol",
@@ -329,8 +367,11 @@ const confirm = () => {
 };
 
 const handleDateTimeChange = (event: CustomEvent) => {
-  game.value.date = event.detail.value;
   selectedDateTimeParsed.value = parseDate(event.detail.value);
+};
+
+const handleChangeCity = (event: CustomEvent) => {
+  game.value.city = event.detail.value;
 };
 
 const saveTagGameType = (gameType: any) => {
@@ -359,6 +400,7 @@ const handleHasToPay = (ev: any) => {
 
 const handleSubmit = async () => {
   try {
+    debugger
     if (game.value.city != "") {
       if (game.value.place != "") {
         if (game.value.date != "") {

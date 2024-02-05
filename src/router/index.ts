@@ -44,6 +44,13 @@ const routes: Array<RouteRecordRaw> = [
       },
       {
         path: 'tab4',
+        component: () => import('@/views/Attending.vue'),
+        meta: {
+          requiresAuth: true
+        }
+      },
+      {
+        path: 'tab5',
         component: () => import('@/views/Profile.vue'),
         meta: {
           requiresAuth: true
