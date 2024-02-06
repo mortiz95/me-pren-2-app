@@ -44,7 +44,7 @@ const routes: Array<RouteRecordRaw> = [
       },
       {
         path: 'tab4',
-        component: () => import('@/views/Attending.vue'),
+        component: () => import('@/views/Pending.vue'),
         meta: {
           requiresAuth: true
         }
@@ -61,6 +61,14 @@ const routes: Array<RouteRecordRaw> = [
         name: 'GameInfo',
         component: () => import('@/views/GameInfo.vue'),
         props: true ,
+        meta: {
+          requiresAuth: true,
+        },
+      },
+      {
+        path: '/tab1/:info/confirm',
+        name: 'ConfirmReservation',
+        component: () => import('@/views/ConfirmReservation.vue'),
         meta: {
           requiresAuth: true,
         },

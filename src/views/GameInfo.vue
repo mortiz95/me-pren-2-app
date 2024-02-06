@@ -3,7 +3,7 @@
     <ion-header>
       <ion-toolbar>
         <ion-grid class="ion-padding">
-          <ion-row>
+          <ion-row class="ion-align-items-center">
             <ion-col size="6">
               <ion-icon :icon="chevronBackOutline" @click="goBack()"></ion-icon>
             </ion-col>
@@ -105,7 +105,7 @@
           </div>
           <ion-row style="flex: 1; align-items: flex-end">
             <ion-col size="12">
-              <ion-button color="warning" expand="full">Unirse</ion-button>
+              <ion-button @click="goToConfirmReservation()" color="warning" expand="full">Unirse</ion-button>
             </ion-col>
           </ion-row>
         </ion-grid>
@@ -191,7 +191,9 @@ const checkIsFull = computed(() => {
   return gameInfo ? (gameInfo.spots === gameInfo.usersAttending.length ? 'FULL' : 'Quedan: ' + availableSpots.value + ' lugares') : ''
 });
 
-
+const goToConfirmReservation = () => {
+  router.push({ name: "ConfirmReservation" });
+};
 
 const goBack = () => {
   router.back();

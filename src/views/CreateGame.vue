@@ -231,8 +231,8 @@
                 ></ion-icon>
                 <h1>Creado correctamente</h1>
                 <ion-text class="ion-text-center">
-                  Puede ver tus eventos creados en el apartado de
-                  <u @click="goToMyEvents()"> Mis Busquedas </u>.</ion-text
+                  Puede ver tus busquedas de jugadores creadas en el apartado
+                  <u @click="goToHistorial()"> Historial </u>.</ion-text
                 >
               </div>
             </ion-col>
@@ -438,8 +438,8 @@ const handleSubmit = async () => {
   }
 };
 
-const goToMyEvents = () => {
-  router.push("/tabs/tab3");
+const goToHistorial = () => {
+  router.push("/tabs/tab4");
 };
 
 const datetimeMaxDate = computed(() => {
