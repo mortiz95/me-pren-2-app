@@ -409,7 +409,7 @@ const handleSubmit = async () => {
             game.value.spots < 6
           ) {
             isFormError.value = false;
-            await store.addGame(game.value);
+            await store.addSearch(game.value);
             showForm.value = false;
             eventHasBeenCreated.value = true;
           } else {

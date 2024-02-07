@@ -23,12 +23,13 @@ export const useUserStore= defineStore('user', {
   actions: {
     async loadUserInfo(userId: any) {
       try {
-        const currentDate = Timestamp.now();
         const docRef = doc(db, 'users', userId);
-        const userDocSnapshot = await getDoc(docRef);
+        const doc_ = await getDoc(docRef);
 
-        if(userDocSnapshot.exists()){
-          this.userInfo = userDocSnapshot.data() as User
+        if(doc_.exists()){
+          const userData = doc_.data() as User
+          userData.id = doc_.id; // Add user ID to my user data
+          this.userInfo = userData as User
         }
       } catch (error: any) {
         console.error('Error loading games:', error.message);
@@ -37,11 +38,12 @@ export const useUserStore= defineStore('user', {
 
     async loadMyUserInfo(userId: any) {
       try {
-        const currentDate = Timestamp.now();
         const docRef = doc(db, 'users',  auth!.currentUser!.uid);
-        const userDocSnapshot = await getDoc(docRef);
-        if(userDocSnapshot.exists()){
-          this.myUserInfo = userDocSnapshot.data() as User
+        const doc_ = await getDoc(docRef);
+        if(doc_.exists()){
+          const userData = doc_.data() as User
+          userData.id = doc_.id; // Add user ID to my user data
+          this.myUserInfo = userData as User
         }
 
       } catch (error: any) {

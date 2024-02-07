@@ -4,15 +4,19 @@ import {
   collection,
   doc,
   setDoc,
-  onSnapshot,
   query,
   where,
   orderBy,
-  getDocs
+  getDocs,
+  Timestamp,
+  updateDoc,
+  arrayUnion,
+  arrayRemove
 } from 'firebase/firestore';
 import { Game } from '../types/Game'
-import { Timestamp } from 'firebase/firestore';
+import { useUserStore } from "@/store/user";
 
+const userStore = useUserStore();
 const gamesCollection = collection(db, 'games');
 
 export const useGameStore = defineStore('game', {
@@ -24,7 +28,7 @@ export const useGameStore = defineStore('game', {
   }),
 
   actions: {
-     async loadGames(city: string) {
+     async loadSearches(city: string) {
       try {
           const currentDate = Timestamp.now();
           const q = query(gamesCollection, 
@@ -33,8 +37,12 @@ export const useGameStore = defineStore('game', {
             );
           const querySnapshot = await getDocs(q);
           querySnapshot.forEach((doc) => {
-            if(doc.data().organizerId != auth!.currentUser!.uid)
-            this.games.push(doc.data() as Game)
+            // Show searches what are not equals to mine
+            if(doc.data().organizerId != auth!.currentUser!.uid){
+              const gameData = doc.data() as Game;
+              gameData.id = doc.id; // Add document ID to game data
+              this.games.push(gameData);
+            }
           });
           
       } catch (error: any) {
@@ -42,7 +50,7 @@ export const useGameStore = defineStore('game', {
       }
     },
 
-    async loadActiveGamesByUser() {
+    async loadActiveSearchesByCurrentUser() {
       try {
         const currentDate = Timestamp.now();
         const q = query(gamesCollection, 
@@ -59,10 +67,9 @@ export const useGameStore = defineStore('game', {
     },
 
 
-    async loadPastGamesByUser() {
+    async loadPastSearchesByCurrentUser() {
       try {
         const currentDate = Timestamp.now();
-        const gamesCollection = collection(db, 'games');
         const q = query(gamesCollection, 
           where('organizerId', '==', auth!.currentUser!.uid),
           where('date', '<', currentDate),
@@ -76,7 +83,7 @@ export const useGameStore = defineStore('game', {
       }
     },
 
-    async addGame(newGame: any) {
+    async addSearch(newGame: any) {
       const gameDate = new Date(newGame.date);
       try {
         const newGameInfo: Game = {
@@ -116,6 +123,42 @@ export const useGameStore = defineStore('game', {
       this.gamesActiveByUser = []
       this.gamesPreviousByUser = []
       this.gamesPreviousByUser = []
+    },
+
+    async addPlayerToSearch(gameId: any) {
+      try {
+
+       const gamesRef = doc(db, "games", gameId);
+
+       await updateDoc(gamesRef, {
+        usersAttending: arrayUnion({
+          id: userStore.myUserInfo.id,
+          name: userStore.myUserInfo.name,
+          lastName : userStore.myUserInfo.lastName,
+        }) 
+       });
+       
+      } catch (error: any) {
+        console.error('Error removing game:', error.message);
+      }
+    },
+
+    async removeMeFromSearch(gameId: any) {
+      try {
+
+       const gamesRef = doc(db, "games", gameId);
+
+       await updateDoc(gamesRef, {
+        usersAttending: arrayRemove({
+          id: userStore.myUserInfo.id,
+          name: userStore.myUserInfo.name,
+          lastName : userStore.myUserInfo.lastName,
+        }) 
+       });
+       
+      } catch (error: any) {
+        console.error('Error removing game:', error.message);
+      }
     },
 
     async removeGame(gameId: string) {

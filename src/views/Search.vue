@@ -42,12 +42,12 @@
       <Calendar class="fixed-component"></Calendar>
       <div v-show="!loading" class="scrolling-list">
         <div v-if="gameStore.games.length > 0">
-          <GameItem
+          <SearchItem
             v-for="item in gameStore.games"
             :key="item.id"
             :gameInfo="item"
           >
-          </GameItem>
+          </SearchItem>
         </div>
         <div v-else class="flex-justify-center no-data">
           No hay datos disponibles.
@@ -74,8 +74,8 @@ import {
 
 import { onIonViewDidEnter, onIonViewDidLeave } from "@ionic/vue";
 import { useGameStore } from "../store/game";
-import { useRouter, useRoute } from "vue-router";
-import GameItem from "../components/Item/GameItem.vue";
+import { useRoute } from "vue-router";
+import SearchItem from "../components/Item/SearchItem.vue";
 import Calendar from "../components/Calendar/Calendar.vue";
 import { ref } from "vue";
 
@@ -85,12 +85,9 @@ const gameStore = useGameStore();
 const loading = ref(true);
 const city = ref("capital");
 
-//Param info
-const routeParam: any = route?.params?.info;
-
 onIonViewDidEnter(async () => {
   gameStore.clearData();
-  await gameStore.loadGames(city.value);
+  await gameStore.loadSearches(city.value);
   loading.value = false;
 
 });

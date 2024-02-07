@@ -130,6 +130,7 @@ import Game from "../types/Game";
 import useDateParser from "@/composables/date";
 import { Timestamp } from "firebase/firestore";
 import { useUserStore } from "@/store/user";
+import { useGameStore } from "@/store/game";
 
 const router = useRouter();
 const route = useRoute();
@@ -142,6 +143,7 @@ const gameInfo: Game = JSON.parse(routeParam);
 
 const { parseDateTimeStampToISO } = useDateParser();
 const userStore = useUserStore();
+const gameStore = useGameStore();
 
 onIonViewDidEnter(() => {
   loading.value = false;
@@ -157,6 +159,7 @@ const gameDateParsed = computed(() => {
 
 const joinSearch = () => {
   showInfo.value = false;
+  gameStore.addPlayerToSearch(gameInfo.id)
 };
 
 const myUserName = computed(() => {

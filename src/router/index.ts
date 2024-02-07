@@ -23,7 +23,7 @@ const routes: Array<RouteRecordRaw> = [
       },
       {
         path: 'tab1',
-        component: () => import('@/views/Games.vue'),
+        component: () => import('@/views/Search.vue'),
         meta: {
           requiresAuth: true
         },
@@ -31,7 +31,7 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: 'tab1/:info',
         name: 'GameInfo',
-        component: () => import('@/views/GameInfo.vue'),
+        component: () => import('@/views/SearchInfo.vue'),
         props: true,
         meta: {
           requiresAuth: true,
@@ -47,7 +47,7 @@ const routes: Array<RouteRecordRaw> = [
       },
       {
         path: 'tab2',
-        component: () => import('@/views/CreateGame.vue'),
+        component: () => import('@/views/CreateSearch.vue'),
         meta: {
           requiresAuth: true
         }

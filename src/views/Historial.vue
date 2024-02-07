@@ -31,28 +31,28 @@
       </ion-toolbar>
     </ion-header>
     <ion-content :fullscreen="true">
-      <div v-show="!loading"  v-if="selectedTab === 'active'" class="ion-padding-horizontal">
+      <div v-show="!loading"  v-if="selectedTab === 'active'">
         <div v-if="gameStore.gamesActiveByUser.length != 0">
-          <ActiveGameItem
+          <ActiveSearchItem
             v-for="(item, index) in gameStore.gamesActiveByUser"
             :key="index"
             :gameInfo="item"
           >
-          </ActiveGameItem>
+          </ActiveSearchItem>
         </div>
         <div v-else class="flex-justify-center ion-padding">
           No hay datos disponibles.
         </div>
       </div>
 
-      <div v-if="selectedTab === 'past'" class="ion-padding-horizontal">
+      <div v-if="selectedTab === 'past'" >
         <div v-if="gameStore.gamesPreviousByUser.length != 0">
-          <ActiveGameItem
+          <ActiveSearchItem
             v-for="(item, index) in gameStore.gamesPreviousByUser"
             :key="index"
             :gameInfo="item"
           >
-          </ActiveGameItem>
+          </ActiveSearchItem>
         </div>
         <div v-else class="flex-justify-center ion-padding">
           No hay datos disponibles.
@@ -86,7 +86,7 @@ import {
 } from "@ionic/vue";
 import { ref } from "vue";
 import { useGameStore } from "../store/game";
-import ActiveGameItem from "../components/Item/ActiveGameItem.vue";
+import ActiveSearchItem from "../components/Item/ActiveSearchItem.vue";
 
 const loading = ref(true);
 const gameStore = useGameStore();
@@ -94,8 +94,8 @@ const selectedTab = ref("active");
 
 onIonViewWillEnter(async () => {
   gameStore.clearData();
-  await gameStore.loadActiveGamesByUser();
-  await gameStore.loadPastGamesByUser();
+  await gameStore.loadActiveSearchesByCurrentUser();
+  await gameStore.loadPastSearchesByCurrentUser();
   loading.value = false;
 });
 

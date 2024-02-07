@@ -1,6 +1,7 @@
 import { Timestamp } from 'firebase/firestore';
 
 type Game = {
+    id: string,
     country: string;
     province: string;
     city: string;
