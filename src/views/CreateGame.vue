@@ -231,7 +231,7 @@
                 ></ion-icon>
                 <h1>Creado correctamente</h1>
                 <ion-text class="ion-text-center">
-                  Puede ver tus busquedas de jugadores creadas en el apartado
+                  Puede ver tus busquedas creadas en el apartado
                   <u @click="goToHistorial()"> Historial </u>.</ion-text
                 >
               </div>
@@ -400,7 +400,6 @@ const handleHasToPay = (ev: any) => {
 
 const handleSubmit = async () => {
   try {
-    debugger
     if (game.value.city != "") {
       if (game.value.place != "") {
         if (game.value.date != "") {
@@ -439,7 +438,7 @@ const handleSubmit = async () => {
 };
 
 const goToHistorial = () => {
-  router.push("/tabs/tab4");
+  router.push("/tabs/tab3");
 };
 
 const datetimeMaxDate = computed(() => {

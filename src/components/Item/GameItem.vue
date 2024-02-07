@@ -112,12 +112,12 @@ const router = useRouter();
 const { parseDateTimeStampToISO } = useDateParser();
 
 const goToGameInfo = () => {
-  router.push({
+ router.push({
     name: "GameInfo",
     params: { info: JSON.stringify(props.gameInfo) },
-  });
+  }); 
 };
-
+ 
 const checkIsFull = () => {
   return props.gameInfo
     ? props.gameInfo.spots === props.gameInfo.usersAttending.length

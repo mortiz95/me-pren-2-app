@@ -26,7 +26,24 @@ const routes: Array<RouteRecordRaw> = [
         component: () => import('@/views/Games.vue'),
         meta: {
           requiresAuth: true
-        }
+        },
+      },
+      {
+        path: 'tab1/:info',
+        name: 'GameInfo',
+        component: () => import('@/views/GameInfo.vue'),
+        props: true,
+        meta: {
+          requiresAuth: true,
+        },
+      },
+      {
+        path: 'tab1/:info/confirm',
+        name: 'ConfirmReservation',
+        component: () => import('@/views/ConfirmReservation.vue'),
+        meta: {
+          requiresAuth: true,
+        },
       },
       {
         path: 'tab2',
@@ -37,7 +54,7 @@ const routes: Array<RouteRecordRaw> = [
       },
       {
         path: 'tab3',
-        component: () => import('@/views/MyGames.vue'),
+        component: () => import('@/views/Historial.vue'),
         meta: {
           requiresAuth: true
         }
@@ -55,23 +72,6 @@ const routes: Array<RouteRecordRaw> = [
         meta: {
           requiresAuth: true
         }
-      },
-      {
-        path: '/tab1/:info',
-        name: 'GameInfo',
-        component: () => import('@/views/GameInfo.vue'),
-        props: true ,
-        meta: {
-          requiresAuth: true,
-        },
-      },
-      {
-        path: '/tab1/:info/confirm',
-        name: 'ConfirmReservation',
-        component: () => import('@/views/ConfirmReservation.vue'),
-        meta: {
-          requiresAuth: true,
-        },
       },
     ]
   },

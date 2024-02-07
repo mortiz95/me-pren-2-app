@@ -5,7 +5,7 @@
           <ion-grid class="ion-padding">
           <ion-row>
             <ion-col size="12">
-              <h2>Partidos pendientes</h2>
+              <h2>Partidos por jugar</h2>
               <p>
                 Aqui encontraras las busquedas en las que te has anotado para participar.
               </p>

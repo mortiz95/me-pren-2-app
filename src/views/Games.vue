@@ -74,23 +74,31 @@ import {
 
 import { onIonViewDidEnter, onIonViewDidLeave } from "@ionic/vue";
 import { useGameStore } from "../store/game";
+import { useRouter, useRoute } from "vue-router";
 import GameItem from "../components/Item/GameItem.vue";
 import Calendar from "../components/Calendar/Calendar.vue";
 import { ref } from "vue";
 
+const route = useRoute();
 const gameStore = useGameStore();
+
 const loading = ref(true);
 const city = ref("capital");
+
+//Param info
+const routeParam: any = route?.params?.info;
 
 onIonViewDidEnter(async () => {
   gameStore.clearData();
   await gameStore.loadGames(city.value);
   loading.value = false;
+
 });
 
 onIonViewDidLeave(() => {
   loading.value = true;
   gameStore.clearData();
+
 });
 
 const options: any = {

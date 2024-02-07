@@ -33,11 +33,11 @@
           <div>
             <ion-row>
               <ion-col size="10">
-                <h1>{{ gameInfo.province }}, {{ gameInfo.city }}</h1>
+                <h1 class="ion-text-capitalize">{{ gameInfo.province }}, {{ gameInfo.city }}</h1>
               </ion-col>
             </ion-row>
           </div>
-          <div class="border-bottom ion-padding-vertical">
+          <div class="border-bottom">
             <ion-row class="ion-align-items-center">
               <ion-col size="2">
                 <ion-icon :icon="locationOutline"></ion-icon>
@@ -56,7 +56,7 @@
                 {{ gameDateParsed }}
               </ion-col>
             </ion-row>
-            <ion-row class="ion-align-items-center">
+            <ion-row class="ion-align-items-center ion-padding-bottom">
               <ion-col size="2">
                 <ion-icon :icon="gameControllerOutline"></ion-icon>
               </ion-col>
@@ -94,10 +94,10 @@
           <div class="border-bottom">
             <ion-row class="ion-padding-vertical">
               <ion-col size="auto">Creado por: </ion-col>
-              <ion-col size="auto">{{ gameInfo.createdByUser }}</ion-col>
+              <ion-col size="auto" class="ion-text-capitalize">{{ gameInfo.organizerInfo.fullName  }}</ion-col>
             </ion-row>
           </div>
-          <div v-if="gameInfo.description != ''" class="border-bottom">
+          <div v-if="gameInfo.description != ''" class="border-bottom ion-text-capitalize">
             <ion-row class="ion-padding-vertical">
               <ion-col size="auto">Description: </ion-col>
               <ion-col size="auto">{{ gameInfo.description }}</ion-col>
@@ -143,7 +143,7 @@ import {
 } from "ionicons/icons";
 import { computed, ref } from "vue";
 import { useRouter, useRoute } from "vue-router";
-import { Game } from "../types/Game";
+import  Game  from "../types/Game";
 import useDateParser from "@/composables/date";
 import { Timestamp } from "firebase/firestore";
 import Tags from "@/components/Tags/Tags.vue";

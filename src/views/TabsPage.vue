@@ -15,7 +15,7 @@
 
         <ion-tab-button tab="tab4" href="/tabs/tab4">
           <ion-icon aria-hidden="true" :icon="ticketOutline" />
-          <ion-label>Pendientes</ion-label>
+          <ion-label>Por jugar</ion-label>
         </ion-tab-button>
 
         <ion-tab-button tab="tab3" href="/tabs/tab3">
