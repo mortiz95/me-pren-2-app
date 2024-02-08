@@ -26,9 +26,7 @@ export const useSearchStore = defineStore('search', {
   state: () => ({
     searches: [] as Search[],
     myActiveSearches: [] as Search[],
-    myPastSearches: [] as Search[],
-    myNextGames: [] as any[],
-    searchPlayersAttending: [] as any[],
+    myPastSearches: [] as Search[]
   }),
 
   actions: {
@@ -88,14 +86,6 @@ export const useSearchStore = defineStore('search', {
       }
     },
 
-    async loadMyNextGames() {
-      try {
-        alert('under construction')
-          
-      } catch (error: any) {
-        console.error('Error loading searches:', error.message);
-      }
-    },
 
     async addSearch(newSearch: any) {
       const searchDate = new Date(newSearch.date);

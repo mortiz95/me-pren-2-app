@@ -5,9 +5,9 @@
         <ion-grid class="ion-padding">
           <ion-row>
             <ion-col size="12">
-              <h2>Partidos por jugar</h2>
+              <h3>Te anotaste en una busqueda?</h3>
               <p>
-                Aqui encontraras las busquedas en las que te has anotado para
+                Aqui encontraras la info de las busquedas en las que te has anotado para
                 participar.
               </p>
             </ion-col>
@@ -16,10 +16,10 @@
       </ion-toolbar>
     </ion-header>
     <ion-content :fullscreen="true">
-      <div v-show="!loading">
-        <div v-if="searchStore.myNextGames.length > 0">
+<!--       <div v-show="!loading">
+        <div v-if="userStore.myNextGames.length > 0">
           <PendingItem
-            v-for="(item, index) in searchStore.myNextGames"
+            v-for="(item, index) in userStore.myNextGames"
             :key="index"
             :searchInfo="item"
           >
@@ -32,18 +32,17 @@
 
       <div v-show="loading" class="loading">
         <ion-spinner></ion-spinner>
-      </div>
+      </div> -->
     </ion-content>
   </ion-page>
 </template>
   
   <script setup lang="ts">
-import { useSearchStore } from "@/store/search";
+import { useUserStore } from "@/store/user";
 import {
   IonPage,
   IonHeader,
   IonToolbar,
-  IonTitle,
   IonContent,
   onIonViewDidLeave,
 } from "@ionic/vue";
@@ -52,14 +51,14 @@ import { onIonViewWillEnter } from "@ionic/vue";
 import { ref } from "vue";
 
 const loading = ref(true);
-const searchStore = useSearchStore();
+const userStore = useUserStore();
 
 onIonViewDidLeave(() => {
   loading.value = true;
 });
 
 onIonViewWillEnter(async () => {
-  await searchStore.loadMyNextGames();
+  await userStore.loadMyNextGames();
   loading.value = false;
 });
 </script>

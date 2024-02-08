@@ -4,10 +4,10 @@
       <ion-toolbar>
         <ion-grid class="ion-padding">
           <ion-row>
-            <ion-col v-if="showForm" size="9">
-              <h2>Crear Busqueda</h2>
+            <ion-col v-if="showForm" size="10">
+              <h3>Estas buscando jugadores?</h3>
               <p>
-                Indica cuantos jugadores necesitas para que se sumen a tu
+                Crea una busqueda indicando cuantos jugadores necesitas para que se sumen a tu
                 equipo.
               </p>
             </ion-col>
@@ -21,7 +21,7 @@
                 Atras
               </ion-button>
             </ion-col>
-            <ion-col>
+            <ion-col size="2">
               <ion-button
                 v-if="showForm"
                 @click="handleSubmit"

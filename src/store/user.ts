@@ -51,6 +51,15 @@ export const useUserStore= defineStore('user', {
         console.error('Error loading searches:', error.message);
       }
     },
+    async loadMyNextGames() {
+      try {
+        alert('under construction')
+          
+      } catch (error: any) {
+        console.error('Error loading searches:', error.message);
+      }
+    },
+
     removeUser() {
 
     },

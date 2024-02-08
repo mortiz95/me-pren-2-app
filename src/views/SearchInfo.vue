@@ -139,12 +139,12 @@
                   <ion-icon :icon="personOutline"> </ion-icon>
                 </ion-col>
                 <ion-col size="9">
-                  <h4 class="ion-text-capitalize ion-no-margin">
+                  <h3 class="ion-text-capitalize ion-no-margin">
                     {{ item.name }} {{ item.lastName }}
-                    <ion-badge v-if="checkIsMe(item.id)" color="medium">
-                    Tu</ion-badge
+                    <ion-chip v-if="checkIsMe(item.id)" class="ml-5">
+                    Tu</ion-chip
                   >
-                  </h4>
+                  </h3>
                 </ion-col>
                 <ion-col size="1">
                  <ion-icon :icon="openOutline"></ion-icon>
@@ -260,5 +260,10 @@ ion-icon {
   min-height: 76vh;
   padding: 0;
 }
+
+ion-chip {
+    --background: var(--black);
+    --color: var(--white);
+  }
 </style>
   

@@ -7,7 +7,7 @@
             <ion-col size="12">
               <h2>Mis Busquedas</h2>
               <p>
-                Aqui encontraras el historial de las busquedas que has creado.
+                Aquí podras ver y realizar un seguimiento las búsquedas realizadas por ti.
               </p>
             </ion-col>
           </ion-row>
