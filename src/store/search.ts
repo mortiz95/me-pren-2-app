@@ -12,7 +12,8 @@ import {
   updateDoc,
   arrayUnion,
   arrayRemove,
-  getDoc
+  getDoc,
+  limit
 } from 'firebase/firestore';
 import { Search } from '../types/Search'
 import { useUserStore } from "@/store/user";
@@ -24,8 +25,8 @@ export const useSearchStore = defineStore('search', {
 
   state: () => ({
     searches: [] as Search[],
-    searchesActiveByUser: [] as Search[],
-    searchesPreviousByUser: [] as Search[],
+    myActiveSearches: [] as Search[],
+    myPastSearches: [] as Search[],
     myNextGames: [] as any[],
     searchPlayersAttending: [] as any[],
   }),
@@ -62,7 +63,7 @@ export const useSearchStore = defineStore('search', {
           orderBy('date', 'desc'));
         const querySnapshot = await getDocs(q);
         querySnapshot.forEach((doc) => {
-          this.searchesActiveByUser.push(doc.data() as Search)
+          this.myActiveSearches.push(doc.data() as Search)
         });
       } catch (error: any) {
         console.error('Error loading searches:', error.message);
@@ -76,10 +77,11 @@ export const useSearchStore = defineStore('search', {
         const q = query(searchesCollection, 
           where('organizerId', '==', auth!.currentUser!.uid),
           where('date', '<', currentDate),
-          orderBy('date', 'desc'));
+          orderBy('date', 'desc'),
+          limit(30));
         const querySnapshot = await getDocs(q);
         querySnapshot.forEach((doc) => {
-          this.searchesPreviousByUser.push(doc.data() as Search)
+          this.myPastSearches.push(doc.data() as Search)
         });
       } catch (error: any) {
         console.error('Error loading searches:', error.message);
@@ -132,8 +134,8 @@ export const useSearchStore = defineStore('search', {
 
     clearData(){
       this.searches = []
-      this.searchesActiveByUser = []
-      this.searchesPreviousByUser = []
+      this.myActiveSearches = []
+      this.myPastSearches = []
 
     },
 

@@ -32,9 +32,9 @@
     </ion-header>
     <ion-content :fullscreen="true">
       <div v-show="!loading"  v-if="selectedTab === 'active'">
-        <div v-if="searchStore.searchesActiveByUser.length != 0">
+        <div v-if="searchStore.myActiveSearches.length != 0">
           <ActiveSearchItem
-            v-for="(item, index) in searchStore.searchesActiveByUser"
+            v-for="(item, index) in searchStore.myActiveSearches"
             :key="index"
             :searchInfo="item"
           >
@@ -46,9 +46,9 @@
       </div>
 
       <div v-if="selectedTab === 'past'" >
-        <div v-if="searchStore.searchesPreviousByUser.length != 0">
+        <div v-if="searchStore.myPastSearches.length != 0">
           <ActiveSearchItem
-            v-for="(item, index) in searchStore.searchesPreviousByUser"
+            v-for="(item, index) in searchStore.myPastSearches"
             :key="index"
             :searchInfo="item"
           >
@@ -94,7 +94,8 @@ const selectedTab = ref("active");
 
 onIonViewWillEnter(async () => {
   searchStore.clearData();
-  await searchStore.loadMyNextGames();
+  await searchStore.loadMyActiveSearches();
+  await searchStore.loadMyPastSearches();
   loading.value = false;
 });
 
