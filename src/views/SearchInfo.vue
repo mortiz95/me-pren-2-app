@@ -33,7 +33,9 @@
           <div>
             <ion-row>
               <ion-col size="10">
-                <h1 class="ion-text-capitalize">{{ searchInfo.province }}, {{ searchInfo.city }}</h1>
+                <h1 class="ion-text-capitalize">
+                  {{ searchInfo.province }}, {{ searchInfo.city }}
+                </h1>
               </ion-col>
             </ion-row>
           </div>
@@ -70,7 +72,9 @@
               <ion-row class="ion-align-items-center">
                 <ion-col size="auto">Lugares disponibles: </ion-col>
                 <ion-col>
-                  <ion-badge color="success" class="tags">  {{ checkIsFull }} </ion-badge>
+                  <ion-badge color="success" class="tags">
+                    {{ checkIsFull }}
+                  </ion-badge>
                 </ion-col>
               </ion-row>
             </div>
@@ -94,10 +98,15 @@
           <div class="border-bottom">
             <ion-row class="ion-padding-vertical">
               <ion-col size="auto">Creado por: </ion-col>
-              <ion-col size="auto" class="ion-text-capitalize">{{ searchInfo.organizerInfo.fullName  }}</ion-col>
+              <ion-col size="auto" class="ion-text-capitalize">{{
+                searchInfo.organizerInfo.fullName
+              }}</ion-col>
             </ion-row>
           </div>
-          <div v-if="searchInfo.description != ''" class="border-bottom ion-text-capitalize">
+          <div
+            v-if="searchInfo.description != ''"
+            class="border-bottom ion-text-capitalize"
+          >
             <ion-row class="ion-padding-vertical">
               <ion-col size="auto">Description: </ion-col>
               <ion-col size="auto">{{ searchInfo.description }}</ion-col>
@@ -105,7 +114,12 @@
           </div>
           <ion-row style="flex: 1; align-items: flex-end">
             <ion-col size="12">
-              <ion-button @click="goToConfirmReservation()" color="warning" expand="full">Unirse</ion-button>
+              <ion-button
+                @click="goToConfirmReservation()"
+                color="warning"
+                expand="full"
+                >Unirse</ion-button
+              >
             </ion-col>
           </ion-row>
         </ion-grid>
@@ -114,13 +128,32 @@
         </div>
       </div>
       <div v-if="selectedTab === 'players'" class="ion-padding-horizontal">
-        <ion-grid>
-          <ion-row>
-            <ion-col>
-              <h1>hola 2</h1>
-            </ion-col>
-          </ion-row>
-        </ion-grid>
+        <ion-list class="ion-no-margin ion-margin-top">
+          <ion-item
+            v-for="(item, index) in searchInfo.usersAttending"
+            :key="index"
+          >
+            <ion-grid >
+              <ion-row class="ion-align-items-center">
+                <ion-col size="2">
+                  <ion-icon :icon="personOutline"> </ion-icon>
+                </ion-col>
+                <ion-col size="9">
+                  <h4 class="ion-text-capitalize ion-no-margin">
+                    {{ item.name }} {{ item.lastName }}
+                    <ion-badge v-if="checkIsMe(item.id)" color="medium">
+                    Tu</ion-badge
+                  >
+                  </h4>
+                </ion-col>
+                <ion-col size="1">
+                 <ion-icon :icon="openOutline"></ion-icon>
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+          </ion-item>
+        </ion-list>
+
         <div v-if="loading" class="spinner-container">
           <ion-spinner></ion-spinner>
         </div>
@@ -140,13 +173,15 @@ import {
   locationOutline,
   calendarOutline,
   gameControllerOutline,
+  openOutline
 } from "ionicons/icons";
 import { computed, ref } from "vue";
 import { useRouter, useRoute } from "vue-router";
-import  Search  from "../types/Search";
+import Search from "../types/Search";
 import useDateParser from "@/composables/date";
 import { Timestamp } from "firebase/firestore";
 import Tags from "@/components/Tags/Tags.vue";
+import { auth } from "@/firebase";
 
 const router = useRouter();
 const route = useRoute();
@@ -184,11 +219,19 @@ const searchGrassType = computed(() => {
 });
 
 const availableSpots = computed(() => {
-  return searchInfo.spots - searchInfo.usersAttending.length
+  return searchInfo.spots - searchInfo.usersAttending.length;
 });
 
+const checkIsMe = (userId: any) => {
+  return userId === auth!.currentUser!.uid;
+};
+
 const checkIsFull = computed(() => {
-  return searchInfo ? (searchInfo.spots === searchInfo.usersAttending.length ? 'FULL' : 'Quedan: ' + availableSpots.value + ' lugares') : ''
+  return searchInfo
+    ? searchInfo.spots === searchInfo.usersAttending.length
+      ? "FULL"
+      : "Quedan: " + availableSpots.value + " lugares"
+    : "";
 });
 
 const goToConfirmReservation = () => {

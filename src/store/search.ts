@@ -11,7 +11,8 @@ import {
   Timestamp,
   updateDoc,
   arrayUnion,
-  arrayRemove
+  arrayRemove,
+  getDoc
 } from 'firebase/firestore';
 import { Search } from '../types/Search'
 import { useUserStore } from "@/store/user";
@@ -25,6 +26,8 @@ export const useSearchStore = defineStore('search', {
     searches: [] as Search[],
     searchesActiveByUser: [] as Search[],
     searchesPreviousByUser: [] as Search[],
+    myNextGames: [] as any[],
+    searchPlayersAttending: [] as any[],
   }),
 
   actions: {
@@ -50,7 +53,7 @@ export const useSearchStore = defineStore('search', {
       }
     },
 
-    async loadActiveSearchesByCurrentUser() {
+    async loadMyActiveSearches() {
       try {
         const currentDate = Timestamp.now();
         const q = query(searchesCollection, 
@@ -67,7 +70,7 @@ export const useSearchStore = defineStore('search', {
     },
 
 
-    async loadPastSearchesByCurrentUser() {
+    async loadMyPastSearches() {
       try {
         const currentDate = Timestamp.now();
         const q = query(searchesCollection, 
@@ -78,6 +81,15 @@ export const useSearchStore = defineStore('search', {
         querySnapshot.forEach((doc) => {
           this.searchesPreviousByUser.push(doc.data() as Search)
         });
+      } catch (error: any) {
+        console.error('Error loading searches:', error.message);
+      }
+    },
+
+    async loadMyNextGames() {
+      try {
+        alert('under construction')
+          
       } catch (error: any) {
         console.error('Error loading searches:', error.message);
       }

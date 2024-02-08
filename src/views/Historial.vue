@@ -86,7 +86,7 @@ import {
 } from "@ionic/vue";
 import { ref } from "vue";
 import { useSearchStore } from "../store/search";
-import ActiveSearchItem from "../components/Item/ActiveSearchItem.vue";
+import ActiveSearchItem from "../components/Item/MyActiveSearchItem.vue";
 
 const loading = ref(true);
 const searchStore = useSearchStore();
@@ -94,8 +94,7 @@ const selectedTab = ref("active");
 
 onIonViewWillEnter(async () => {
   searchStore.clearData();
-  await searchStore.loadActiveSearchesByCurrentUser();
-  await searchStore.loadPastSearchesByCurrentUser();
+  await searchStore.loadMyNextGames();
   loading.value = false;
 });
 

@@ -40,7 +40,9 @@ type Search = {
     status: string;
     description: string;
     usersAttending: {
-      userId: number
+      id: string,
+      lastName: string,
+      name: string
     }[];
     usersWaiting: {
       userId: number
