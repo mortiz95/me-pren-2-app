@@ -32,7 +32,7 @@ export const useUserStore= defineStore('user', {
           this.userInfo = userData as User
         }
       } catch (error: any) {
-        console.error('Error loading games:', error.message);
+        console.error('Error loading searches:', error.message);
       }
     },
 
@@ -40,6 +40,7 @@ export const useUserStore= defineStore('user', {
       try {
         const docRef = doc(db, 'users',  auth!.currentUser!.uid);
         const doc_ = await getDoc(docRef);
+        console.log('doc_.data()',doc_.data())
         if(doc_.exists()){
           const userData = doc_.data() as User
           userData.id = doc_.id; // Add user ID to my user data
@@ -47,7 +48,7 @@ export const useUserStore= defineStore('user', {
         }
 
       } catch (error: any) {
-        console.error('Error loading games:', error.message);
+        console.error('Error loading searches:', error.message);
       }
     },
     removeUser() {

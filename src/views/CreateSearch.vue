@@ -41,7 +41,7 @@
           <ion-list :inset="true" lines="inset">
             <ion-item>
               <!--             <ion-select
-              :value="game.sport"
+              :value="search.sport"
               @ionChange="handleSport($event)"
               label="Deporte"
               label-placement="stacked"
@@ -57,7 +57,7 @@
               <ion-select-option value="hockey">Hockey</ion-select-option> -
             </ion-select> -->
               <ion-input
-                v-model="game.sport"
+                v-model="search.sport"
                 readonly
                 label="Deporte"
                 label-placement="floating"
@@ -67,7 +67,7 @@
 
             <ion-item class="ion-margin-top">
               <ion-input
-                v-model="game.province"
+                v-model="search.province"
                 readonly
                 label="Provincia"
                 label-placement="floating"
@@ -104,7 +104,7 @@
 
             <ion-item class="ion-margin-top">
               <ion-select
-                :value="game.payment"
+                :value="search.payment"
                 @ionChange="handleHasToPay($event)"
                 label="* Es un evento pago?"
                 label-placement="stacked"
@@ -118,7 +118,7 @@
             <ion-item class="ion-margin-top">
               <ion-input
                 required
-                v-model="game.place"
+                v-model="search.place"
                 label="* En que cancha jugaras?"
                 label-placement="floating"
               ></ion-input>
@@ -127,7 +127,7 @@
             <ion-item class="ion-margin-top">
               <ion-input
                 required
-                v-model="game.spots"
+                v-model="search.spots"
                 type="number"
                 label="* Cuantos jugadores necesitas?"
                 label-placement="floating"
@@ -144,7 +144,7 @@
               ></ion-input>
               <ion-datetime
                 v-if="dateTimeVisible"
-                v-model="game.date"
+                v-model="search.date"
                 ref="refDatetime"
                 class="ion-margin-vertical"
                 @ionChange="handleDateTimeChange"
@@ -168,33 +168,33 @@
               <ion-grid class="ion-padding-vertical ion-no-padding">
                 <ion-row class="ion-margin-bottom">
                   <ion-col>
-                    <Tags :tags="gameGender" @tagClicked="saveTagGameGender">
+                    <Tags :tags="searchGender" @tagClicked="saveTagSearchGender">
                     </Tags>
                   </ion-col>
                 </ion-row>
                 <ion-row class="ion-margin-bottom">
                   <ion-col>
-                    <Tags :tags="gameType" @tagClicked="saveTagGameType">
+                    <Tags :tags="searchType" @tagClicked="saveTagSearchType">
                     </Tags>
                   </ion-col>
                 </ion-row>
                 <ion-row
-                  v-if="game.sport === 'futbol'"
+                  v-if="search.sport === 'futbol'"
                   class="ion-margin-bottom"
                 >
                   <ion-col>
-                    <Tags :tags="gameSize" @tagClicked="saveTagGameSize">
+                    <Tags :tags="searchSize" @tagClicked="saveTagSearchSize">
                     </Tags>
                   </ion-col>
                 </ion-row>
                 <ion-row
-                  v-if="game.sport === 'futbol'"
+                  v-if="search.sport === 'futbol'"
                   class="ion-margin-bottom"
                 >
                   <ion-col>
                     <Tags
-                      :tags="gameGrassType"
-                      @tagClicked="saveTagGameGrassType"
+                      :tags="searchGrassType"
+                      @tagClicked="saveTagSearchGrassType"
                     >
                     </Tags>
                   </ion-col>
@@ -204,7 +204,7 @@
 
             <div class="ion-margin-start ion-margin-top">
               <ion-textarea
-                v-model="game.description"
+                v-model="search.description"
                 class="custom"
                 :clear-on-edit="true"
                 :counter="true"
@@ -273,7 +273,7 @@ import { auth } from "@/firebase";
 import { Timestamp } from "firebase/firestore";
 import { format } from "date-fns";
 import useDateParser from "@/composables/date";
-import { useGameStore } from "@/store/game";
+import { useSearchStore } from "@/store/search";
 import { useUserStore } from "@/store/user";
 import { useRouter } from "vue-router";
 import { onIonViewDidEnter, onIonViewDidLeave } from "@ionic/vue";
@@ -299,10 +299,10 @@ const selectedDateTimeParsed = ref(
   parseDate(currentDateFormattedDate_ISO_8601)
 );
 
-const store = useGameStore();
+const store = useSearchStore();
 const userStore = useUserStore();
 
-const game = ref({
+const search = ref({
   country: "argentina",
   province: "salta",
   city: city.value,
@@ -335,24 +335,24 @@ const options: any = {
   cssClass: "my-custom-interface",
 };
 
-const gameGender = [
+const searchGender = [
   { text: "Masculino", value: "Male", icon: maleOutline },
   { text: "Femenino", value: "Female", icon: femaleOutline },
   { text: "Mixto", value: "Mix", icon: maleFemaleOutline },
 ];
-const gameType = [
+const searchType = [
   { text: "Entrenamiento", value: "Training", icon: barbellOutline },
   { text: "Amistoso", value: "Friendly", icon: bodyOutline },
   { text: "Partido de campeonato", value: "GC", icon: trophyOutline },
 ];
-const gameSize = [
+const searchSize = [
   { text: "5 VS 5", value: "5VS5", icon: "" },
   { text: "7 VS 7", value: "7VS7", icon: "" },
   { text: "8 VS 8", value: "8VS8", icon: "" },
   { text: "9 VS 9", value: "9VS9", icon: "" },
   { text: "11 VS 11", value: "5VS5", icon: "" },
 ];
-const gameGrassType = [
+const searchGrassType = [
   { text: "Cesped Sintetico", value: "SGrass", icon: invertMode },
   { text: "Cesped Natural", value: "NGrass", icon: leafOutline },
 ];
@@ -371,45 +371,45 @@ const handleDateTimeChange = (event: CustomEvent) => {
 };
 
 const handleChangeCity = (event: CustomEvent) => {
-  game.value.city = event.detail.value;
+  search.value.city = event.detail.value;
 };
 
-const saveTagGameType = (gameType: any) => {
-  game.value.type = gameType;
+const saveTagSearchType = (searchType: any) => {
+  search.value.type = searchType;
 };
 
-const saveTagGameGender = (gameGender: any) => {
-  game.value.gender = gameGender;
+const saveTagSearchGender = (searchGender: any) => {
+  search.value.gender = searchGender;
 };
 
-const saveTagGameSize = (gameSize: any) => {
-  game.value.size = gameSize;
+const saveTagSearchSize = (searchSize: any) => {
+  search.value.size = searchSize;
 };
 
-const saveTagGameGrassType = (gameGrassType: any) => {
-  game.value.grassType = gameGrassType;
+const saveTagSearchGrassType = (searchSizeGrassType: any) => {
+  search.value.grassType = searchSizeGrassType;
 };
 
 const handleSport = (ev: any) => {
-  game.value.sport = ev.detail.value;
+  search.value.sport = ev.detail.value;
 };
 
 const handleHasToPay = (ev: any) => {
-  game.value.payment = ev.detail.value;
+  search.value.payment = ev.detail.value;
 };
 
 const handleSubmit = async () => {
   try {
-    if (game.value.city != "") {
-      if (game.value.place != "") {
-        if (game.value.date != "") {
+    if (search.value.city != "") {
+      if (search.value.place != "") {
+        if (search.value.date != "") {
           if (
-            game.value.spots &&
-            game.value.spots > 0 &&
-            game.value.spots < 6
+            search.value.spots &&
+            search.value.spots > 0 &&
+            search.value.spots < 6
           ) {
             isFormError.value = false;
-            await store.addSearch(game.value);
+            await store.addSearch(search.value);
             showForm.value = false;
             eventHasBeenCreated.value = true;
           } else {

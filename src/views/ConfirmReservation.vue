@@ -20,7 +20,7 @@
           <ion-row>
             <ion-col size="10">
               <h1 class="ion-text-capitalize">
-                {{ gameInfo.province }}, {{ gameInfo.city }}
+                {{ searchInfo.province }}, {{ searchInfo.city }}
               </h1>
             </ion-col>
           </ion-row>
@@ -30,7 +30,7 @@
             </ion-col>
             <ion-col size="10">
               <ion-text class="ion-text-uppercase">
-                {{ gameInfo.place }}</ion-text
+                {{ searchInfo.place }}</ion-text
               >
             </ion-col>
           </ion-row>
@@ -39,7 +39,7 @@
               <ion-icon :icon="calendarOutline"></ion-icon>
             </ion-col>
             <ion-col size="10">
-              {{ gameDateParsed }}
+              {{ searchDateParsed }}
             </ion-col>
           </ion-row>
           <ion-row>
@@ -99,7 +99,7 @@
           </ion-row>
           <ion-row>
             <ion-col size="12">
-              <ion-button class="ion-padding-horizontal" color="warning" expand="full" @click="backToGames()">
+              <ion-button class="ion-padding-horizontal" color="warning" expand="full" @click="backToSearches()">
               Volver a Busquedas
               </ion-button>
             </ion-col>
@@ -126,11 +126,11 @@ import {
 } from "ionicons/icons";
 import { computed, ref } from "vue";
 import { useRouter, useRoute } from "vue-router";
-import Game from "../types/Game";
+import Search from "../types/Search";
 import useDateParser from "@/composables/date";
 import { Timestamp } from "firebase/firestore";
 import { useUserStore } from "@/store/user";
-import { useGameStore } from "@/store/game";
+import { useSearchStore } from "@/store/search";
 
 const router = useRouter();
 const route = useRoute();
@@ -139,27 +139,27 @@ const showInfo = ref(true);
 
 //Param info
 const routeParam: any = route?.params?.info;
-const gameInfo: Game = JSON.parse(routeParam);
+const searchInfo: Search = JSON.parse(routeParam);
 
 const { parseDateTimeStampToISO } = useDateParser();
 const userStore = useUserStore();
-const gameStore = useGameStore();
+const searchStore = useSearchStore();
 
 onIonViewDidEnter(() => {
   loading.value = false;
 });
 
-const gameDateParsed = computed(() => {
+const searchDateParsed = computed(() => {
   const firestoreTimestamp = new Timestamp(
-    gameInfo.date.seconds,
-    gameInfo.date.nanoseconds
+    searchInfo.date.seconds,
+    searchInfo.date.nanoseconds
   );
   return parseDateTimeStampToISO(firestoreTimestamp);
 });
 
 const joinSearch = () => {
   showInfo.value = false;
-  gameStore.addPlayerToSearch(gameInfo.id)
+  searchStore.addPlayerToSearch(searchInfo.id)
 };
 
 const myUserName = computed(() => {
@@ -170,7 +170,7 @@ const goToPending = () => {
   router.push("/tabs/tab4");
 };
 
-const backToGames = () => {
+const backToSearches = () => {
   router.push("/tabs/tab1");
 };
 

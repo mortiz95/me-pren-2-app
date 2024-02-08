@@ -107,7 +107,7 @@
 
 <script setup lang="ts">
 import { useAuthStore } from "../store/auth";
-import { useGameStore } from "@/store/game";
+import { useSearchStore } from "@/store/search";
 import { ref, computed } from "vue";
 import { useRouter } from "vue-router";
 
@@ -123,7 +123,7 @@ const userCredentials = ref({
 const isRegistering = ref(false);
 const authStore = useAuthStore();
 const router = useRouter();
-const store = useGameStore();
+const store = useSearchStore();
 const error: any = ref();
 const loading = ref(false);
 

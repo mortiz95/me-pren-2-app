@@ -10,18 +10,17 @@ type User = {
     city: string;
     age: number;
     registerDate: Timestamp;
-    createdGames: {
-      GameId: string;
-      Title: string;
-      date: string;
+    createdSearches: {
+      searchId: string;
+      searchDate: string;
     }[];
-    attendedGames: {
-      GameId: string;
+    attendedSearches: {
+      searchId: string;
     }[];
     ownerField: boolean;
     subscriptionType: number;
     rating:  {
-      GameId: string;
+      SearchId: string;
       Rating: number;
     }[];
     phone: number;

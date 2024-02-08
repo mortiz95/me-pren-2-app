@@ -23,14 +23,14 @@ const routes: Array<RouteRecordRaw> = [
       },
       {
         path: 'tab1',
-        component: () => import('@/views/Search.vue'),
+        component: () => import('@/views/Searches.vue'),
         meta: {
           requiresAuth: true
         },
       },
       {
         path: 'tab1/:info',
-        name: 'GameInfo',
+        name: 'SearchInfo',
         component: () => import('@/views/SearchInfo.vue'),
         props: true,
         meta: {

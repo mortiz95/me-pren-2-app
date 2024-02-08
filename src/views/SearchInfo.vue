@@ -33,7 +33,7 @@
           <div>
             <ion-row>
               <ion-col size="10">
-                <h1 class="ion-text-capitalize">{{ gameInfo.province }}, {{ gameInfo.city }}</h1>
+                <h1 class="ion-text-capitalize">{{ searchInfo.province }}, {{ searchInfo.city }}</h1>
               </ion-col>
             </ion-row>
           </div>
@@ -44,7 +44,7 @@
               </ion-col>
               <ion-col size="10">
                 <ion-text class="ion-text-uppercase">
-                  {{ gameInfo.place }}</ion-text
+                  {{ searchInfo.place }}</ion-text
                 >
               </ion-col>
             </ion-row>
@@ -53,7 +53,7 @@
                 <ion-icon :icon="calendarOutline"></ion-icon>
               </ion-col>
               <ion-col size="10">
-                {{ gameDateParsed }}
+                {{ searchDateParsed }}
               </ion-col>
             </ion-row>
             <ion-row class="ion-align-items-center ion-padding-bottom">
@@ -61,7 +61,7 @@
                 <ion-icon :icon="gameControllerOutline"></ion-icon>
               </ion-col>
               <ion-col size="10" class="ion-text-capitalize">
-                {{ gameInfo.sport }}
+                {{ searchInfo.sport }}
               </ion-col>
             </ion-row>
           </div>
@@ -80,13 +80,13 @@
               <ion-row class="ion-align-items-center ion-padding-vertical">
                 <ion-col size="4">Info del evento: </ion-col>
                 <ion-col size="8">
-                  <Tags :tags="gameSize"> </Tags>
+                  <Tags :tags="searchSize"> </Tags>
 
-                  <Tags :tags="gameType"> </Tags>
+                  <Tags :tags="searchType"> </Tags>
 
-                  <Tags :tags="gameGender"> </Tags>
+                  <Tags :tags="searchGender"> </Tags>
 
-                  <Tags :tags="gameGrassType"> </Tags>
+                  <Tags :tags="searchGrassType"> </Tags>
                 </ion-col>
               </ion-row>
             </div>
@@ -94,13 +94,13 @@
           <div class="border-bottom">
             <ion-row class="ion-padding-vertical">
               <ion-col size="auto">Creado por: </ion-col>
-              <ion-col size="auto" class="ion-text-capitalize">{{ gameInfo.organizerInfo.fullName  }}</ion-col>
+              <ion-col size="auto" class="ion-text-capitalize">{{ searchInfo.organizerInfo.fullName  }}</ion-col>
             </ion-row>
           </div>
-          <div v-if="gameInfo.description != ''" class="border-bottom ion-text-capitalize">
+          <div v-if="searchInfo.description != ''" class="border-bottom ion-text-capitalize">
             <ion-row class="ion-padding-vertical">
               <ion-col size="auto">Description: </ion-col>
-              <ion-col size="auto">{{ gameInfo.description }}</ion-col>
+              <ion-col size="auto">{{ searchInfo.description }}</ion-col>
             </ion-row>
           </div>
           <ion-row style="flex: 1; align-items: flex-end">
@@ -143,7 +143,7 @@ import {
 } from "ionicons/icons";
 import { computed, ref } from "vue";
 import { useRouter, useRoute } from "vue-router";
-import  Game  from "../types/Game";
+import  Search  from "../types/Search";
 import useDateParser from "@/composables/date";
 import { Timestamp } from "firebase/firestore";
 import Tags from "@/components/Tags/Tags.vue";
@@ -155,40 +155,40 @@ const selectedTab = ref("info");
 
 //Param info
 const routeParam: any = route?.params?.info;
-const gameInfo: Game = JSON.parse(routeParam);
+const searchInfo: Search = JSON.parse(routeParam);
 
 const { parseDateTimeStampToISO } = useDateParser();
 
-const gameDateParsed = computed(() => {
+const searchDateParsed = computed(() => {
   const firestoreTimestamp = new Timestamp(
-    gameInfo.date.seconds,
-    gameInfo.date.nanoseconds
+    searchInfo.date.seconds,
+    searchInfo.date.nanoseconds
   );
   return parseDateTimeStampToISO(firestoreTimestamp);
 });
 
-const gameSize = computed(() => {
-  return [gameInfo.size];
+const searchSize = computed(() => {
+  return [searchInfo.size];
 });
 
-const gameType = computed(() => {
-  return [gameInfo.type];
+const searchType = computed(() => {
+  return [searchInfo.type];
 });
 
-const gameGender = computed(() => {
-  return [gameInfo.gender];
+const searchGender = computed(() => {
+  return [searchInfo.gender];
 });
 
-const gameGrassType = computed(() => {
-  return [gameInfo.grassType];
+const searchGrassType = computed(() => {
+  return [searchInfo.grassType];
 });
 
 const availableSpots = computed(() => {
-  return gameInfo.spots - gameInfo.usersAttending.length
+  return searchInfo.spots - searchInfo.usersAttending.length
 });
 
 const checkIsFull = computed(() => {
-  return gameInfo ? (gameInfo.spots === gameInfo.usersAttending.length ? 'FULL' : 'Quedan: ' + availableSpots.value + ' lugares') : ''
+  return searchInfo ? (searchInfo.spots === searchInfo.usersAttending.length ? 'FULL' : 'Quedan: ' + availableSpots.value + ' lugares') : ''
 });
 
 const goToConfirmReservation = () => {

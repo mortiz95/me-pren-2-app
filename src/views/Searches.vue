@@ -41,11 +41,11 @@
     <ion-content :fullscreen="true">
       <Calendar class="fixed-component"></Calendar>
       <div v-show="!loading" class="scrolling-list">
-        <div v-if="gameStore.games.length > 0">
+        <div v-if="searchStore.searches.length > 0">
           <SearchItem
-            v-for="item in gameStore.games"
+            v-for="item in searchStore.searches"
             :key="item.id"
-            :gameInfo="item"
+            :searchInfo="item"
           >
           </SearchItem>
         </div>
@@ -73,28 +73,28 @@ import {
 } from "ionicons/icons";
 
 import { onIonViewDidEnter, onIonViewDidLeave } from "@ionic/vue";
-import { useGameStore } from "../store/game";
+import { useSearchStore } from "../store/search";
 import { useRoute } from "vue-router";
 import SearchItem from "../components/Item/SearchItem.vue";
 import Calendar from "../components/Calendar/Calendar.vue";
 import { ref } from "vue";
 
 const route = useRoute();
-const gameStore = useGameStore();
+const searchStore = useSearchStore();
 
 const loading = ref(true);
 const city = ref("capital");
 
 onIonViewDidEnter(async () => {
-  gameStore.clearData();
-  await gameStore.loadSearches(city.value);
+  searchStore.clearData();
+  await searchStore.loadSearches(city.value);
   loading.value = false;
 
 });
 
 onIonViewDidLeave(() => {
   loading.value = true;
-  gameStore.clearData();
+  searchStore.clearData();
 
 });
 
@@ -107,27 +107,6 @@ const handleChangeCity = (event: any) => {
 
 };
 
-const gameGender = [
-  { text: "Masculino", value: "M", icon: maleOutline },
-  { text: "Femenino", value: "F", icon: femaleOutline },
-  { text: "Mixto", value: "Mix", icon: maleFemaleOutline },
-];
-const gameType = [
-  { text: "Entrenamiento", value: "T", icon: barbellOutline },
-  { text: "Amistoso", value: "F", icon: bodyOutline },
-  { text: "Partido de campeonato", value: "GC", icon: trophyOutline },
-];
-const gameSize = [
-  { text: "5 VS 5", value: "5VS5" },
-  { text: "7 VS 7", value: "7VS7" },
-  { text: "8 VS 8", value: "8VS8" },
-  { text: "9 VS 9", value: "9VS9" },
-  { text: "11 VS 11", value: "5VS5" },
-];
-const gameGrassType = [
-  { text: "Cesped Sintetico", value: "CS", icon: invertMode },
-  { text: "Cesped Natural", value: "CN", icon: leafOutline },
-];
 </script>
 
 <style scoped>

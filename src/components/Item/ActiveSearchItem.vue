@@ -6,16 +6,16 @@
             <ion-col size="10">
               <ion-card-title>
                 <div class="container-card-title">
-                  <ion-icon :icon="locationOutline" class="ion-margin-end game-info__icon"></ion-icon> {{ gameInfo.place }}
+                  <ion-icon :icon="locationOutline" class="ion-margin-end search-info__icon"></ion-icon> {{ searchInfo.place }}
                 </div>
               </ion-card-title>
               <ion-card-subtitle>
                 <div class="container-card-subtitle">
-                 <ion-icon :icon="calendarOutline" class="ion-margin-end game-info__icon"></ion-icon>
-                 {{ parseDateTimeStampToISO(gameInfo?.date) }}
+                 <ion-icon :icon="calendarOutline" class="ion-margin-end search-info__icon"></ion-icon>
+                 {{ parseDateTimeStampToISO(searchInfo?.date) }}
                 </div>
                 <div class="container-card-subtitle">
-                 <ion-icon :icon="ticketOutline" class="ion-margin-end game-info__icon"></ion-icon>
+                 <ion-icon :icon="ticketOutline" class="ion-margin-end search-info__icon"></ion-icon>
                  {{checkIsFull() }}  
                 </div>
               </ion-card-subtitle>
@@ -34,15 +34,15 @@
             <ion-grid class="ion-no-padding">
               <ion-row>
                 <ion-col size="1">
-                 <ion-icon class="game-info__icon" :icon="informationCircleOutline"></ion-icon> 
+                 <ion-icon class="search-info__icon" :icon="informationCircleOutline"></ion-icon> 
                 </ion-col>
                 <ion-col size="11">
                   <ion-row>
-                    <ion-col size="auto"> Lugares totales: {{ gameInfo?.spots }} </ion-col>
+                    <ion-col size="auto"> Lugares totales: {{ searchInfo?.spots }} </ion-col>
                     <ion-col size="auto"> 
-                      <span class="ml-5"> / </span> {{ gameInfo?.size?.text }} </ion-col>
+                      <span class="ml-5"> / </span> {{ searchInfo?.size?.text }} </ion-col>
                     <ion-col size="auto"> 
-                      <span class="ml-5"> / </span>  {{ gameInfo?.gender?.text }} <ion-icon class="game-info-badge__icon " v-if="gameInfo.gender" :icon="gameInfo.gender.icon"></ion-icon>
+                      <span class="ml-5"> / </span>  {{ searchInfo?.gender?.text }} <ion-icon class="search-info-badge__icon " v-if="searchInfo.gender" :icon="searchInfo.gender.icon"></ion-icon>
                     </ion-col>
                   </ion-row>
 
@@ -50,16 +50,16 @@
               </ion-row>
               <ion-row>
                 <ion-col size="1">
-                 <ion-icon class="game-info__icon" :icon="peopleOutline"></ion-icon> 
+                 <ion-icon class="search-info__icon" :icon="peopleOutline"></ion-icon> 
                 </ion-col>
                 <ion-col size="11">
                   <ion-row>
                     <ion-col 
                       size="12"
-                      v-if="gameInfo.usersAttending.length > 0" 
+                      v-if="searchInfo.usersAttending.length > 0" 
                       >
                       <div     
-                        v-for="(item, index) in gameInfo.usersAttending"
+                        v-for="(item, index) in searchInfo.usersAttending"
                        :key="index">
                       </div>
                     </ion-col>
@@ -88,13 +88,13 @@
     <script setup lang="ts">
   import { chevronForward, locationOutline, calendarOutline, pencilOutline, trashOutline, informationCircleOutline, ticketOutline, peopleOutline } from "ionicons/icons";
   import { useRouter } from 'vue-router';
-  import { Game } from '../../types/Game'
+  import { Search } from '../../types/Search'
   import useDateParser from "@/composables/date";
   import { ref } from "vue";
   
   
   const props = defineProps<{
-    gameInfo: Game;
+    searchInfo: Search;
   }>();
   
   const router =  useRouter();
@@ -106,7 +106,7 @@
   const showAllInfo  = ref(false);
     
   const checkIsFull = ()  => {
-   return props.gameInfo ? (props.gameInfo.spots === props.gameInfo.usersAttending.length ? 'FULL' : 'Disponibles: '  + props.gameInfo.spots) : ''
+   return props.searchInfo ? (props.searchInfo.spots === props.searchInfo.usersAttending.length ? 'FULL' : 'Disponibles: '  + props.searchInfo.spots) : ''
   }
   
   </script>
@@ -123,11 +123,11 @@
     color: var(--white);
   }
   
-  .game-info__icon { 
+  .search-info__icon { 
     font-size: 20px;
   }
   
-  .game-info-badge__icon  {
+  .search-info-badge__icon  {
     margin-left: 3px;
   }
   

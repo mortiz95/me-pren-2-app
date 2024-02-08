@@ -1,6 +1,6 @@
 import { Timestamp } from 'firebase/firestore';
 
-type Game = {
+type Search = {
     id: string,
     country: string;
     province: string;
@@ -47,4 +47,4 @@ type Game = {
     }[];
   };
   
-  export default Game;
+  export default Search;

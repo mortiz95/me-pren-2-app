@@ -1,5 +1,5 @@
 <template>
-  <ion-card @click="goToGameInfo()">
+  <ion-card @click="goToSearchInfo()">
     <ion-card-header class="ion-no-padding ion-padding-horizontal ion-padding-top">
       <ion-grid class="ion-no-padding ion-no-margin">
         <ion-row class="ion-align-items-center">
@@ -8,18 +8,18 @@
               <div class="container-card-title">
                 <ion-icon
                   :icon="locationOutline"
-                  class="ion-margin-end game-info__icon"
+                  class="ion-margin-end search-info__icon"
                 ></ion-icon>
-                {{ gameInfo.place }}
+                {{ searchInfo.place }}
               </div>
             </ion-card-title>
             <ion-card-subtitle>
               <div class="container-card-subtitle">
                 <ion-icon
                   :icon="calendarOutline"
-                  class="ion-margin-end game-info__icon"
+                  class="ion-margin-end search-info__icon"
                 ></ion-icon>
-                {{ parseDateTimeStampToISO(gameInfo?.date) }}
+                {{ parseDateTimeStampToISO(searchInfo?.date) }}
               </div>
             </ion-card-subtitle>
           </ion-col>
@@ -35,7 +35,7 @@
           <ion-col size="3"> Creado por </ion-col>
           <ion-col>
             <ion-card-subtitle class="ion-text-capitalize">{{
-              gameInfo?.organizerInfo.fullName
+              searchInfo?.organizerInfo.fullName
             }}</ion-card-subtitle>
           </ion-col>
         </ion-row>
@@ -50,40 +50,40 @@
             </ion-badge>
 
             <ion-badge
-              v-if="Object.keys(gameInfo.size).length > 0"
+              v-if="Object.keys(searchInfo.size).length > 0"
               color="light"
               class="ion-text-center tags mr-5"
             >
-              {{ gameInfo?.size?.text }}
+              {{ searchInfo?.size?.text }}
             </ion-badge>
 
             <ion-badge
-              v-if="Object.keys(gameInfo.grassType).length > 0"
+              v-if="Object.keys(searchInfo.grassType).length > 0"
               color="light"
               class="ion-text-center tags mr-5"
             >
               <div>
-                {{ gameInfo?.grassType?.text }}
+                {{ searchInfo?.grassType?.text }}
               </div>
               <ion-icon
-                class="game-info-badge__icon"
-                v-if="gameInfo.grassType"
-                :icon="gameInfo.grassType.icon"
+                class="search-info-badge__icon"
+                v-if="searchInfo.grassType"
+                :icon="searchInfo.grassType.icon"
               ></ion-icon>
             </ion-badge>
 
             <ion-badge
-              v-if="Object.keys(gameInfo.gender).length > 0"
+              v-if="Object.keys(searchInfo.gender).length > 0"
               color="light"
               class="ion-text-center tags mr-5"
             >
               <div>
-                {{ gameInfo?.gender?.text }}
+                {{ searchInfo?.gender?.text }}
               </div>
               <ion-icon
-                class="game-info-badge__icon"
-                v-if="gameInfo.gender"
-                :icon="gameInfo.gender.icon"
+                class="search-info-badge__icon"
+                v-if="searchInfo.gender"
+                :icon="searchInfo.gender.icon"
               ></ion-icon>
             </ion-badge>
           </ion-col>
@@ -100,29 +100,29 @@ import {
   calendarOutline,
 } from "ionicons/icons";
 import { useRouter } from "vue-router";
-import { Game } from "../../types/Game";
+import { Search } from "../../types/Search";
 import useDateParser from "@/composables/date";
 
 const props = defineProps<{
-  gameInfo: Game;
+  searchInfo: Search;
 }>();
 
 const router = useRouter();
 
 const { parseDateTimeStampToISO } = useDateParser();
 
-const goToGameInfo = () => {
+const goToSearchInfo = () => {
  router.push({
-    name: "GameInfo",
-    params: { info: JSON.stringify(props.gameInfo) },
+    name: "SearchInfo",
+    params: { info: JSON.stringify(props.searchInfo) },
   }); 
 };
  
 const checkIsFull = () => {
-  return props.gameInfo
-    ? props.gameInfo.spots === props.gameInfo.usersAttending.length
+  return props.searchInfo
+    ? props.searchInfo.spots === props.searchInfo.usersAttending.length
       ? "FULL"
-      : props.gameInfo.spots + " lugares"
+      : props.searchInfo.spots + " lugares"
     : "";
 };
 </script>
@@ -138,11 +138,11 @@ ion-card-content {
   color: var(--white);
 }
 
-.game-info__icon {
+.search-info__icon {
   font-size: 20px;
 }
 
-.game-info-badge__icon {
+.search-info-badge__icon {
   margin-left: 3px;
   color: var(--dark);
 }

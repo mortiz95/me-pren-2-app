@@ -32,11 +32,11 @@
     </ion-header>
     <ion-content :fullscreen="true">
       <div v-show="!loading"  v-if="selectedTab === 'active'">
-        <div v-if="gameStore.gamesActiveByUser.length != 0">
+        <div v-if="searchStore.searchesActiveByUser.length != 0">
           <ActiveSearchItem
-            v-for="(item, index) in gameStore.gamesActiveByUser"
+            v-for="(item, index) in searchStore.searchesActiveByUser"
             :key="index"
-            :gameInfo="item"
+            :searchInfo="item"
           >
           </ActiveSearchItem>
         </div>
@@ -46,11 +46,11 @@
       </div>
 
       <div v-if="selectedTab === 'past'" >
-        <div v-if="gameStore.gamesPreviousByUser.length != 0">
+        <div v-if="searchStore.searchesPreviousByUser.length != 0">
           <ActiveSearchItem
-            v-for="(item, index) in gameStore.gamesPreviousByUser"
+            v-for="(item, index) in searchStore.searchesPreviousByUser"
             :key="index"
-            :gameInfo="item"
+            :searchInfo="item"
           >
           </ActiveSearchItem>
         </div>
@@ -85,17 +85,17 @@ import {
   onIonViewWillLeave,
 } from "@ionic/vue";
 import { ref } from "vue";
-import { useGameStore } from "../store/game";
+import { useSearchStore } from "../store/search";
 import ActiveSearchItem from "../components/Item/ActiveSearchItem.vue";
 
 const loading = ref(true);
-const gameStore = useGameStore();
+const searchStore = useSearchStore();
 const selectedTab = ref("active");
 
 onIonViewWillEnter(async () => {
-  gameStore.clearData();
-  await gameStore.loadActiveSearchesByCurrentUser();
-  await gameStore.loadPastSearchesByCurrentUser();
+  searchStore.clearData();
+  await searchStore.loadActiveSearchesByCurrentUser();
+  await searchStore.loadPastSearchesByCurrentUser();
   loading.value = false;
 });
 
@@ -103,27 +103,6 @@ onIonViewDidLeave(() => {
   loading.value = true;
 });
 
-const gameGender = [
-  { text: "Masculino", value: "M", icon: maleOutline },
-  { text: "Femenino", value: "F", icon: femaleOutline },
-  { text: "Mixto", value: "Mix", icon: maleFemaleOutline },
-];
-const gameType = [
-  { text: "Entrenamiento", value: "T", icon: barbellOutline },
-  { text: "Amistoso", value: "F", icon: bodyOutline },
-  { text: "Partido de campeonato", value: "GC", icon: trophyOutline },
-];
-const gameSize = [
-  { text: "5 VS 5", value: "5VS5" },
-  { text: "7 VS 7", value: "7VS7" },
-  { text: "8 VS 8", value: "8VS8" },
-  { text: "9 VS 9", value: "9VS9" },
-  { text: "11 VS 11", value: "5VS5" },
-];
-const gameGrassType = [
-  { text: "Cesped Sintetico", value: "CS", icon: invertMode },
-  { text: "Cesped Natural", value: "CN", icon: leafOutline },
-];
 </script>
 
 <style scoped>
