@@ -1,112 +1,133 @@
 <template>
-    <ion-card>
-      <ion-card-header>
-        <ion-grid class="ion-no-padding ion-no-margin">
-          <ion-row>
-            <ion-col size="10">
-              <ion-card-title>
-                <div class="container-card-title">
-                  <ion-icon :icon="locationOutline" class="ion-margin-end search-info__icon"></ion-icon> {{ searchInfo.place }}
-                </div>
-              </ion-card-title>
-              <ion-card-subtitle>
-                <div class="container-card-subtitle">
-                 <ion-icon :icon="calendarOutline" class="ion-margin-end search-info__icon"></ion-icon>
-                 {{ parseDateTimeStampToISO(searchInfo?.date) }}
-                </div>
-                <div class="container-card-subtitle">
-                 <ion-icon :icon="ticketOutline" class="ion-margin-end search-info__icon"></ion-icon>
-                 {{checkIsFull() }}  
-                </div>
-              </ion-card-subtitle>
-            </ion-col>
-            <ion-col size="2">
-              <ion-icon class="ion-float-end" :icon="trashOutline"></ion-icon>
-            </ion-col>
-          </ion-row>
-        </ion-grid>
-      </ion-card-header>
-      <ion-card-content >
-        <div v-if="showAllInfo">
-            <ion-grid class="ion-no-padding">
-              <ion-row>
-                <ion-col size="1">
-                 <ion-icon class="search-info__icon" :icon="informationCircleOutline"></ion-icon> 
-                </ion-col>
-                <ion-col size="11">
-                  <ion-row>
-                    <ion-col size="auto"> Lugares totales: {{ searchInfo?.spots }} </ion-col>
-                    <ion-col size="auto"> 
-                      <span class="ml-5"> / </span> {{ searchInfo?.size?.text }} </ion-col>
-                    <ion-col size="auto"> 
-                      <span class="ml-5"> / </span>  {{ searchInfo?.gender?.text }} <ion-icon class="search-info-badge__icon " v-if="searchInfo.gender" :icon="searchInfo.gender.icon"></ion-icon>
-                    </ion-col>
-                  </ion-row>
+  <ion-card >
+    <ion-card-header class="ion-no-padding ion-padding-horizontal ion-padding-top">
+      <ion-grid class="ion-no-padding ion-no-margin">
+        <ion-row class="ion-align-items-center">
+          <ion-col size="10">
+            <ion-card-title>
+              <div class="container-card-title">
+                <ion-icon
+                  :icon="locationOutline"
+                  class="ion-margin-end search-info__icon"
+                ></ion-icon>
+                {{ nextGameInfo.search.place }}
+              </div>
+            </ion-card-title>
+            <ion-card-subtitle>
+              <div class="container-card-subtitle">
+                <ion-icon
+                  :icon="calendarOutline"
+                  class="ion-margin-end search-info__icon"
+                ></ion-icon>
+                {{ searchDateParsed }}
+               <!--  {{ parseDateTimeStampToISO(nextGameInfo?.search.date) }} -->
+              </div>
+            </ion-card-subtitle>
+          </ion-col>
+          <ion-col>
+            <ion-icon class="ion-float-end" :icon="chevronForward"></ion-icon>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-grid class="ion-no-padding">
+        <ion-row class="ion-margin-top">
+          <ion-col size="3"> Creado por </ion-col>
+          <ion-col>
+            <ion-card-subtitle class="ion-text-capitalize">{{
+              nextGameInfo?.search.organizerInfo.fullName
+            }}</ion-card-subtitle>
+          </ion-col>
+        </ion-row>
+        <ion-row class="ion-margin-top">
+          <ion-col size="3"> Info </ion-col>
+          <ion-col>
+            <ion-badge
+              :color="checkIsFull() === 'FULL' ? 'danger' : 'warning'"
+              class="tags mr-5"
+            >
+              {{ checkIsFull() }}
+            </ion-badge>
 
-                </ion-col>
-              </ion-row>
-              <ion-row>
-                <ion-col size="1">
-                 <ion-icon class="search-info__icon" :icon="peopleOutline"></ion-icon> 
-                </ion-col>
-                <ion-col size="11">
-                  <ion-row>
-                    <ion-col 
-                      size="12"
-                      v-if="searchInfo.usersAttending.length > 0" 
-                      >
-                      <div     
-                        v-for="(item, index) in searchInfo.usersAttending"
-                       :key="index">
-                      </div>
-                    </ion-col>
-                    <ion-col v-else size="12">
-                      <div>No hay jugadores anotados</div>
-                    </ion-col>
-                  </ion-row>
-                </ion-col>
-              </ion-row>
-          </ion-grid>
-        </div>
-        <div>
-          <ion-grid class="ion-no-padding mt-5">
-            <ion-row>
-              <ion-col class="ion-text-center">
-                <div v-if="!showAllInfo"   @click="showAllInfo = !showAllInfo">Ver mas</div>
-                <div v-else  @click="showAllInfo = !showAllInfo" >Ver menos</div>
-              </ion-col>
-            </ion-row>
-          </ion-grid>
-        </div>
-      </ion-card-content>
-    </ion-card>
-  </template>
-    
+            <ion-badge
+              v-if="Object.keys(nextGameInfo?.search.size).length > 0"
+              color="light"
+              class="ion-text-center tags mr-5"
+            >
+              {{ nextGameInfo?.search?.size?.text }}
+            </ion-badge>
+
+            <ion-badge
+              v-if="Object.keys(nextGameInfo?.search.grassType).length > 0"
+              color="light"
+              class="ion-text-center tags mr-5"
+            >
+              <div>
+                {{ nextGameInfo?.search?.grassType?.text }}
+              </div>
+              <ion-icon
+                class="search-info-badge__icon"
+                v-if="nextGameInfo?.search.grassType"
+                :icon="nextGameInfo?.search.grassType.icon"
+              ></ion-icon>
+            </ion-badge>
+
+            <ion-badge
+              v-if="Object.keys(nextGameInfo?.search.gender).length > 0"
+              color="light"
+              class="ion-text-center tags mr-5"
+            >
+              <div>
+                {{ nextGameInfo?.search?.gender?.text }}
+              </div>
+              <ion-icon
+                class="search-info-badge__icon"
+                v-if="nextGameInfo?.search.gender"
+                :icon="nextGameInfo?.search.gender.icon"
+              ></ion-icon>
+            </ion-badge>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-card-content>
+  </ion-card>
+</template>
+  
     <script setup lang="ts">
   import { chevronForward, locationOutline, calendarOutline, pencilOutline, trashOutline, informationCircleOutline, ticketOutline, peopleOutline } from "ionicons/icons";
   import { useRouter } from 'vue-router';
-  import { Search } from '../../types/Search'
   import useDateParser from "@/composables/date";
-  import { ref } from "vue";
-import { useSearchStore } from "@/store/search";
+  import { computed, ref } from "vue";
+  import  Historical from "@/types/Historical";
+import { Timestamp } from "firebase/firestore";
 
+  const { parseDateTimeStampToISO } = useDateParser();
   
   const props = defineProps<{
-    searchInfo: Search;
+    nextGameInfo: Historical;
   }>();
-  
-  const router =  useRouter();
-  
-  const {
-    parseDateTimeStampToISO
-  } = useDateParser();
 
-  const showAllInfo  = ref(false);
-    
-  const checkIsFull = ()  => {
-   return props.searchInfo ? (props.searchInfo.spots === props.searchInfo.usersAttending.length ? 'FULL' : 'Disponibles: '  + props.searchInfo.spots) : ''
-  }
-  
+  console.log(props.nextGameInfo)
+
+
+const searchDateParsed = computed(() => {
+  const firestoreTimestamp = new Timestamp(
+    props.nextGameInfo.search.date.seconds,
+    props.nextGameInfo.search.date.nanoseconds
+  );
+  return parseDateTimeStampToISO(firestoreTimestamp);
+});
+
+
+  const checkIsFull = () => {
+  return props.nextGameInfo
+    ? props.nextGameInfo.search.spots === props.nextGameInfo.search.usersAttending.length
+      ? "FULL"
+      : props.nextGameInfo.search.spots + " lugares"
+    : "";
+};
+
   </script>
   
     <style scoped>

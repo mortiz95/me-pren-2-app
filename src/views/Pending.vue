@@ -16,12 +16,12 @@
       </ion-toolbar>
     </ion-header>
     <ion-content :fullscreen="true">
-<!--       <div v-show="!loading">
+      <div v-show="!loading">
         <div v-if="userStore.myNextGames.length > 0">
           <PendingItem
             v-for="(item, index) in userStore.myNextGames"
             :key="index"
-            :searchInfo="item"
+            :nextGameInfo="item"
           >
           </PendingItem>
         </div>
@@ -32,7 +32,7 @@
 
       <div v-show="loading" class="loading">
         <ion-spinner></ion-spinner>
-      </div> -->
+      </div> 
     </ion-content>
   </ion-page>
 </template>

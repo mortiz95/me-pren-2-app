@@ -160,6 +160,8 @@ const searchDateParsed = computed(() => {
 const joinSearch = () => {
   showInfo.value = false;
   searchStore.addPlayerToSearch(searchInfo.id)
+  userStore.addSearchToMySearchedAttended(searchInfo) //Historical
+
 };
 
 const myUserName = computed(() => {

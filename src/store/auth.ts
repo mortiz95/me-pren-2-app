@@ -25,8 +25,7 @@ export const useAuthStore = defineStore('auth', {
           city: '',
           age: 30,
           registerDate: Timestamp.now(),
-          createdSearches: [],
-          attendedSearches:  [],
+          attendedSearches: [],
           ownerField: false,
           subscriptionType: 1,
           rating: [],
@@ -37,7 +36,7 @@ export const useAuthStore = defineStore('auth', {
          this.isLoggedIn = true;
          await setDoc(doc(db, "users", userCredential.user.uid), userInfo);
          const store = useUserStore();
-         await store.loadMyUserInfo(auth!.currentUser!.uid)
+         await store.loadMyUserInfo()
          this.error = null
        })
        .catch((error) => {
@@ -57,7 +56,7 @@ export const useAuthStore = defineStore('auth', {
             this.isLoggedIn = true;
              this.error = null
              const store = useUserStore();
-             await store.loadMyUserInfo(auth!.currentUser!.uid)
+             await store.loadMyUserInfo()
             // ...
           })
           .catch((error) => {

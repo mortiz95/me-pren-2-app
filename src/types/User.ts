@@ -1,4 +1,5 @@
 import { Timestamp } from 'firebase/firestore';
+import Historical from '@/types/Historical'
 
 type User = {
     id: string,
@@ -10,13 +11,7 @@ type User = {
     city: string;
     age: number;
     registerDate: Timestamp;
-    createdSearches: {
-      searchId: string;
-      searchDate: string;
-    }[];
-    attendedSearches: {
-      searchId: string;
-    }[];
+    attendedSearches: Historical[];
     ownerField: boolean;
     subscriptionType: number;
     rating:  {
