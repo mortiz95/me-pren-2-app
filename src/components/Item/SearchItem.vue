@@ -1,6 +1,8 @@
 <template>
   <ion-card @click="goToSearchInfo()">
-    <ion-card-header class="ion-no-padding ion-padding-horizontal ion-padding-top">
+    <ion-card-header
+      class="ion-no-padding ion-padding-horizontal ion-padding-top"
+    >
       <ion-grid class="ion-no-padding ion-no-margin">
         <ion-row class="ion-align-items-center">
           <ion-col size="10">
@@ -8,7 +10,7 @@
               <div class="container-card-title ion-text-uppercase">
                 <ion-icon
                   :icon="locationOutline"
-                  class="ion-margin-end search-info__icon "
+                  class="ion-margin-end search-info__icon"
                 ></ion-icon>
                 {{ searchInfo.place }}
               </div>
@@ -20,6 +22,15 @@
                   class="ion-margin-end search-info__icon"
                 ></ion-icon>
                 {{ parseDateTimeStampToISO(searchInfo?.date) }}
+              </div>
+            </ion-card-subtitle>
+            <ion-card-subtitle v-show="checkIfParticipating">
+              <div class="container-card-subtitle">
+                <ion-icon
+                  :icon="happyOutline"
+                  class="ion-margin-end search-info__icon"
+                ></ion-icon>
+               <ion-chip>{{ checkIfParticipating ? "Ya te has unido" : "" }}</ion-chip> 
               </div>
             </ion-card-subtitle>
           </ion-col>
@@ -98,32 +109,35 @@ import {
   chevronForward,
   locationOutline,
   calendarOutline,
+  happyOutline
 } from "ionicons/icons";
 import { useRouter } from "vue-router";
 import { Search } from "../../types/Search";
+import { db, auth } from "@/firebase";
 import useDateParser from "@/composables/date";
+import { computed } from "vue";
 
 const props = defineProps<{
   searchInfo: Search;
 }>();
 
-console.log(props.searchInfo)
+console.log(props.searchInfo);
 const router = useRouter();
 
 const { parseDateTimeStampToISO } = useDateParser();
 
 const goToSearchInfo = () => {
- router.push({
+  router.push({
     name: "SearchInfo",
-    params: { 
-    info: JSON.stringify(props.searchInfo)
+    params: {
+      info: JSON.stringify(props.searchInfo),
     },
-    query: { 
-    comeFromPending: 'no' 
-  }
-  }); 
+    query: {
+      comeFromPending: "no",
+    },
+  });
 };
- 
+
 const checkIsFull = () => {
   return props.searchInfo
     ? props.searchInfo.spots === props.searchInfo.usersAttending.length
@@ -131,9 +145,31 @@ const checkIsFull = () => {
       : props.searchInfo.spots + " lugares"
     : "";
 };
+
+const checkIfParticipating = computed(() => {
+  const usersAttending = props.searchInfo.usersIdAttending;
+  // Verifica si usersAttending está definido y no es nulo
+  if (usersAttending) {
+    // Convierte usersAttending en un array
+    const array = Array.isArray(usersAttending)
+      ? usersAttending
+      : [usersAttending];
+    // Verifica si el array incluye el ID del usuario actual
+    const isParticipating = array.includes(auth!.currentUser!.uid);
+    return isParticipating;
+  }
+  // Devuelve false si usersAttending es indefinido o nulo
+  return false;
+});
 </script>
 
   <style scoped>
+
+ion-chip {
+    --background: #00213f;
+    --color: #adefd1;
+  }
+  
 ion-card {
   background: transparent;
 }
