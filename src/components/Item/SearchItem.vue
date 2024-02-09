@@ -5,10 +5,10 @@
         <ion-row class="ion-align-items-center">
           <ion-col size="10">
             <ion-card-title>
-              <div class="container-card-title">
+              <div class="container-card-title ion-text-uppercase">
                 <ion-icon
                   :icon="locationOutline"
-                  class="ion-margin-end search-info__icon ion-text-capitalize"
+                  class="ion-margin-end search-info__icon "
                 ></ion-icon>
                 {{ searchInfo.place }}
               </div>
@@ -115,7 +115,12 @@ const { parseDateTimeStampToISO } = useDateParser();
 const goToSearchInfo = () => {
  router.push({
     name: "SearchInfo",
-    params: { info: JSON.stringify(props.searchInfo) },
+    params: { 
+    info: JSON.stringify(props.searchInfo)
+    },
+    query: { 
+    comeFromPending: 'no' 
+  }
   }); 
 };
  

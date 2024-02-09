@@ -33,7 +33,7 @@
           <div>
             <ion-row>
               <ion-col size="10">
-                <h1 class="ion-text-capitalize">
+                <h1 class="ion-text-uppercase">
                   {{ searchInfo.province }}, {{ searchInfo.city }}
                 </h1>
               </ion-col>
@@ -118,7 +118,7 @@
                 @click="goToConfirmReservation()"
                 color="warning"
                 expand="full"
-                >Unirse</ion-button
+                >{{ buttonTitle }}</ion-button
               >
             </ion-col>
           </ion-row>
@@ -189,8 +189,11 @@ const loading = ref(true);
 const selectedTab = ref("info");
 
 //Param info
-const routeParam: any = route?.params?.info;
-const searchInfo: Search = JSON.parse(routeParam);
+const routeParamInfo: any = route?.params?.info;
+const searchInfo: Search = JSON.parse(routeParamInfo);
+
+//Param fromWhereCome
+const comeFromPending = route?.query?.comeFromPending;
 
 const { parseDateTimeStampToISO } = useDateParser();
 
@@ -201,6 +204,11 @@ const searchDateParsed = computed(() => {
   );
   return parseDateTimeStampToISO(firestoreTimestamp);
 });
+
+const buttonTitle = computed(() => {
+  return (comeFromPending === 'yes' ? 'DARSE DE BAJA' : 'UNIRSE')
+});
+
 
 const searchSize = computed(() => {
   return [searchInfo.size];

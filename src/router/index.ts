@@ -67,6 +67,15 @@ const routes: Array<RouteRecordRaw> = [
         }
       },
       {
+        path: 'tab4/:info',
+        name: 'NextGameInfo',
+        component: () => import('@/views/SearchInfo.vue'),
+        props: true,
+        meta: {
+          requiresAuth: true,
+        },
+      },
+      {
         path: 'tab5',
         component: () => import('@/views/Profile.vue'),
         meta: {
