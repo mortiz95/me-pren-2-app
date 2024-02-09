@@ -8,7 +8,7 @@
               <div class="container-card-title">
                 <ion-icon
                   :icon="locationOutline"
-                  class="ion-margin-end search-info__icon"
+                  class="ion-margin-end search-info__icon ion-text-capitalize"
                 ></ion-icon>
                 {{ searchInfo.place }}
               </div>

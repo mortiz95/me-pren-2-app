@@ -6,7 +6,7 @@
             <ion-col size="10">
               <ion-card-title>
                 <div class="container-card-title">
-                  <ion-icon :icon="locationOutline" class="ion-margin-end search-info__icon"></ion-icon> {{ searchInfo.place }}
+                  <ion-icon :icon="locationOutline" class="ion-margin-end search-info__icon ion-text-capitalize"></ion-icon> {{ searchInfo.place }}
                 </div>
               </ion-card-title>
               <ion-card-subtitle>
@@ -75,7 +75,7 @@
           <ion-grid class="ion-no-padding mt-5">
             <ion-row>
               <ion-col class="ion-text-center">
-                <div v-if="!showAllInfo"   @click="showAllInfo = !showAllInfo">Ver mas</div>
+                <div v-if="!showAllInfo" @click="showAllInfo = !showAllInfo">Ver mas</div>
                 <div v-else  @click="showAllInfo = !showAllInfo" >Ver menos</div>
               </ion-col>
             </ion-row>
