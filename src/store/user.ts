@@ -42,45 +42,6 @@ export const useUserStore = defineStore("user", {
       }
     },
 
-    async loadMyUserInfo() {
-      try {
-        const docRef = doc(db, "users", auth!.currentUser!.uid);
-        const docSnap = await getDoc(docRef);
-        console.log("myUserInfo()", docSnap.data());
-        if (docSnap.exists()) {
-          const userData = docSnap.data() as User;
-          userData.id = docSnap.id; // Add user ID to my user data
-          this.myUserInfo = userData as User;
-        }
-      } catch (error: any) {
-        console.error("Error loading my user info:", error.message);
-      }
-    },
-
-    async addSearchToMySearchedAttended(searchId: string) {
-      try {
-      
-       // Get updated doc with users attending ids
-        const docRef = doc(db, "searches", searchId);
-        const docSnap = await getDoc(docRef);
-  
-        const searchDocRef = doc(db, "users", auth!.currentUser!.uid);
-
-        await updateDoc(searchDocRef, {
-          attendedSearches: arrayUnion({
-            search: docSnap.data(),
-            status: "pending", //Pending, Completed, Failed
-            userGone: false,
-            starsRating: 0,
-          }),
-        });
-
-        await this.loadMyNextGames();
-      } catch (error: any) {
-        console.error("Error loading adding to historical:", error.message);
-      }
-    },
-
     async loadMyNextGames() {
       try {
         this.myNextGames = [];
@@ -100,7 +61,60 @@ export const useUserStore = defineStore("user", {
       }
     },
 
-    removeUser() {},
+
+    async loadMyUserInfo() {
+      try {
+        const docRef = doc(db, "users", auth!.currentUser!.uid);
+        const docSnap = await getDoc(docRef);
+        console.log("myUserInfo()", docSnap.data());
+        if (docSnap.exists()) {
+          const userData = docSnap.data() as User;
+          userData.id = docSnap.id; // Add user ID to my user data
+          this.myUserInfo = userData as User;
+        }
+      } catch (error: any) {
+        console.error("Error loading my user info:", error.message);
+      }
+    },
+
+    async addSearchToMySearchesAttended(searchId: string) {
+      try {
+       // Get updated doc with users attending ids
+        const docRef = doc(db, "searches", searchId);
+        const docSnap = await getDoc(docRef);
+  
+        const searchDocRef = doc(db, "users", auth!.currentUser!.uid);
+
+        await updateDoc(searchDocRef, {
+          attendedSearches: arrayUnion({
+            search: docSnap.data(),
+            searchId: searchId,
+            status: "pending", //Pending, Completed, Failed
+            userGone: false,
+            starsRating: 0,
+          }),
+        });
+
+        await this.loadMyNextGames();
+      } catch (error: any) {
+        console.error("Error loading adding to historical:", error.message);
+      }
+    },
+
+    async removeSearchFromMySearchedAttended(searchId: string) {
+      const searchDocRef = doc(db, "users", auth!.currentUser!.uid);
+      const docSnap = await getDoc(searchDocRef);
+      if (docSnap.exists()) {
+        const attendedSearches = docSnap.data().attendedSearches || []; // Ensure attendedSearches is an array
+        const filteredSearchesArray = attendedSearches.filter((item: any) => item.searchId !== searchId);
+      
+        await updateDoc(searchDocRef, {
+          attendedSearches: filteredSearchesArray
+        });
+      
+      }
+    },
+
     updateUser() {},
   },
 });

@@ -54,7 +54,7 @@
               <ion-col size="2">
                 <ion-icon :icon="calendarOutline"></ion-icon>
               </ion-col>
-              <ion-col size="10">
+              <ion-col size="10" class="ion-text-capitalize">
                 {{ searchDateParsed }}
               </ion-col>
             </ion-row>
@@ -84,13 +84,13 @@
               <ion-row class="ion-align-items-center">
                 <ion-col size="4">Info del evento: </ion-col>
                 <ion-col size="8">
-                  <Tags :tags="searchSize"> </Tags>
+                  <Tags v-if="Object.keys(searchInfo.size).length > 0" :tags="searchSize"> </Tags>
 
-                  <Tags :tags="searchType"> </Tags>
+                  <Tags v-if="Object.keys(searchInfo.type).length > 0" :tags="searchType"> </Tags>
 
-                  <Tags :tags="searchGender"> </Tags>
+                  <Tags v-if="Object.keys(searchInfo.gender).length > 0" :tags="searchGender"> </Tags>
 
-                  <Tags :tags="searchGrassType"> </Tags>
+                  <Tags v-if="Object.keys(searchInfo.grassType).length > 0" :tags="searchGrassType"> </Tags>
                 </ion-col>
               </ion-row>
             </div>
@@ -115,7 +115,7 @@
           <ion-row style="flex: 1; align-items: flex-end">
             <ion-col size="12">
               <ion-button
-                @click="goToConfirmReservation()"
+                @click="goToConfirmReservationOrUnsubscribe()"
                 color="warning"
                 expand="full"
                 >{{ buttonTitle }}</ion-button
@@ -154,7 +154,7 @@
           <ion-row style="flex: 1; align-items: flex-end">
             <ion-col size="12">
               <ion-button
-                @click="goToConfirmReservation()"
+                @click="goToConfirmReservationOrUnsubscribe()"
                 color="warning"
                 expand="full"
                 >{{ buttonTitle }}</ion-button
@@ -186,15 +186,23 @@ import {
   openOutline,
   accessibilityOutline
 } from "ionicons/icons";
+
 import { computed, ref } from "vue";
 import { useRouter, useRoute } from "vue-router";
+
 import Search from "../types/Search";
+
 import useDateParser from "@/composables/date";
+
 import { Timestamp } from "firebase/firestore";
+import { auth } from "@/firebase";
+import { useUserStore } from "@/store/user";
+
 import Tags from "@/components/Tags/Tags.vue";
 import ProgressBar from "../components/Progress-bar/ProgressBar.vue";
 import PlayerItem from "../components/Item/PlayerItem.vue"
-import { auth } from "@/firebase";
+
+import { useSearchStore } from "@/store/search";
 
 const router = useRouter();
 const route = useRoute();
@@ -206,6 +214,8 @@ const routeParamInfo: any = route?.params?.info;
 const searchInfo: Search = JSON.parse(routeParamInfo);
 
 const { parseDateTimeStampToISO } = useDateParser();
+const userStore = useUserStore();
+const searchStore = useSearchStore();
 
 const searchDateParsed = computed(() => {
   const firestoreTimestamp = new Timestamp(
@@ -217,16 +227,6 @@ const searchDateParsed = computed(() => {
 
 const buttonTitle = computed(() => {
   return (checkIfParticipating.value === true ? 'DARSE DE BAJA' : 'UNIRSE')
-});
-
-const checkIfParticipating = computed(() => {
-  const usersAttending: any = searchInfo.usersIdAttending;
-  // Verifica si usersAttending está definido y no es nulo
-  if (usersAttending) {
-    const isParticipating = usersAttending.includes(auth!.currentUser!.uid);
-    return isParticipating;
-  }
-  return false;
 });
 
 const searchSize = computed(() => {
@@ -252,9 +252,7 @@ const getSpotsAvailable = computed(() => {
   else {
     return searchInfo.spots
   }
-
 });
-
 
 const checkIsFull = computed(() => {
   return searchInfo
@@ -264,9 +262,23 @@ const checkIsFull = computed(() => {
     : "";
 });
 
-const goToConfirmReservation = () => {
+const goToConfirmReservationOrUnsubscribe =  async () => {
+  if(checkIfParticipating.value){
+    await userStore.removeSearchFromMySearchedAttended(searchInfo.id);
+    await searchStore.removeMeFromSearch(searchInfo.id)
+    console.log("Se ha eliminado de mis buscadas");
+  } else
   router.push({ name: "ConfirmReservation" });
 };
+
+const checkIfParticipating = computed(() => {
+  const usersAttending: any = searchInfo.usersIdAttending || [];
+  if (usersAttending) {
+    const isParticipating = usersAttending.includes(auth!.currentUser!.uid);
+    return isParticipating;
+  }
+  return false;
+});
 
 const goBack = () => {
   router.back();

@@ -15,9 +15,9 @@
                       ></ion-icon>
                     </ion-col>
                     <ion-col size="9">
-                      <h4 class="ion-no-margin ion-text-uppercase">
+                      <h3 class="ion-no-margin ion-text-uppercase">
                         {{ nextGameInfo.search.place }}
-                      </h4>
+                      </h3>
                     </ion-col>
                     <ion-col size="1">
                       <ion-icon class="ion-float-end" :icon="chevronForward"></ion-icon>
@@ -31,7 +31,7 @@
                       ></ion-icon>
                     </ion-col>
                     <ion-col>
-                      <h6 class="ion-no-margin">{{ searchDateParsed }}</h6>
+                      <h5 class="ion-no-margin">{{ searchDateParsed }}</h5>
                     </ion-col>
                   </ion-row>
                   <ion-row class="ion-align-items-center">
@@ -42,12 +42,12 @@
                       ></ion-icon>
                     </ion-col>
                     <ion-col>
-                      <h6
+                      <h5
                         class="ion-no-margin ion-text-capitalize"
                         style="{status}"
                       >
                         {{ status }}
-                      </h6>
+                      </h5>
                     </ion-col>
                   </ion-row>
                   <ion-row class="ion-align-items-center">
@@ -58,21 +58,20 @@
                       ></ion-icon>
                     </ion-col>
                     <ion-col>
-                      <p class="ion-no-margin">
-                        Lugares totales:
-                        {{ nextGameInfo.search?.spots }} &nbsp;/ &nbsp;{{
+                      <h6 class="ion-no-margin">
+                       {{
                           nextGameInfo.search?.size?.text
                         }}&nbsp;/&nbsp;
                         {{ nextGameInfo.search?.gender?.text }}&nbsp;/&nbsp;
                         {{
                           nextGameInfo.search?.grassType?.text
                         }}&nbsp;/&nbsp;{{ nextGameInfo.search?.type?.text }}
-                      </p>
+                      </h6>
                     </ion-col>
                   </ion-row>
                   <ion-row class="ion-align-items-center ion-margin-top">
                     <ion-col size="12" class="ion-text-center">
-                      <u >Darse de baja</u>
+                      <u @click="removeUserFromSearch()">Darse de baja</u>
                     </ion-col>
                   </ion-row>
                 </ion-grid>
@@ -104,11 +103,14 @@ import useDateParser from "@/composables/date";
 import { computed, ref } from "vue";
 import Historical from "@/types/Historical";
 import { Timestamp } from "firebase/firestore";
+import { useUserStore } from "@/store/user";
+import { useSearchStore } from "@/store/search";
 
 const { parseDateTimeStampToISO } = useDateParser();
 
 const router = useRouter();
-
+const userStore = useUserStore();
+const searchStore = useSearchStore();
 
 const props = defineProps<{
   nextGameInfo: Historical;
@@ -134,6 +136,12 @@ const status = computed(() => {
     }
   }); 
 };
+
+const removeUserFromSearch = async () => {
+  await userStore.removeSearchFromMySearchedAttended(props.nextGameInfo.search.id) 
+  await searchStore.removeMeFromSearch(props.nextGameInfo.search.id) 
+  console.log("Se ha eliminado de mis buscadas");
+}
  
 </script>
   
@@ -153,7 +161,7 @@ ion-card-subtitle {
 }
 
 u {
-  font-size: 14px !important;
+  font-size: 16px !important;
   color: var(--red);
 }
 </style>

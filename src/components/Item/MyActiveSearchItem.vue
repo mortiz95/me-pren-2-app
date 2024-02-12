@@ -102,7 +102,6 @@
   const props = defineProps<{
     searchInfo: Search;
   }>();
-  console.log(props.searchInfo)
   
   const router =  useRouter();
   

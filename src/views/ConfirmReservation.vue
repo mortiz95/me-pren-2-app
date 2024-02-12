@@ -160,7 +160,7 @@ const searchDateParsed = computed(() => {
 const joinSearch = async () => {
   showInfo.value = false;
   await searchStore.addPlayerToSearch(searchInfo.id)
-  await userStore.addSearchToMySearchedAttended(searchInfo.id) //Historical
+  await userStore.addSearchToMySearchesAttended(searchInfo.id) //Historical
 
 };
 

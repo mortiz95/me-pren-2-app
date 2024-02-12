@@ -165,7 +165,7 @@
                 Agrega informacion extra a tu partido:</ion-text
               >
 
-              <ion-grid class="ion-padding-vertical ion-no-padding">
+              <ion-grid class="ion-padding-top ion-no-padding">
                 <ion-row class="ion-margin-bottom">
                   <ion-col>
                     <Tags :tags="searchGender" @tagClicked="saveTagSearchGender">
@@ -189,7 +189,6 @@
                 </ion-row>
                 <ion-row
                   v-if="search.sport === 'futbol'"
-                  class="ion-margin-bottom"
                 >
                   <ion-col>
                     <Tags
@@ -202,7 +201,7 @@
               </ion-grid>
             </ion-item>
 
-            <div class="ion-margin-start ion-margin-top">
+            <div class="ion-margin-start">
               <ion-textarea
                 v-model="search.description"
                 class="custom"
@@ -295,9 +294,7 @@ const currentDateFormattedDate_ISO_8601 = format(
   "yyyy-MM-dd'T'HH:mm:ssXXX"
 ); // ISO 8601 format
 
-const selectedDateTimeParsed = ref(
-  parseDate(currentDateFormattedDate_ISO_8601)
-);
+const selectedDateTimeParsed = ref();
 
 const store = useSearchStore();
 const userStore = useUserStore();

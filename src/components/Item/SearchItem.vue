@@ -16,7 +16,7 @@
               </div>
             </ion-card-title>
             <ion-card-subtitle>
-              <div class="container-card-subtitle">
+              <div class="container-card-subtitle ion-text-capitalize">
                 <ion-icon
                   :icon="calendarOutline"
                   class="ion-margin-end search-info__icon"
@@ -66,7 +66,7 @@
 
             <ion-badge
               v-if="Object.keys(searchInfo.size).length > 0"
-              color="light"
+              color="dark"
               class="ion-text-center tags mr-5"
             >
               {{ searchInfo?.size?.text }}
@@ -74,7 +74,7 @@
 
             <ion-badge
               v-if="Object.keys(searchInfo.grassType).length > 0"
-              color="light"
+              color="dark"
               class="ion-text-center tags mr-5"
             >
               <div>
@@ -89,7 +89,7 @@
 
             <ion-badge
               v-if="Object.keys(searchInfo.gender).length > 0"
-              color="light"
+              color="dark"
               class="ion-text-center tags mr-5"
             >
               <div>
@@ -99,6 +99,21 @@
                 class="search-info-badge__icon"
                 v-if="searchInfo.gender"
                 :icon="searchInfo.gender.icon"
+              ></ion-icon>
+            </ion-badge>
+
+            <ion-badge
+              v-if="Object.keys(searchInfo.type).length > 0"
+              color="dark"
+              class="ion-text-center tags mr-5"
+            >
+              <div>
+                {{ searchInfo?.type?.text }}
+              </div>
+              <ion-icon
+                class="search-info-badge__icon"
+                v-if="searchInfo.type"
+                :icon="searchInfo.type.icon"
               ></ion-icon>
             </ion-badge>
           </ion-col>

@@ -126,7 +126,6 @@ export const useSearchStore = defineStore('search', {
       this.searches = []
       this.myActiveSearches = []
       this.myPastSearches = []
-
     },
 
     async addPlayerToSearch(searchId: any) {
@@ -154,16 +153,26 @@ export const useSearchStore = defineStore('search', {
     async removeMeFromSearch(searchId: any) {
       try {
 
-       const searchRef = doc(db, "searches", searchId);
+       const searchDocRef = doc(db, "searches", searchId);
+       const docSnap = await getDoc(searchDocRef);
 
-       await updateDoc(searchRef, {
-        usersAttending: arrayRemove({
-          id: userStore.myUserInfo.id,
-          name: userStore.myUserInfo.name,
-          lastName : userStore.myUserInfo.lastName,
-        }) 
-       });
-       
+       // usersAttending
+       if (docSnap.exists()) {
+        debugger
+         const usersAttending = docSnap.data().usersAttending || []; // Ensure attendedSearches is an array
+         const filteredUsersAttendingArray = usersAttending.filter((item: any) => item.id !== auth!.currentUser!.uid);
+         await updateDoc(searchDocRef, {
+          usersAttending: filteredUsersAttendingArray
+         });
+        }
+
+       // usersIdAttending
+       if (docSnap.exists()) {
+         await updateDoc(searchDocRef, {
+          usersIdAttending: arrayRemove(auth!.currentUser!.uid)
+         });
+       }
+
       } catch (error: any) {
         console.error('Error removing search:', error.message);
       }
