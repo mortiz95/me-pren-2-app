@@ -15,8 +15,8 @@
                  {{ parseDateTimeStampToISO(searchInfo?.date) }}
                 </div>
                 <div class="container-card-subtitle">
-                 <ion-icon :icon="ticketOutline" class="ion-margin-end search-info__icon"></ion-icon>
-                 {{checkIsFull() }}  
+                  <ion-icon :icon="ticketOutline" class="ion-margin-end search-info__icon"></ion-icon>
+                  Total:  {{ searchInfo.spots }} / {{checkIsFull() }} 
                 </div>
               </ion-card-subtitle>
             </ion-col>
@@ -38,11 +38,17 @@
                 </ion-col>
                 <ion-col size="11">
                   <ion-row>
-                    <ion-col size="auto"> Lugares totales: {{ searchInfo?.spots }} </ion-col>
-                    <ion-col size="auto"> 
-                      <span class="ml-5"> / </span> {{ searchInfo?.size?.text }} </ion-col>
-                    <ion-col size="auto"> 
-                      <span class="ml-5"> / </span>  {{ searchInfo?.gender?.text }} <ion-icon class="search-info-badge__icon " v-if="searchInfo.gender" :icon="searchInfo.gender.icon"></ion-icon>
+                    <ion-col size="auto" v-if="searchInfo.size.text"> 
+                      {{ searchInfo?.size?.text }} 
+                    </ion-col>
+                    <ion-col size="auto" v-if="searchInfo.gender.text" > 
+                      <span class="ml-5"> / </span>  {{ searchInfo?.gender?.text }} <ion-icon class="search-info-badge__icon" :icon="searchInfo.gender.icon"></ion-icon>
+                    </ion-col>
+                    <ion-col size="auto" v-if="searchInfo.type.text"> 
+                      <span class="ml-5"> / </span>  {{ searchInfo?.type?.text }} <ion-icon class="search-info-badge__icon" :icon="searchInfo.type.icon"></ion-icon>
+                    </ion-col>
+                    <ion-col size="auto" v-if="searchInfo.grassType.text" > 
+                      <span class="ml-5"> / </span>  {{ searchInfo?.grassType?.text }} <ion-icon class="search-info-badge__icon" :icon="searchInfo.grassType.icon"></ion-icon>
                     </ion-col>
                   </ion-row>
 
@@ -96,6 +102,7 @@
   const props = defineProps<{
     searchInfo: Search;
   }>();
+  console.log(props.searchInfo)
   
   const router =  useRouter();
   

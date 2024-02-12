@@ -6,7 +6,7 @@
           <ion-col size="auto">
             <ion-card-title>
               <div>
-                <ion-grid>
+                <ion-grid class="ion-no-padding">
                   <ion-row class="ion-align-items-center">
                     <ion-col size="2">
                       <ion-icon
@@ -14,12 +14,12 @@
                         class="search-info__icon"
                       ></ion-icon>
                     </ion-col>
-                    <ion-col>
-                      <h3 class="ion-no-margin ion-text-uppercase">
+                    <ion-col size="9">
+                      <h4 class="ion-no-margin ion-text-uppercase">
                         {{ nextGameInfo.search.place }}
-                      </h3>
+                      </h4>
                     </ion-col>
-                    <ion-col>
+                    <ion-col size="1">
                       <ion-icon class="ion-float-end" :icon="chevronForward"></ion-icon>
                     </ion-col>
                   </ion-row>
@@ -31,7 +31,7 @@
                       ></ion-icon>
                     </ion-col>
                     <ion-col>
-                      <h5 class="ion-no-margin">{{ searchDateParsed }}</h5>
+                      <h6 class="ion-no-margin">{{ searchDateParsed }}</h6>
                     </ion-col>
                   </ion-row>
                   <ion-row class="ion-align-items-center">
@@ -71,8 +71,8 @@
                     </ion-col>
                   </ion-row>
                   <ion-row class="ion-align-items-center ion-margin-top">
-                    <ion-col size="auto">
-                      <u class="ion-float-end">Darse de baja</u>
+                    <ion-col size="12" class="ion-text-center">
+                      <u >Darse de baja</u>
                     </ion-col>
                   </ion-row>
                 </ion-grid>
@@ -131,10 +131,7 @@ const status = computed(() => {
     name: "NextGameInfo",
     params: { 
     info: JSON.stringify(props.nextGameInfo.search)
-    },
-  query: { 
-    comeFromPending: 'yes' 
-  }
+    }
   }); 
 };
  

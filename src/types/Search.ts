@@ -44,6 +44,7 @@ type Search = {
       lastName: string,
       name: string
     }[];
+    usersIdAttending:[];
     usersWaiting: {
       userId: number
     }[];

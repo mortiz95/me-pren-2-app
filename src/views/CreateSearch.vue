@@ -232,7 +232,7 @@
                 <h1>Creado correctamente</h1>
                 <ion-text class="ion-text-center">
                   Puede ver tus busquedas creadas en el apartado
-                  <u @click="goToHistorial()"> Historial </u>.</ion-text
+                  <u @click="goToHistorial()"> Busquedas </u>.</ion-text
                 >
               </div>
             </ion-col>
@@ -324,6 +324,7 @@ const search = ref({
   status: "",
   description: "",
   usersAttending: [],
+  usersIdAttending: [],
   usersWaiting: [],
 });
 

@@ -157,10 +157,10 @@ const searchDateParsed = computed(() => {
   return parseDateTimeStampToISO(firestoreTimestamp);
 });
 
-const joinSearch = () => {
+const joinSearch = async () => {
   showInfo.value = false;
-  searchStore.addPlayerToSearch(searchInfo.id)
-  userStore.addSearchToMySearchedAttended(searchInfo) //Historical
+  await searchStore.addPlayerToSearch(searchInfo.id)
+  await userStore.addSearchToMySearchedAttended(searchInfo.id) //Historical
 
 };
 

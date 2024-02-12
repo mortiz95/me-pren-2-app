@@ -57,13 +57,18 @@ export const useUserStore = defineStore("user", {
       }
     },
 
-    async addSearchToMySearchedAttended(search: Search) {
+    async addSearchToMySearchedAttended(searchId: string) {
       try {
+      
+       // Get updated doc with users attending ids
+        const docRef = doc(db, "searches", searchId);
+        const docSnap = await getDoc(docRef);
+  
         const searchDocRef = doc(db, "users", auth!.currentUser!.uid);
 
         await updateDoc(searchDocRef, {
           attendedSearches: arrayUnion({
-            search: search,
+            search: docSnap.data(),
             status: "pending", //Pending, Completed, Failed
             userGone: false,
             starsRating: 0,

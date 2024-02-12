@@ -141,6 +141,10 @@ export const useSearchStore = defineStore('search', {
           lastName : userStore.myUserInfo.lastName,
         }) 
        });
+
+       await updateDoc(searchRef, {
+        usersIdAttending: arrayUnion(userStore.myUserInfo.id) 
+       });
        
       } catch (error: any) {
         console.error('Error removing search:', error.message);

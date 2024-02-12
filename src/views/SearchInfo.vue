@@ -81,7 +81,7 @@
           </div>
           <div class="border-bottom">
             <div class="ion-padding-vertical">
-              <ion-row class="ion-align-items-center ion-padding-vertical">
+              <ion-row class="ion-align-items-center">
                 <ion-col size="4">Info del evento: </ion-col>
                 <ion-col size="8">
                   <Tags :tags="searchSize"> </Tags>
@@ -128,31 +128,41 @@
         </div>
       </div>
       <div v-if="selectedTab === 'players'" class="ion-padding-horizontal">
-        <ion-list class="ion-no-margin ion-margin-top">
-          <ion-item
+        <ion-grid class="wrapper">
+          <ion-row>
+            <ion-col>
+              <ProgressBar
+               :searchSpots="searchInfo.spots"
+               :totalUsersIdAttending="searchInfo.usersAttending.length"
+              ></ProgressBar>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col size="6"  
             v-for="(item, index) in searchInfo.usersAttending"
             :key="index"
-          >
-            <ion-grid >
-              <ion-row class="ion-align-items-center">
-                <ion-col size="2">
-                  <ion-icon :icon="personOutline"> </ion-icon>
-                </ion-col>
-                <ion-col size="9">
-                  <h3 class="ion-text-capitalize ion-no-margin">
-                    {{ item.name }} {{ item.lastName }}
-                    <ion-chip v-if="checkIsMe(item.id)" class="ml-5">
-                    Tu</ion-chip
-                  >
-                  </h3>
-                </ion-col>
-                <ion-col size="1">
-                 <ion-icon :icon="openOutline"></ion-icon>
-                </ion-col>
-              </ion-row>
-            </ion-grid>
-          </ion-item>
-        </ion-list>
+            class="ion-no-margin">
+             <PlayerItem 
+             :playerInfo="{
+              id: item.id,
+              name: item.name,
+              lastName: item.lastName,
+             }"
+             ></PlayerItem>
+            </ion-col>
+          </ion-row>
+          <ion-row style="flex: 1; align-items: flex-end">
+            <ion-col size="12">
+              <ion-button
+                @click="goToConfirmReservation()"
+                color="warning"
+                expand="full"
+                >{{ buttonTitle }}</ion-button
+              >
+            </ion-col>
+          </ion-row>
+
+        </ion-grid>
 
         <div v-if="loading" class="spinner-container">
           <ion-spinner></ion-spinner>
@@ -173,7 +183,8 @@ import {
   locationOutline,
   calendarOutline,
   gameControllerOutline,
-  openOutline
+  openOutline,
+  accessibilityOutline
 } from "ionicons/icons";
 import { computed, ref } from "vue";
 import { useRouter, useRoute } from "vue-router";
@@ -181,6 +192,8 @@ import Search from "../types/Search";
 import useDateParser from "@/composables/date";
 import { Timestamp } from "firebase/firestore";
 import Tags from "@/components/Tags/Tags.vue";
+import ProgressBar from "../components/Progress-bar/ProgressBar.vue";
+import PlayerItem from "../components/Item/PlayerItem.vue"
 import { auth } from "@/firebase";
 
 const router = useRouter();
@@ -191,9 +204,6 @@ const selectedTab = ref("info");
 //Param info
 const routeParamInfo: any = route?.params?.info;
 const searchInfo: Search = JSON.parse(routeParamInfo);
-
-//Param fromWhereCome
-const comeFromPending = route?.query?.comeFromPending;
 
 const { parseDateTimeStampToISO } = useDateParser();
 
@@ -206,9 +216,18 @@ const searchDateParsed = computed(() => {
 });
 
 const buttonTitle = computed(() => {
-  return (comeFromPending === 'yes' ? 'DARSE DE BAJA' : 'UNIRSE')
+  return (checkIfParticipating.value === true ? 'DARSE DE BAJA' : 'UNIRSE')
 });
 
+const checkIfParticipating = computed(() => {
+  const usersAttending: any = searchInfo.usersIdAttending;
+  // Verifica si usersAttending está definido y no es nulo
+  if (usersAttending) {
+    const isParticipating = usersAttending.includes(auth!.currentUser!.uid);
+    return isParticipating;
+  }
+  return false;
+});
 
 const searchSize = computed(() => {
   return [searchInfo.size];
@@ -226,19 +245,22 @@ const searchGrassType = computed(() => {
   return [searchInfo.grassType];
 });
 
-const availableSpots = computed(() => {
-  return searchInfo.spots - searchInfo.usersAttending.length;
+const getSpotsAvailable = computed(() => {
+  if(searchInfo.usersIdAttending){
+    return searchInfo.spots - searchInfo.usersAttending.length;
+  }
+  else {
+    return searchInfo.spots
+  }
+
 });
 
-const checkIsMe = (userId: any) => {
-  return userId === auth!.currentUser!.uid;
-};
 
 const checkIsFull = computed(() => {
   return searchInfo
     ? searchInfo.spots === searchInfo.usersAttending.length
       ? "FULL"
-      : "Quedan: " + availableSpots.value + " lugares"
+      : "Quedan: " + getSpotsAvailable.value + " lugares"
     : "";
 });
 
@@ -258,6 +280,10 @@ onIonViewDidEnter(() => {
 ion-icon {
   font-size: 30px;
 }
+
+ion-text {
+  font-size: 16px;
+}
 .border-bottom {
   border-bottom: 1px solid var(--white);
 }
@@ -269,9 +295,5 @@ ion-icon {
   padding: 0;
 }
 
-ion-chip {
-    --background: var(--black);
-    --color: var(--white);
-  }
 </style>
   

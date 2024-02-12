@@ -4,7 +4,7 @@
       class="ion-no-padding ion-padding-horizontal ion-padding-top"
     >
       <ion-grid class="ion-no-padding ion-no-margin">
-        <ion-row class="ion-align-items-center">
+        <ion-row>
           <ion-col size="10">
             <ion-card-title>
               <div class="container-card-title ion-text-uppercase">
@@ -26,11 +26,15 @@
             </ion-card-subtitle>
             <ion-card-subtitle v-show="checkIfParticipating">
               <div class="container-card-subtitle">
-                <ion-icon
-                  :icon="happyOutline"
-                  class="ion-margin-end search-info__icon"
-                ></ion-icon>
-               <ion-chip>{{ checkIfParticipating ? "Ya te has unido" : "" }}</ion-chip> 
+                <ion-chip>
+                  <ion-icon
+                    :icon="happyOutline"
+                    class="search-info__icon"
+                  ></ion-icon>
+                  <ion-label>
+                    {{ checkIfParticipating ? "Ya te has unido" : "" }}
+                  </ion-label>
+                </ion-chip>
               </div>
             </ion-card-subtitle>
           </ion-col>
@@ -42,16 +46,16 @@
     </ion-card-header>
     <ion-card-content>
       <ion-grid class="ion-no-padding">
-        <ion-row class="ion-margin-top">
+        <!--         <ion-row class="ion-margin-top">
           <ion-col size="3"> Creado por </ion-col>
           <ion-col>
             <ion-card-subtitle class="ion-text-capitalize">{{
               searchInfo?.organizerInfo.fullName
             }}</ion-card-subtitle>
           </ion-col>
-        </ion-row>
+        </ion-row> -->
         <ion-row class="ion-margin-top">
-          <ion-col size="3"> Info </ion-col>
+          <ion-col size="2"> Info </ion-col>
           <ion-col>
             <ion-badge
               :color="checkIsFull() === 'FULL' ? 'danger' : 'warning'"
@@ -109,7 +113,7 @@ import {
   chevronForward,
   locationOutline,
   calendarOutline,
-  happyOutline
+  happyOutline,
 } from "ionicons/icons";
 import { useRouter } from "vue-router";
 import { Search } from "../../types/Search";
@@ -121,7 +125,6 @@ const props = defineProps<{
   searchInfo: Search;
 }>();
 
-console.log(props.searchInfo);
 const router = useRouter();
 
 const { parseDateTimeStampToISO } = useDateParser();
@@ -132,9 +135,6 @@ const goToSearchInfo = () => {
     params: {
       info: JSON.stringify(props.searchInfo),
     },
-    query: {
-      comeFromPending: "no",
-    },
   });
 };
 
@@ -142,8 +142,16 @@ const checkIsFull = () => {
   return props.searchInfo
     ? props.searchInfo.spots === props.searchInfo.usersAttending.length
       ? "FULL"
-      : props.searchInfo.spots + " lugares"
+      : getSpotsAvailable() + " lugares"
     : "";
+};
+
+const getSpotsAvailable = () => {
+  if (props.searchInfo.usersIdAttending) {
+    return props.searchInfo.spots - props.searchInfo.usersIdAttending.length;
+  } else {
+    return props.searchInfo.spots;
+  }
 };
 
 const checkIfParticipating = computed(() => {
@@ -154,22 +162,22 @@ const checkIfParticipating = computed(() => {
     const array = Array.isArray(usersAttending)
       ? usersAttending
       : [usersAttending];
-    // Verifica si el array incluye el ID del usuario actual
+
     const isParticipating = array.includes(auth!.currentUser!.uid);
     return isParticipating;
   }
-  // Devuelve false si usersAttending es indefinido o nulo
   return false;
 });
 </script>
 
   <style scoped>
-
 ion-chip {
-    --background: #00213f;
-    --color: #adefd1;
-  }
-  
+  --background: var(--light-black);
+  --color: #adefd1;
+  font-size: 12px;
+  margin-left: 0px;
+}
+
 ion-card {
   background: transparent;
 }

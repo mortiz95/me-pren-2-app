@@ -5,7 +5,7 @@
         <ion-grid class="ion-padding">
           <ion-row>
             <ion-col size="12">
-              <h2>Mis Busquedas</h2>
+              <h2>Mis busquedas creadas</h2>
               <p>
                 Aquí podras ver y realizar un seguimiento las búsquedas realizadas por ti.
               </p>

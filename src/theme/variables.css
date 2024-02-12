@@ -16,7 +16,7 @@ http://ionicframework.com/docs/theming/ */
 
   --white: #ffffff;
   --black: #000000;
-  --light-black: #575656;
+  --light-black: #3a3838;
   --gray: #707070;
   --light-gray: #e4e4e4;
   --gold: #d7a752;
@@ -112,8 +112,8 @@ ion-textarea.custom.md .textarea-bottom .counter {
 
 
 ion-badge {
-  font-size: 12px !important;
-  padding: 5px !important;
+  font-size: 10px !important;
+  padding: 3px !important;
   display: inline-flex !important;
 }
 
@@ -233,6 +233,9 @@ p {
 
 .mr-5{
   margin-right: 5px;
+}
+.mr-10{
+  margin-right: 10px;
 }
 
 .mt-5{
