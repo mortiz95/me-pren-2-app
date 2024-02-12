@@ -3,6 +3,7 @@ import Search from '../types/Search'
 
 type Historical = {
   search: Search;
+  searchId: string
   status: string;//Pending, Completed, Failed
   userGone: boolean;
   starsRating: number;

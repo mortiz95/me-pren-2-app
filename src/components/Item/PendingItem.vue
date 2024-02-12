@@ -1,5 +1,5 @@
 <template>
-  <ion-card @click="goToNextGameInfo()">
+  <ion-card>
     <ion-card-header>
       <ion-grid class="ion-no-padding ion-no-margin">
         <ion-row class="ion-justify-content-between">
@@ -20,7 +20,7 @@
                       </h3>
                     </ion-col>
                     <ion-col size="1">
-                      <ion-icon class="ion-float-end" :icon="chevronForward"></ion-icon>
+                      <ion-icon @click="goToNextGameInfo()" class="ion-float-end" :icon="chevronForward"></ion-icon>
                     </ion-col>
                   </ion-row>
                   <ion-row class="ion-align-items-center">
@@ -116,6 +116,8 @@ const props = defineProps<{
   nextGameInfo: Historical;
 }>();
 
+console.log('nextGameInfo', userStore.myNextGames)
+
 const searchDateParsed = computed(() => {
   const firestoreTimestamp = new Timestamp(
     props.nextGameInfo.search.date.seconds,
@@ -138,8 +140,8 @@ const status = computed(() => {
 };
 
 const removeUserFromSearch = async () => {
-  await userStore.removeSearchFromMySearchedAttended(props.nextGameInfo.search.id) 
-  await searchStore.removeMeFromSearch(props.nextGameInfo.search.id) 
+  await userStore.removeSearchFromMySearchedAttended(props.nextGameInfo.searchId) 
+  await searchStore.removeMeFromSearch(props.nextGameInfo.searchId) 
   console.log("Se ha eliminado de mis buscadas");
 }
  
