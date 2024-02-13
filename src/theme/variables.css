@@ -115,6 +115,7 @@ ion-badge {
   font-size: 10px !important;
   padding: 3px !important;
   display: inline-flex !important;
+  border: 1px solid var(--white);
 }
 
 .flex-column{

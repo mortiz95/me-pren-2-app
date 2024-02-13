@@ -157,8 +157,7 @@ export const useSearchStore = defineStore('search', {
        const docSnap = await getDoc(searchDocRef);
 
        // usersAttending
-       if (docSnap.exists()) {
-        debugger
+       if (docSnap.exists()) {        
          const usersAttending = docSnap.data().usersAttending || []; // Ensure attendedSearches is an array
          const filteredUsersAttendingArray = usersAttending.filter((item: any) => item.id !== auth!.currentUser!.uid);
          await updateDoc(searchDocRef, {
