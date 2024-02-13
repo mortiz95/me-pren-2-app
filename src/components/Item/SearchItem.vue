@@ -1,20 +1,28 @@
 <template>
   <ion-card @click="goToSearchInfo()">
-    <ion-card-header
+        <ion-card-header
       class="ion-no-padding ion-padding-horizontal ion-padding-top"
     >
       <ion-grid class="ion-no-padding ion-no-margin">
         <ion-row>
-          <ion-col size="10">
+          <ion-col size="11">
             <ion-card-title>
-              <div class="container-card-title ion-text-uppercase">
+              <div class="container-card-title">
                 <ion-icon
                   :icon="locationOutline"
-                  class="ion-margin-end search-info__icon"
+                  class="ion-margin-end search-info__icon ion-text-capitalize"
                 ></ion-icon>
                 {{ searchInfo.place }}
               </div>
             </ion-card-title>
+          </ion-col>
+          <ion-col size="1">
+            <ion-icon class="ion-float-end" :icon="chevronForward"></ion-icon>
+          </ion-col>
+        </ion-row>
+
+        <ion-row class="mt-10">
+          <ion-col size="12">
             <ion-card-subtitle>
               <div class="container-card-subtitle ion-text-capitalize">
                 <ion-icon
@@ -24,6 +32,11 @@
                 {{ parseDateTimeStampToISO(searchInfo?.date) }}
               </div>
             </ion-card-subtitle>
+          </ion-col>
+        </ion-row>
+
+        <ion-row class="mt-10">
+          <ion-col size="12">
             <ion-card-subtitle v-show="checkIfParticipating">
               <div class="container-card-subtitle">
                 <ion-chip>
@@ -38,22 +51,13 @@
               </div>
             </ion-card-subtitle>
           </ion-col>
-          <ion-col>
-            <ion-icon class="ion-float-end" :icon="chevronForward"></ion-icon>
-          </ion-col>
         </ion-row>
+
       </ion-grid>
     </ion-card-header>
+
     <ion-card-content>
       <ion-grid class="ion-no-padding">
-        <!--         <ion-row class="ion-margin-top">
-          <ion-col size="3"> Creado por </ion-col>
-          <ion-col>
-            <ion-card-subtitle class="ion-text-capitalize">{{
-              searchInfo?.organizerInfo.fullName
-            }}</ion-card-subtitle>
-          </ion-col>
-        </ion-row> -->
         <ion-row class="ion-margin-top">
           <ion-col size="2"> Info </ion-col>
           <ion-col>
@@ -189,7 +193,7 @@ const checkIfParticipating = computed(() => {
 ion-chip {
   --background: var(--black);
   --color: var(--white);
-  font-size: 12px;
+  font-size: 10px;
   margin-left: 0px;
 }
 

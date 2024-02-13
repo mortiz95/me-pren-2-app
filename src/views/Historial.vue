@@ -47,12 +47,12 @@
 
       <div v-if="selectedTab === 'past'" >
         <div v-if="searchStore.myPastSearches.length != 0">
-          <ActiveSearchItem
+          <PastSearchItem
             v-for="(item, index) in searchStore.myPastSearches"
             :key="index"
             :searchInfo="item"
           >
-          </ActiveSearchItem>
+          </PastSearchItem>
         </div>
         <div v-else class="flex-justify-center ion-padding">
           No hay datos disponibles.
@@ -87,6 +87,7 @@ import {
 import { ref } from "vue";
 import { useSearchStore } from "../store/search";
 import ActiveSearchItem from "../components/Item/MyActiveSearchItem.vue";
+import PastSearchItem from "../components/Item/MyPastSearchItem.vue"
 
 const loading = ref(true);
 const searchStore = useSearchStore();

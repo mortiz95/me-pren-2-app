@@ -24,7 +24,7 @@
           </ion-col>
         </ion-row>
 
-        <ion-row class="mt-15">
+        <ion-row class="mt-10">
           <ion-col size="12">
             <ion-card-subtitle>
               <div class="container-card-subtitle ion-text-capitalize">
@@ -38,7 +38,7 @@
           </ion-col>
         </ion-row>
 
-        <ion-row class="mt-15">
+        <ion-row class="mt-10">
           <ion-col size="12">
             <ion-card-subtitle>
               <div class="container-card-subtitle ion-text-capitalize">
@@ -52,7 +52,7 @@
           </ion-col>
         </ion-row>
 
-        <ion-row class="mt-15">
+        <ion-row class="mt-10">
           <ion-col size="12">
             <ProgressBar
               :searchSpots="searchInfo.spots"
@@ -65,7 +65,7 @@
     <ion-card-content>
       <div v-if="showAllInfo">
         <ion-grid class="ion-no-padding">
-          <ion-row class="mt-15">
+          <ion-row class="mt-10">
             <ion-col size="12" v-if="searchInfo.usersAttending.length > 0">
               <div
                   v-for="(item, index) in searchInfo.usersAttending"
@@ -78,7 +78,7 @@
               </div>
             </ion-col>
           </ion-row>
-          <ion-row class="mt-15">
+          <ion-row class="mt-10">
             <ion-col size="12">
                 <ion-chip v-if="searchInfo.size.text" class="chip-bg-black">
                   <ion-label> {{ searchInfo?.size?.text }} </ion-label>
@@ -97,14 +97,14 @@
                 </ion-chip>
             </ion-col>
           </ion-row>
-          <ion-row class="mt-15">
+          <ion-row class="mt-10">
             <ion-col>
               <ion-text>
                 {{ searchInfo.description }}
               </ion-text>
             </ion-col>
           </ion-row>
-          <ion-row class="mt-15">
+          <ion-row class="mt-10">
             <ion-col>
               <ion-text>
                 Evento pago: {{ searchPaymentTitle }}
@@ -114,7 +114,7 @@
         </ion-grid>
       </div>
       <div>
-        <ion-grid class="ion-no-padding mt-15">
+        <ion-grid class="ion-no-padding mt-10">
           <ion-row>
             <ion-col class="ion-text-center">
               <div v-if="!showAllInfo" @click="showAllInfo = !showAllInfo">
@@ -190,7 +190,7 @@ ion-card-content {
 ion-chip {
   --background: var(--transparent);
   color: var(--white);
-  font-size: 12px;
+  font-size: 10px;
   margin-left: 0px;
   border: 1px solid var(--white);
 }

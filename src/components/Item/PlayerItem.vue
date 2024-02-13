@@ -1,5 +1,5 @@
 <template>
- <ion-chip>
+ <ion-chip class="ion-no-margin">
   <ion-grid>
     <ion-row class="ion-align-items-center">
       <ion-col size="auto" class="ion-no-padding">

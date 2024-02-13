@@ -31,7 +31,7 @@
                       ></ion-icon>
                     </ion-col>
                     <ion-col>
-                      <h5 class="ion-no-margin">{{ searchDateParsed }}</h5>
+                      <h5 class="ion-no-margin ion-text-capitalize">{{ searchDateParsed }}</h5>
                     </ion-col>
                   </ion-row>
                   <ion-row class="ion-align-items-center">
@@ -44,7 +44,6 @@
                     <ion-col>
                       <h5
                         class="ion-no-margin ion-text-capitalize"
-                        style="{status}"
                       >
                         {{ status }}
                       </h5>
@@ -77,9 +76,23 @@
 
                     </ion-col>
                   </ion-row>
-                  <ion-row class="ion-align-items-center ion-margin-top">
-                    <ion-col size="12" class="ion-text-center">
-                      <u @click="removeUserFromSearch()">Darse de baja</u>
+                  <ion-row>
+                    <ion-col size="12" class="ion-text-center button-container">
+                      <ion-button
+                        fill="clear"
+                        id="open-action-sheet"
+                        color="danger"
+                        expand="full"
+                        ><u>Darse de baja</u>
+                      </ion-button>
+                      <ion-action-sheet
+                        trigger="open-action-sheet"
+                        header="Esta seguro que desea darse de baja?"
+                        class="my-custom-action-sheet"
+                        :buttons="actionSheetButtons"
+                        backdropDismiss="false"
+                        @didDismiss="logResult($event)"
+                      ></ion-action-sheet>
                     </ion-col>
                   </ion-row>
                 </ion-grid>
@@ -108,7 +121,7 @@ import {
 } from "ionicons/icons";
 import { useRouter } from "vue-router";
 import useDateParser from "@/composables/date";
-import { computed, ref } from "vue";
+import { computed, onMounted, ref } from "vue";
 import Historical from "@/types/Historical";
 import { Timestamp } from "firebase/firestore";
 import { useUserStore } from "@/store/user";
@@ -124,7 +137,29 @@ const props = defineProps<{
   nextGameInfo: Historical;
 }>();
 
-console.log('nextGameInfo', userStore.myNextGames)
+const actionSheetButtons = [
+    {
+      text: 'Confirmar',
+      role: 'destructive',
+      data: {
+        action: 'delete',
+      },
+    },
+    {
+      text: 'Cancelar',
+      role: 'cancel',
+      data: {
+        action: 'cancel',
+      },
+    },
+  ];
+
+  const logResult = async (ev: CustomEvent)  => {
+    const optionSelected = ev.detail.data.action
+    if(optionSelected === 'delete'){
+      //await removeUserFromSearch()
+    }
+  };
 
 const searchDateParsed = computed(() => {
   const firestoreTimestamp = new Timestamp(
@@ -150,17 +185,20 @@ const status = computed(() => {
 const removeUserFromSearch = async () => {
   await userStore.removeSearchFromMySearchedAttended(props.nextGameInfo.searchId) 
   await searchStore.removeMeFromSearch(props.nextGameInfo.searchId) 
-  console.log("Se ha eliminado de mis buscadas");
 }
  
 </script>
   
-    <style scoped>
+<style scoped>
+
+.button-container ion-button::part(native) {
+  text-transform: none; /* Reset text-transform for ion-button */
+}
 
 ion-chip {
   --background: var(--black);
   color: var(--white);
-  font-size: 12px;
+  font-size: 10px;
   margin-left: 0px;
   border: 1px solid var(--white);
 }
@@ -183,4 +221,12 @@ u {
   font-size: 16px !important;
   color: var(--red);
 }
+
+ion-action-sheet.my-custom-action-sheet {
+  --background: var(--black);
+  --backdrop-opacity: 0.6;
+  --button-color: var(--white);
+  --color: #fff;
+}
+
 </style>

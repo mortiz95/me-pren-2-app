@@ -68,11 +68,19 @@
             </ion-row>
           </div>
           <div class="border-bottom">
+            <ion-row class="ion-padding-vertical">
+              <ion-col size="auto">Creado por: </ion-col>
+              <ion-col size="auto" class="ion-text-capitalize">{{
+                searchInfo.organizerInfo.fullName
+              }}</ion-col>
+            </ion-row>
+          </div>
+          <div class="border-bottom">
             <div class="ion-padding-vertical">
               <ion-row class="ion-align-items-center">
                 <ion-col size="auto">Lugares disponibles: </ion-col>
                 <ion-col>
-                  <ion-badge color="success" class="tags">
+                  <ion-badge color="warning" class="tags">
                     {{ checkIsFull }}
                   </ion-badge>
                 </ion-col>
@@ -95,14 +103,6 @@
               </ion-row>
             </div>
           </div>
-          <div class="border-bottom">
-            <ion-row class="ion-padding-vertical">
-              <ion-col size="auto">Creado por: </ion-col>
-              <ion-col size="auto" class="ion-text-capitalize">{{
-                searchInfo.organizerInfo.fullName
-              }}</ion-col>
-            </ion-row>
-          </div>
           <div
             v-if="searchInfo.description != ''"
             class="border-bottom ion-text-capitalize"
@@ -115,11 +115,29 @@
           <ion-row style="flex: 1; align-items: flex-end">
             <ion-col size="12">
               <ion-button
-                @click="goToConfirmReservationOrUnsubscribe()"
-                color="warning"
+                v-if="checkIfParticipating"
+                id="open-action-sheet"
+                color="danger"
                 expand="full"
-                >{{ buttonTitle }}</ion-button
-              >
+                shape="round"
+                >DARSE DE BAJA
+              </ion-button>
+              <ion-button
+               v-else
+                @click="goToConfirmReservation()"
+                class="button-join"
+                expand="full"
+                shape="round"
+                >UNIRSE
+              </ion-button> 
+              <ion-action-sheet
+                 trigger="open-action-sheet"
+                 header="Esta seguro que desea darse de baja?"
+                 class="my-custom-action-sheet"
+                 :buttons="actionSheetButtons"
+                 backdropDismiss="false"
+                 @didDismiss="logResult($event)"
+               ></ion-action-sheet>
             </ion-col>
           </ion-row>
         </ion-grid>
@@ -134,14 +152,14 @@
               <ProgressBar
                :searchSpots="searchInfo.spots"
                :totalUsersIdAttending="searchInfo.usersAttending.length"
+               class="ion-margin-top"
               ></ProgressBar>
             </ion-col>
           </ion-row>
-          <ion-row>
+          <ion-row class="mt-10">
             <ion-col size="6"  
             v-for="(item, index) in searchInfo.usersAttending"
-            :key="index"
-            class="ion-no-margin">
+            :key="index">
              <PlayerItem 
              :playerInfo="{
               id: item.id,
@@ -154,11 +172,29 @@
           <ion-row style="flex: 1; align-items: flex-end">
             <ion-col size="12">
               <ion-button
-                @click="goToConfirmReservationOrUnsubscribe()"
-                color="warning"
+                v-if="checkIfParticipating"
+                id="open-action-sheet"
+                color="danger"
                 expand="full"
-                >{{ buttonTitle }}</ion-button
-              >
+                shape="round"
+                >DARSE DE BAJA
+              </ion-button>
+              <ion-button
+               v-else
+                @click="goToConfirmReservation()"
+                expand="full"
+                class="button-join"
+                shape="round"
+                >UNIRSE
+              </ion-button> 
+              <ion-action-sheet
+              trigger="open-action-sheet"
+                 header="Esta seguro que desea darse de baja?"
+                 class="my-custom-action-sheet"
+                 :buttons="actionSheetButtons"
+                 backdropDismiss="false"
+                 @didDismiss="logResult($event)"
+               ></ion-action-sheet>
             </ion-col>
           </ion-row>
 
@@ -217,16 +253,36 @@ const { parseDateTimeStampToISO } = useDateParser();
 const userStore = useUserStore();
 const searchStore = useSearchStore();
 
+const actionSheetButtons = [
+    {
+      text: 'Confirmar',
+      role: 'destructive',
+      data: {
+        action: 'delete',
+      },
+    },
+    {
+      text: 'Cancelar',
+      role: 'cancel',
+      data: {
+        action: 'cancel',
+      },
+    },
+  ];
+
+  const logResult = async (ev: CustomEvent)  => {
+    const optionSelected = ev.detail.data.action
+    if(optionSelected === 'delete'){
+      //await unsubscribe()
+    }
+  };
+
 const searchDateParsed = computed(() => {
   const firestoreTimestamp = new Timestamp(
     searchInfo.date.seconds,
     searchInfo.date.nanoseconds
   );
   return parseDateTimeStampToISO(firestoreTimestamp);
-});
-
-const buttonTitle = computed(() => {
-  return (checkIfParticipating.value === true ? 'DARSE DE BAJA' : 'UNIRSE')
 });
 
 const searchSize = computed(() => {
@@ -262,14 +318,16 @@ const checkIsFull = computed(() => {
     : "";
 });
 
-const goToConfirmReservationOrUnsubscribe =  async () => {
-  if(checkIfParticipating.value){
-    await userStore.removeSearchFromMySearchedAttended(searchInfo.id);
-    await searchStore.removeMeFromSearch(searchInfo.id)
-    console.log("Se ha eliminado de mis buscadas");
-  } else
+const unsubscribe =  async () => {
+ await userStore.removeSearchFromMySearchedAttended(searchInfo.id);
+ await searchStore.removeMeFromSearch(searchInfo.id)
+ console.log("Se ha eliminado de mis buscadas");
+};
+
+const goToConfirmReservation =  async () => {
   router.push({ name: "ConfirmReservation" });
 };
+
 
 const checkIfParticipating = computed(() => {
   const usersAttending: any = searchInfo.usersIdAttending || [];
@@ -289,6 +347,13 @@ onIonViewDidEnter(() => {
 </script>
   
   <style scoped>
+ion-action-sheet.my-custom-action-sheet {
+  --background: var(--black);
+  --backdrop-opacity: 0.6;
+  --button-color: var(--white);
+  --color: #fff;
+}
+
 ion-icon {
   font-size: 30px;
 }
@@ -305,6 +370,11 @@ ion-text {
   flex-direction: column;
   min-height: 76vh;
   padding: 0;
+}
+
+.button-join{
+  --background: var(--rose);
+  --color: var(--white);
 }
 
 </style>

@@ -70,7 +70,7 @@
           </ion-row>
           <ion-row style="flex: 1; align-items: flex-end">
             <ion-col size="12">
-              <ion-button @click="joinSearch()" color="warning" expand="full"
+              <ion-button @click="joinSearch()" expand="full" shape="round" class="button-join"
                 >Confirmar</ion-button
               >
             </ion-col>
@@ -99,11 +99,10 @@
           </ion-row>
           <ion-row>
             <ion-col size="12">
-              <ion-button class="ion-padding-horizontal" color="warning" expand="full" @click="backToSearches()">
-              Volver a Busquedas
+              <ion-button class="ion-padding-horizontal button-join" expand="full" shape="round" @click="backToSearches()">
+              Volver a Buscar
               </ion-button>
             </ion-col>
-
           </ion-row>
         </ion-grid>
       </div>
@@ -205,5 +204,10 @@ ion-icon {
 }
 .icon-60 {
   font-size: 60px;
+}
+
+.button-join{
+  --background: var(--rose);
+  --color: var(--white);
 }
 </style>
