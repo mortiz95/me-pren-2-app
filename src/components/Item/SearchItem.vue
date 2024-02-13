@@ -187,7 +187,7 @@ const checkIfParticipating = computed(() => {
 
   <style scoped>
 ion-chip {
-  --background: var(--light-black);
+  --background: var(--black);
   --color: var(--white);
   font-size: 12px;
   margin-left: 0px;

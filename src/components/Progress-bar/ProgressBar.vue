@@ -32,7 +32,10 @@ const calculateProgressBarWidth = computed(() => {
 });
 
 const calculateFreeSpots = computed(() => {
-  return props.searchSpots - props.totalUsersIdAttending;
+  if(props.searchSpots == props.totalUsersIdAttending)
+    return 'FULL'
+  else
+    return props.searchSpots - props.totalUsersIdAttending
 });
 
 onMounted(() => {});

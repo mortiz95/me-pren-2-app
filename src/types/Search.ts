@@ -17,7 +17,7 @@ type Search = {
     dateCreated: Timestamp,
     sport: string;
     spots: number;
-    payment: string;
+    payment: boolean;
     gender: {
       text: string,
       value: string,

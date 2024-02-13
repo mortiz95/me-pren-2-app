@@ -313,12 +313,12 @@ const search = ref({
   dateCreated: Timestamp.now(),
   sport: "futbol",
   spots: null,
-  payment: "true",
+  payment: true,
   gender: [],
   type: [],
   size: [],
   grassType: [],
-  status: "",
+  status: "open",
   description: "",
   usersAttending: [],
   usersIdAttending: [],
@@ -393,7 +393,7 @@ const handleSport = (ev: any) => {
 };
 
 const handleHasToPay = (ev: any) => {
-  search.value.payment = ev.detail.value;
+  search.value.payment = Boolean(ev.detail.value) ;
 };
 
 const handleSubmit = async () => {

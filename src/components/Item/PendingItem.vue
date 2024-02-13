@@ -58,15 +58,23 @@
                       ></ion-icon>
                     </ion-col>
                     <ion-col>
-                      <h6 class="ion-no-margin">
-                       {{
-                          nextGameInfo.search?.size?.text
-                        }}&nbsp;/&nbsp;
-                        {{ nextGameInfo.search?.gender?.text }}&nbsp;/&nbsp;
-                        {{
-                          nextGameInfo.search?.grassType?.text
-                        }}&nbsp;/&nbsp;{{ nextGameInfo.search?.type?.text }}
-                      </h6>
+
+                      <ion-chip v-if="nextGameInfo.search?.size.text">
+                  <ion-label> {{ nextGameInfo?.search?.size?.text }} </ion-label>
+                </ion-chip>
+                <ion-chip v-if="nextGameInfo.search?.gender.text">
+                  <ion-label> {{ nextGameInfo.search?.gender?.text }} </ion-label>
+                  <ion-icon :icon="nextGameInfo.search?.gender.icon"></ion-icon>
+                </ion-chip>
+                <ion-chip v-if="nextGameInfo.search?.type.text">
+                  <ion-label> {{ nextGameInfo?.search?.type?.text }}</ion-label>
+                  <ion-icon :icon="nextGameInfo.search?.type.icon"></ion-icon>
+                </ion-chip>
+                <ion-chip v-if="nextGameInfo.search?.grassType.text">
+                  <ion-label> {{ nextGameInfo?.search?.grassType?.text }}</ion-label>
+                  <ion-icon :icon="nextGameInfo.search?.grassType.icon"></ion-icon>
+                </ion-chip>
+
                     </ion-col>
                   </ion-row>
                   <ion-row class="ion-align-items-center ion-margin-top">
@@ -148,6 +156,15 @@ const removeUserFromSearch = async () => {
 </script>
   
     <style scoped>
+
+ion-chip {
+  --background: var(--black);
+  color: var(--white);
+  font-size: 12px;
+  margin-left: 0px;
+  border: 1px solid var(--white);
+}
+
 ion-card {
   background: transparent;
 }
