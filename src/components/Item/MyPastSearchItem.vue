@@ -18,7 +18,7 @@
             </ion-col>
           </ion-row>
   
-          <ion-row class="mt-10">
+          <ion-row class="mt-5">
             <ion-col size="12">
               <ion-card-subtitle>
                 <div class="container-card-subtitle ion-text-capitalize">
@@ -32,7 +32,7 @@
             </ion-col>
           </ion-row>
   
-          <ion-row class="mt-10">
+          <ion-row class="mt-5">
             <ion-col size="12">
               <ion-card-subtitle>
                 <div class="container-card-subtitle ion-text-capitalize">
@@ -45,8 +45,12 @@
               </ion-card-subtitle>
             </ion-col>
           </ion-row>
-  
-          <ion-row class="mt-10">
+        </ion-grid>
+      </ion-card-header>
+      <ion-card-content>
+        <div v-if="showAllInfo">
+          <ion-grid class="ion-no-padding">
+            <ion-row class="mt-10">
             <ion-col size="12">
               <ProgressBar
                 :searchSpots="searchInfo.spots"
@@ -54,12 +58,7 @@
               ></ProgressBar>
             </ion-col>
           </ion-row>
-        </ion-grid>
-      </ion-card-header>
-      <ion-card-content>
-        <div v-if="showAllInfo">
-          <ion-grid class="ion-no-padding">
-            <ion-row class="mt-10">
+            <ion-row class="mt-5">
               <ion-col size="12" v-if="searchInfo.usersAttending.length > 0">
                 <div
                     v-for="(item, index) in searchInfo.usersAttending"
@@ -72,7 +71,7 @@
                 </div>
               </ion-col>
             </ion-row>
-            <ion-row class="mt-10">
+            <ion-row class="mt-5">
               <ion-col size="12">
                   <ion-chip v-if="searchInfo.size.text" >
                     <ion-label> {{ searchInfo?.size?.text }} </ion-label>
@@ -91,14 +90,14 @@
                   </ion-chip>
               </ion-col>
             </ion-row>
-            <ion-row class="mt-10">
+            <ion-row class="mt-5">
               <ion-col>
                 <ion-text>
                   {{ searchInfo.description }}
                 </ion-text>
               </ion-col>
             </ion-row>
-            <ion-row class="mt-10">
+            <ion-row class="mt-5">
               <ion-col>
                 <ion-text>
                   Evento pago: {{ searchPaymentTitle }}
@@ -108,7 +107,7 @@
           </ion-grid>
         </div>
         <div>
-          <ion-grid class="ion-no-padding mt-10">
+          <ion-grid class="ion-no-padding mt-5">
             <ion-row>
               <ion-col class="ion-text-center">
                 <div v-if="!showAllInfo" @click="showAllInfo = !showAllInfo">
@@ -182,13 +181,7 @@
   }
   
   .search-info__icon {
-    font-size: 25px;
-  }
-  
-  .container-card-title,
-  .container-card-subtitle {
-    display: flex;
-    align-items: center;
+    font-size: 20px;
   }
   
   </style>

@@ -2,8 +2,8 @@
   <ion-card>
     <ion-card-header class="ion-no-padding ion-padding-horizontal ion-padding-top">
       <ion-grid class="ion-no-padding ion-no-margin">
-        <ion-row>
-          <ion-col size="11">
+        <ion-row class="ion-align-items-center">
+          <ion-col size="auto">
             <ion-card-title>
               <div class="container-card-title">
                 <ion-icon :icon="locationOutline" class="ion-margin-end search-info__icon ion-text-capitalize"></ion-icon>
@@ -11,12 +11,12 @@
               </div>
             </ion-card-title>
           </ion-col>
-          <ion-col size="1">
+          <ion-col class="ion-text-end">
             <ion-icon @click="goToNextGameInfo()" class="ion-float-end" :icon="chevronForward"></ion-icon>
           </ion-col>
         </ion-row>
 
-        <ion-row class="mt-10">
+        <ion-row class="mt-5">
           <ion-col size="12">
             <ion-card-subtitle>
               <div class="container-card-subtitle ion-text-capitalize">
@@ -27,7 +27,7 @@
           </ion-col>
         </ion-row>
 
-        <ion-row class="mt-10">
+        <ion-row class="mt-5">
           <ion-col size="12">
             <ion-card-subtitle>
               <div class="container-card-subtitle ion-text-capitalize">
@@ -38,7 +38,7 @@
           </ion-col>
         </ion-row>
 
-        <ion-row class="mt-10">
+        <ion-row class="mt-5">
           <ion-col size="auto">
             <ion-icon :icon="informationCircleOutline"
               class="ion-margin-end search-info__icon ion-text-capitalize"></ion-icon>
@@ -195,12 +195,6 @@ ion-card-content {
 .search-info-badge__icon {
   margin-left: 3px;
   color: var(--dark);
-}
-
-.container-card-title,
-.container-card-subtitle {
-  display: flex;
-  align-items: center;
 }
 
 u {

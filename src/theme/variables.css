@@ -138,6 +138,12 @@ ion-chip {
 display: inline-flex;
 }
 
+.container-card-title,
+.container-card-subtitle {
+  display: flex;
+  align-items: center;
+}
+
 p {
   font-size: 14px;
 }
