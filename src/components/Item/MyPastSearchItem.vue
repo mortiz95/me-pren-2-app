@@ -180,8 +180,4 @@
     color: var(--white);
   }
   
-  .search-info__icon {
-    font-size: 20px;
-  }
-  
   </style>

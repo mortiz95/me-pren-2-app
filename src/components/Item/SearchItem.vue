@@ -2,7 +2,7 @@
   <ion-card @click="goToSearchInfo()">
     <ion-card-header class="ion-no-padding ion-padding-horizontal ion-padding-top">
       <ion-grid class="ion-no-padding ion-no-margin">
-        <ion-row class="ion-align-items-center">
+        <ion-row class="ion-align-items-end">
           <ion-col size="auto">
             <ion-card-title>
               <div class="container-card-title">
@@ -49,21 +49,21 @@
             <template v-if="searchInfo.gender">
               <ion-chip color="dark" class="ion-text-center mr-5">
                 <div>{{ searchInfo.gender.text }}</div>
-                <ion-icon class="search-info-badge__icon" :icon="searchInfo.gender.icon"></ion-icon>
+                <ion-icon class="chip_icon" :icon="searchInfo.gender.icon"></ion-icon>
               </ion-chip>
             </template>
 
             <template v-if="searchInfo.type">
               <ion-chip color="dark" class="ion-text-center mr-5">
                 <div>{{ searchInfo.type.text }}</div>
-                <ion-icon class="search-info-badge__icon" :icon="searchInfo.type.icon"></ion-icon>
+                <ion-icon class="chip_icon" :icon="searchInfo.type.icon"></ion-icon>
               </ion-chip>
             </template>
 
             <template v-if="searchInfo.grassType">
               <ion-chip color="dark" class="ion-text-center mr-5">
                 <div>{{ searchInfo.grassType.text }}</div>
-                <ion-icon class="search-info-badge__icon" :icon="searchInfo.grassType.icon"></ion-icon>
+                <ion-icon class="chip_icon" :icon="searchInfo.grassType.icon"></ion-icon>
               </ion-chip>
             </template>
           </ion-col>
@@ -151,13 +151,5 @@ ion-card-content {
   color: var(--white);
 }
 
-.search-info__icon {
-  font-size: 20px;
-}
-
-.search-info-badge__icon {
-  margin-left: 3px;
-  color: var(--dark);
-}
 
 </style>

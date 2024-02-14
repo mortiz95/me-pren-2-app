@@ -54,21 +54,21 @@
             <template v-if="nextGameInfo.search?.gender">
               <ion-chip color="dark" class="ion-text-center mr-5">
                 <div>{{ nextGameInfo.search?.gender.text }}</div>
-                <ion-icon class="search-info-badge__icon" :icon="nextGameInfo.search?.gender.icon"></ion-icon>
+                <ion-icon class="chip_icon" :icon="nextGameInfo.search?.gender.icon"></ion-icon>
               </ion-chip>
             </template>
 
             <template v-if="nextGameInfo.search?.type">
               <ion-chip color="dark" class="ion-text-center mr-5">
                 <div>{{ nextGameInfo.search?.type.text }}</div>
-                <ion-icon class="search-info-badge__icon" :icon="nextGameInfo.search?.type.icon"></ion-icon>
+                <ion-icon class="search-chip_icon" :icon="nextGameInfo.search?.type.icon"></ion-icon>
               </ion-chip>
             </template>
 
             <template v-if="nextGameInfo.search?.grassType">
               <ion-chip color="dark" class="ion-text-center mr-5">
                 <div>{{ nextGameInfo.search?.grassType.text }}</div>
-                <ion-icon class="search-info-badge__icon" :icon="nextGameInfo.search?.grassType.icon"></ion-icon>
+                <ion-icon class="search-chip_icon" :icon="nextGameInfo.search?.grassType.icon"></ion-icon>
               </ion-chip>
             </template>
           </ion-col>
@@ -186,15 +186,6 @@ ion-card-title,
 ion-card-subtitle,
 ion-card-content {
   color: var(--white);
-}
-
-.search-info__icon {
-  font-size: 20px;
-}
-
-.search-info-badge__icon {
-  margin-left: 3px;
-  color: var(--dark);
 }
 
 u {

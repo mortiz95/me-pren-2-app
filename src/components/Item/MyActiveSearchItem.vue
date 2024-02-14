@@ -178,10 +178,6 @@ ion-card-content {
   color: var(--white);
 }
 
-.search-info__icon {
-  font-size: 20px;
-}
-
 .actions-info__icon {
   font-size: 23px;
 }
