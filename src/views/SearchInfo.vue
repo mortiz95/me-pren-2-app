@@ -172,7 +172,7 @@
           </ion-row>
           <ion-row>
             <ion-col size="12">
-              <ion-button class="ion-padding-horizontal btn-secondary" expand="full" shape="round" @click="backToSearches()">
+              <ion-button class="ion-padding-horizontal btn-secondary ion-text-uppercase" expand="full" shape="round" @click="backToSearches()">
               Volver a Buscar
               </ion-button>
             </ion-col>

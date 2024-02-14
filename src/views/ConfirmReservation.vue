@@ -71,7 +71,7 @@
           </ion-row>
           <ion-row style="flex: 1; align-items: flex-end">
             <ion-col size="12">
-              <ion-button @click="joinSearch()" expand="full" shape="round" class="btn-secondary"
+              <ion-button @click="joinSearch()" expand="full" shape="round" class="btn-secondary ion-text-uppercase"
                 >Confirmar</ion-button
               >
             </ion-col>
@@ -100,7 +100,7 @@
           </ion-row>
           <ion-row>
             <ion-col size="12">
-              <ion-button class="ion-padding-horizontal btn-secondary" expand="full" shape="round" @click="backToSearches()">
+              <ion-button class="ion-padding-horizontal btn-secondary ion-text-uppercase" expand="full" shape="round" @click="backToSearches()">
               Volver a Buscar
               </ion-button>
             </ion-col>
