@@ -84,7 +84,7 @@
     align-items: center;
     margin-right: 10px;
     border-radius: 10px;
-    background: var(--light-black);
+    background: var(--black);
     padding:2px;
   }
 

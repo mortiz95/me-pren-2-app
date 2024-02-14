@@ -75,7 +75,7 @@
         </ion-row>
         <ion-row>
           <ion-col size="12" class="ion-text-center button-container">
-            <ion-button fill="clear" id="open-action-sheet" color="danger" expand="full"><u>Darse de baja</u>
+            <ion-button fill="clear" id="open-action-sheet" expand="full" class="btn-unsubscribe-clear"><u>Darse de baja</u>
             </ion-button>
             <ion-action-sheet trigger="open-action-sheet" header="Esta seguro que desea darse de baja?"
               class="my-custom-action-sheet" :buttons="actionSheetButtons" backdropDismiss="false"

@@ -31,64 +31,56 @@
       <div v-if="selectedTab === 'info'" class="ion-padding-horizontal">
         <ion-grid class="wrapper">
           <div>
-            <ion-row>
-              <ion-col size="10">
-                <h1 class="ion-text-uppercase">
+            <ion-row class="ion-align-items-center">
+              <ion-col size="auto">
+                <h2 class="ion-text-capitalize">
                   {{ searchInfo.province }}, {{ searchInfo.city }}
-                </h1>
+                </h2>
+              </ion-col>
+              <ion-col class="ion-text-end">
+                <ion-chip color="warning" class="chips ion-padding-vertical">
+                    {{ checkIsFull }}
+                  </ion-chip>
               </ion-col>
             </ion-row>
           </div>
           <div class="border-bottom">
             <ion-row class="ion-align-items-center">
-              <ion-col size="2">
+              <ion-col size="auto">
                 <ion-icon :icon="locationOutline"></ion-icon>
               </ion-col>
-              <ion-col size="10">
+              <ion-col>
                 <ion-text class="ion-text-uppercase">
                   {{ searchInfo.place }}</ion-text
                 >
               </ion-col>
             </ion-row>
             <ion-row class="ion-align-items-center">
-              <ion-col size="2">
+              <ion-col size="auto">
                 <ion-icon :icon="calendarOutline"></ion-icon>
               </ion-col>
-              <ion-col size="10" class="ion-text-capitalize">
+              <ion-col class="ion-text-capitalize">
                 {{ searchDateParsed }}
               </ion-col>
             </ion-row>
             <ion-row class="ion-align-items-center ion-padding-bottom">
-              <ion-col size="2">
+              <ion-col size="auto">
                 <ion-icon :icon="gameControllerOutline"></ion-icon>
               </ion-col>
-              <ion-col size="10" class="ion-text-capitalize">
+              <ion-col class="ion-text-capitalize">
                 {{ searchInfo.sport }}
               </ion-col>
             </ion-row>
           </div>
-          <div class="border-bottom">
-            <ion-row class="ion-padding-vertical">
+          <div class="border-bottom ion-padding-vertical">
+            <ion-row>
               <ion-col size="auto">Creado por: </ion-col>
               <ion-col size="auto" class="ion-text-capitalize">{{
                 searchInfo.organizerInfo.fullName
               }}</ion-col>
             </ion-row>
           </div>
-          <div class="border-bottom">
-            <div class="ion-padding-vertical">
-              <ion-row class="ion-align-items-center">
-                <ion-col size="auto">Lugares disponibles: </ion-col>
-                <ion-col>
-                  <ion-chip color="warning" class="Chips">
-                    {{ checkIsFull }}
-                  </ion-chip>
-                </ion-col>
-              </ion-row>
-            </div>
-          </div>
-          <div class="border-bottom">
-            <div class="ion-padding-vertical">
+          <div class="border-bottom ion-padding-vertical">
               <ion-row class="ion-align-items-center">
                 <ion-col size="4">Info del evento: </ion-col>
                 <ion-col size="8">
@@ -101,13 +93,19 @@
                   <Chips v-if="Object.keys(searchInfo.grassType).length > 0" :chips="searchGrassType"> </Chips>
                 </ion-col>
               </ion-row>
-            </div>
+          </div>
+          <div class="border-bottom ion-padding-vertical">
+            <ion-row class="mt-5">
+              <ion-col>
+                <ion-text>Evento pago: {{ searchPaymentTitle }}</ion-text>
+              </ion-col>
+            </ion-row>
           </div>
           <div
             v-if="searchInfo.description != ''"
-            class="border-bottom ion-text-capitalize"
+            class="border-bottom ion-text-capitalize ion-padding-vertical"
           >
-            <ion-row class="ion-padding-vertical">
+            <ion-row>
               <ion-col size="auto">Description: </ion-col>
               <ion-col size="auto">{{ searchInfo.description }}</ion-col>
             </ion-row>
@@ -117,7 +115,7 @@
               <ion-button
                 v-if="checkIfParticipating"
                 id="open-action-sheet"
-                color="danger"
+                class="btn-unsubscribe"
                 expand="full"
                 shape="round"
                 >DARSE DE BAJA
@@ -125,7 +123,7 @@
               <ion-button
                v-else
                 @click="goToConfirmReservation()"
-                class="button-join"
+                class="btn-secondary"
                 expand="full"
                 shape="round"
                 >UNIRSE
@@ -174,7 +172,7 @@
               <ion-button
                 v-if="checkIfParticipating"
                 id="open-action-sheet"
-                color="danger"
+                class="btn-unsubscribe"
                 expand="full"
                 shape="round"
                 >DARSE DE BAJA
@@ -183,7 +181,7 @@
                v-else
                 @click="goToConfirmReservation()"
                 expand="full"
-                class="button-join"
+                class="btn-secondary"
                 shape="round"
                 >UNIRSE
               </ion-button> 
@@ -285,6 +283,10 @@ const searchDateParsed = computed(() => {
   return parseDateTimeStampToISO(firestoreTimestamp);
 });
 
+const searchPaymentTitle = computed(() => {
+  return (searchInfo.payment ? 'Si' : 'No')
+})
+
 const searchSize = computed(() => {
   return [searchInfo.size];
 });
@@ -355,7 +357,7 @@ ion-action-sheet.my-custom-action-sheet {
 }
 
 ion-icon {
-  font-size: 30px;
+  font-size: 25px;
 }
 
 ion-text {
@@ -370,11 +372,6 @@ ion-text {
   flex-direction: column;
   min-height: 76vh;
   padding: 0;
-}
-
-.button-join{
-  --background: var(--rose);
-  --color: var(--white);
 }
 
 </style>

@@ -25,7 +25,7 @@
               <ion-button
                 v-if="showForm"
                 @click="handleSubmit"
-                class="ion-float-right ion-margin-top"
+                class="ion-float-right ion-margin-top btn-secondary"
                 fill="outline"
               >
                 <ion-icon :icon="checkmarkOutline"></ion-icon>

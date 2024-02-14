@@ -45,6 +45,7 @@ ion-icon {
 }
 .selected {
   color: var(--rose) !important;
+  background: var(--black) !important;
 }
 
 </style>

@@ -20,7 +20,7 @@ http://ionicframework.com/docs/theming/ */
   --gray: #707070;
   --light-gray: #e4e4e4;
   --gold: #d7a752;
-  --red: #Dc3545;
+  --red: #d1041f;
   --purple: #621d8a;
   --light-purple: #9b6ab8;
   --light-green: #54B8AF;
@@ -34,8 +34,7 @@ http://ionicframework.com/docs/theming/ */
   --ion-color-step-650: var(--white);
   --ion-text-color: var(--white) !important;
   --ion-text-color-rgb: 255,255,255;
-
-
+  --green-flour: #43e66f;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -97,6 +96,63 @@ html {
   /* For more information on dynamic font scaling, visit the documentation: 
   https://ionicframework.com/docs/layout/dynamic-font-scaling */
   --ion-dynamic-font: var(--ion-default-dynamic-font);
+}
+
+ion-segment-button::part(indicator-background) {
+  background: var(--green-flour);
+}
+
+/* Material Design styles */
+ion-segment-button.md::part(native) {
+  color: var(--white);
+}
+
+.segment-button-checked.md::part(native) {
+  color: var(--green-flour);
+}
+
+ion-segment-button.md::part(indicator-background) {
+  height: 1px;
+}
+
+/* iOS styles */
+ion-segment-button.ios::part(native) {
+  color: var(--green-flour);
+}
+
+.segment-button-checked.ios::part(native) {
+  color: var(--white);
+}
+
+ion-segment-button.ios::part(indicator-background) {
+  border-radius: 20px;
+}
+
+ion-tab-button {
+  --color-selected: var(--green-flour);
+}
+
+ion-button {
+  --color: var(--white);
+  --background: var(--green-flour);
+  --border-radius: 10px;
+  text-transform: none !important;
+}
+
+.btn-secondary {
+  --background: var(--black);
+  --color: var(--green-flour);
+  --background-activated: var(--light-gray);
+}
+
+.btn-unsubscribe {
+  --background: var(--red);
+  --background-activated: var(--light-gray);
+}
+
+.btn-unsubscribe-clear {
+  --background: var(--transparent);
+  --background-activated: var(--transparent);
 }
 
 ion-datetime {
