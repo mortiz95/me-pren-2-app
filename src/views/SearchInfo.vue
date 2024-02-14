@@ -16,10 +16,7 @@
               <ion-segment-button value="info" @click="selectedTab = 'info'">
                 <ion-label>Info</ion-label>
               </ion-segment-button>
-              <ion-segment-button
-                value="players"
-                @click="selectedTab = 'players'"
-              >
+              <ion-segment-button value="players" @click="selectedTab = 'players'">
                 <ion-label>Jugadores</ion-label>
               </ion-segment-button>
             </ion-segment>
@@ -38,9 +35,10 @@
                 </h2>
               </ion-col>
               <ion-col class="ion-text-end">
-                <ion-chip color="warning" class="chips ion-padding-vertical">
-                    {{ checkIsFull }}
-                  </ion-chip>
+                <ion-chip :class="checkIsFull === 'FULL' ? 'chip-danger' : 'chip-success'"
+                  class="mr-5 ion-padding-vertical">
+                  {{ checkIsFull }}
+                </ion-chip>
               </ion-col>
             </ion-row>
           </div>
@@ -51,8 +49,7 @@
               </ion-col>
               <ion-col>
                 <ion-text class="ion-text-uppercase">
-                  {{ searchInfo.place }}</ion-text
-                >
+                  {{ searchInfo.place }}</ion-text>
               </ion-col>
             </ion-row>
             <ion-row class="ion-align-items-center">
@@ -81,18 +78,18 @@
             </ion-row>
           </div>
           <div class="border-bottom ion-padding-vertical">
-              <ion-row class="ion-align-items-center">
-                <ion-col size="4">Info del evento: </ion-col>
-                <ion-col size="8">
-                  <Chips v-if="Object.keys(searchInfo.size).length > 0" :chips="searchSize"> </Chips>
+            <ion-row class="ion-align-items-center">
+              <ion-col size="4">Info del evento: </ion-col>
+              <ion-col size="8">
+                <Chips v-if="Object.keys(searchInfo.size).length > 0" :chips="searchSize"> </Chips>
 
-                  <Chips v-if="Object.keys(searchInfo.type).length > 0" :chips="searchType"> </Chips>
+                <Chips v-if="Object.keys(searchInfo.type).length > 0" :chips="searchType"> </Chips>
 
-                  <Chips v-if="Object.keys(searchInfo.gender).length > 0" :chips="searchGender"> </Chips>
+                <Chips v-if="Object.keys(searchInfo.gender).length > 0" :chips="searchGender"> </Chips>
 
-                  <Chips v-if="Object.keys(searchInfo.grassType).length > 0" :chips="searchGrassType"> </Chips>
-                </ion-col>
-              </ion-row>
+                <Chips v-if="Object.keys(searchInfo.grassType).length > 0" :chips="searchGrassType"> </Chips>
+              </ion-col>
+            </ion-row>
           </div>
           <div class="border-bottom ion-padding-vertical">
             <ion-row class="mt-5">
@@ -101,10 +98,7 @@
               </ion-col>
             </ion-row>
           </div>
-          <div
-            v-if="searchInfo.description != ''"
-            class="border-bottom ion-text-capitalize ion-padding-vertical"
-          >
+          <div v-if="searchInfo.description != ''" class="border-bottom ion-text-capitalize ion-padding-vertical">
             <ion-row>
               <ion-col size="auto">Description: </ion-col>
               <ion-col size="auto">{{ searchInfo.description }}</ion-col>
@@ -112,30 +106,15 @@
           </div>
           <ion-row style="flex: 1; align-items: flex-end">
             <ion-col size="12">
-              <ion-button
-                v-if="checkIfParticipating"
-                id="open-action-sheet"
-                class="btn-unsubscribe"
-                expand="full"
-                shape="round"
-                >DARSE DE BAJA
+              <ion-button v-if="checkIfParticipating" id="open-action-sheet" class="btn-unsubscribe" expand="full"
+                shape="round">DARSE DE BAJA
               </ion-button>
-              <ion-button
-               v-else
-                @click="goToConfirmReservation()"
-                class="btn-secondary"
-                expand="full"
-                shape="round"
-                >UNIRSE
-              </ion-button> 
-              <ion-action-sheet
-                 trigger="open-action-sheet"
-                 header="Esta seguro que desea darse de baja?"
-                 class="my-custom-action-sheet"
-                 :buttons="actionSheetButtons"
-                 backdropDismiss="false"
-                 @didDismiss="logResult($event)"
-               ></ion-action-sheet>
+              <ion-button v-else @click="goToConfirmReservation()" class="btn-secondary" expand="full"
+                shape="round">UNIRSE
+              </ion-button>
+              <ion-action-sheet trigger="open-action-sheet" header="Esta seguro que desea darse de baja?"
+                class="my-custom-action-sheet" :buttons="actionSheetButtons" backdropDismiss="false"
+                @didDismiss="logResult($event)"></ion-action-sheet>
             </ion-col>
           </ion-row>
         </ion-grid>
@@ -147,52 +126,30 @@
         <ion-grid class="wrapper">
           <ion-row>
             <ion-col>
-              <ProgressBar
-               :searchSpots="searchInfo.spots"
-               :totalUsersIdAttending="searchInfo.usersAttending.length"
-               class="ion-margin-top"
-              ></ProgressBar>
+              <ProgressBar :searchSpots="searchInfo.spots" :totalUsersIdAttending="searchInfo.usersAttending.length"
+                class="ion-margin-top"></ProgressBar>
             </ion-col>
           </ion-row>
           <ion-row class="mt-10">
-            <ion-col size="6"  
-            v-for="(item, index) in searchInfo.usersAttending"
-            :key="index">
-             <PlayerItem 
-             :playerInfo="{
-              id: item.id,
-              name: item.name,
-              lastName: item.lastName,
-             }"
-             ></PlayerItem>
+            <ion-col size="6" v-for="(item, index) in searchInfo.usersAttending" :key="index">
+              <PlayerItem :playerInfo="{
+                id: item.id,
+                name: item.name,
+                lastName: item.lastName,
+              }"></PlayerItem>
             </ion-col>
           </ion-row>
           <ion-row style="flex: 1; align-items: flex-end">
             <ion-col size="12">
-              <ion-button
-                v-if="checkIfParticipating"
-                id="open-action-sheet"
-                class="btn-unsubscribe"
-                expand="full"
-                shape="round"
-                >DARSE DE BAJA
+              <ion-button v-if="checkIfParticipating" id="open-action-sheet" class="btn-unsubscribe" expand="full"
+                shape="round">DARSE DE BAJA
               </ion-button>
-              <ion-button
-               v-else
-                @click="goToConfirmReservation()"
-                expand="full"
-                class="btn-secondary"
-                shape="round"
-                >UNIRSE
-              </ion-button> 
-              <ion-action-sheet
-              trigger="open-action-sheet"
-                 header="Esta seguro que desea darse de baja?"
-                 class="my-custom-action-sheet"
-                 :buttons="actionSheetButtons"
-                 backdropDismiss="false"
-                 @didDismiss="logResult($event)"
-               ></ion-action-sheet>
+              <ion-button v-else @click="goToConfirmReservation()" expand="full" class="btn-secondary"
+                shape="round">UNIRSE
+              </ion-button>
+              <ion-action-sheet trigger="open-action-sheet" header="Esta seguro que desea darse de baja?"
+                class="my-custom-action-sheet" :buttons="actionSheetButtons" backdropDismiss="false"
+                @didDismiss="logResult($event)"></ion-action-sheet>
             </ion-col>
           </ion-row>
 
@@ -252,28 +209,28 @@ const userStore = useUserStore();
 const searchStore = useSearchStore();
 
 const actionSheetButtons = [
-    {
-      text: 'Confirmar',
-      role: 'destructive',
-      data: {
-        action: 'delete',
-      },
+  {
+    text: 'Confirmar',
+    role: 'destructive',
+    data: {
+      action: 'delete',
     },
-    {
-      text: 'Cancelar',
-      role: 'cancel',
-      data: {
-        action: 'cancel',
-      },
+  },
+  {
+    text: 'Cancelar',
+    role: 'cancel',
+    data: {
+      action: 'cancel',
     },
-  ];
+  },
+];
 
-  const logResult = async (ev: CustomEvent)  => {
-    const optionSelected = ev.detail.data.action
-    if(optionSelected === 'delete'){
-      //await unsubscribe()
-    }
-  };
+const logResult = async (ev: CustomEvent) => {
+  const optionSelected = ev.detail.data.action
+  if (optionSelected === 'delete') {
+    //await unsubscribe()
+  }
+};
 
 const searchDateParsed = computed(() => {
   const firestoreTimestamp = new Timestamp(
@@ -304,7 +261,7 @@ const searchGrassType = computed(() => {
 });
 
 const getSpotsAvailable = computed(() => {
-  if(searchInfo.usersIdAttending){
+  if (searchInfo.usersIdAttending) {
     return searchInfo.spots - searchInfo.usersAttending.length;
   }
   else {
@@ -314,19 +271,19 @@ const getSpotsAvailable = computed(() => {
 
 const checkIsFull = computed(() => {
   return searchInfo
-    ? searchInfo.spots === searchInfo.usersAttending.length
+    ? getSpotsAvailable.value == 0
       ? "FULL"
-      : "Quedan: " + getSpotsAvailable.value + " lugares"
+      : getSpotsAvailable.value == 1 ? "Disponible:" + getSpotsAvailable.value + " lugar"  :   "Disponible: " + getSpotsAvailable.value + " lugares"
     : "";
 });
 
-const unsubscribe =  async () => {
- await userStore.removeSearchFromMySearchedAttended(searchInfo.id);
- await searchStore.removeMeFromSearch(searchInfo.id)
- console.log("Se ha eliminado de mis buscadas");
+const unsubscribe = async () => {
+  await userStore.removeSearchFromMySearchedAttended(searchInfo.id);
+  await searchStore.removeMeFromSearch(searchInfo.id)
+  console.log("Se ha eliminado de mis buscadas");
 };
 
-const goToConfirmReservation =  async () => {
+const goToConfirmReservation = async () => {
   router.push({ name: "ConfirmReservation" });
 };
 
@@ -348,7 +305,7 @@ onIonViewDidEnter(() => {
 });
 </script>
   
-  <style scoped>
+<style scoped>
 ion-action-sheet.my-custom-action-sheet {
   --background: var(--black);
   --backdrop-opacity: 0.6;
@@ -363,6 +320,7 @@ ion-icon {
 ion-text {
   font-size: 16px;
 }
+
 .border-bottom {
   border-bottom: 1px solid var(--white);
 }
@@ -373,6 +331,5 @@ ion-text {
   min-height: 76vh;
   padding: 0;
 }
-
 </style>
   

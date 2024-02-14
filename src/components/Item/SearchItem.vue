@@ -36,7 +36,7 @@
             <ion-icon :icon="informationOutline" class="ion-margin-end search-info__icon ion-text-capitalize"></ion-icon>
           </ion-col>
           <ion-col>
-            <ion-chip :color="checkIsFull() === 'FULL' ? 'danger' : 'success'" class="mr-5">
+            <ion-chip :class="checkIsFull() === 'FULL' ? 'chip-danger' : 'chip-success'" class="mr-5">
               {{ checkIsFull() }}
             </ion-chip>
 
@@ -108,9 +108,9 @@ const goToSearchInfo = () => {
 
 const checkIsFull = () => {
   return props.searchInfo
-    ? props.searchInfo.spots === props.searchInfo.usersAttending.length
+    ? getSpotsAvailable() == 0
       ? "FULL"
-      : getSpotsAvailable() + " lugares"
+      : getSpotsAvailable() == 1 ? "Disponible:" + getSpotsAvailable() + " lugar"  :   "Disponible: " + getSpotsAvailable() + " lugares"
     : "";
 };
 

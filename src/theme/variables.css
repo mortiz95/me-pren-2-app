@@ -331,3 +331,13 @@ p {
 .text-nowrap {
   white-space: nowrap;
 }
+
+.chip-danger {
+  --background: var(--red) !important;
+  --color: var(--red) !important;
+}
+
+.chip-success {
+  --background: var(--green-flour) !important;
+  color: var(--black) !important;
+}

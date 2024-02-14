@@ -18,27 +18,27 @@
       <div v-if="showInfo" class="ion-padding-horizontal">
         <ion-grid class="wrapper">
           <ion-row>
-            <ion-col size="10">
-              <h1 class="ion-text-capitalize">
+            <ion-col size="auto">
+              <h2 class="ion-text-capitalize">
                 {{ searchInfo.province }}, {{ searchInfo.city }}
-              </h1>
+              </h2>
             </ion-col>
           </ion-row>
           <ion-row class="ion-align-items-center">
-            <ion-col size="2">
+            <ion-col size="auto">
               <ion-icon :icon="locationOutline"></ion-icon>
             </ion-col>
-            <ion-col size="10">
+            <ion-col>
               <ion-text class="ion-text-uppercase">
                 {{ searchInfo.place }}</ion-text
               >
             </ion-col>
           </ion-row>
           <ion-row class="ion-align-items-center">
-            <ion-col size="2">
+            <ion-col size="auto">
               <ion-icon :icon="calendarOutline"></ion-icon>
             </ion-col>
-            <ion-col size="10">
+            <ion-col class="ion-text-capitalize">
               {{ searchDateParsed }}
             </ion-col>
           </ion-row>
@@ -48,7 +48,7 @@
             </ion-col>
             <ion-col size="12" class="ion-text-center ion-text-capitalize">
               <ion-icon :icon="personCircle" class="user-icon"></ion-icon>
-              <h2>{{ myUserName }}</h2>
+              <h3>{{ myUserName }}</h3>
             </ion-col>
           </ion-row>
           <ion-row>
@@ -70,7 +70,7 @@
           </ion-row>
           <ion-row style="flex: 1; align-items: flex-end">
             <ion-col size="12">
-              <ion-button @click="joinSearch()" expand="full" shape="round" class="button-join"
+              <ion-button @click="joinSearch()" expand="full" shape="round" class="btn-secondary"
                 >Confirmar</ion-button
               >
             </ion-col>
@@ -99,7 +99,7 @@
           </ion-row>
           <ion-row>
             <ion-col size="12">
-              <ion-button class="ion-padding-horizontal button-join" expand="full" shape="round" @click="backToSearches()">
+              <ion-button class="ion-padding-horizontal btn-secondary" expand="full" shape="round" @click="backToSearches()">
               Volver a Buscar
               </ion-button>
             </ion-col>

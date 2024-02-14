@@ -48,7 +48,7 @@ onMounted(() => {});
 .progress-bar-fill {
   display: block;
   height: 5px;
-  background-color: var(--rose);
+  background-color: var(--white);
   border-radius: 3px;
   transition: width 500ms ease-in-out;
 }

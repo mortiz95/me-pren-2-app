@@ -39,7 +39,7 @@
         </ion-row>
 
         <ion-row class="mt-5">
-          <ion-col size="auto">
+          <ion-col size="auto" class="ion-align-self-center">
             <ion-icon :icon="informationCircleOutline"
               class="ion-margin-end search-info__icon ion-text-capitalize"></ion-icon>
           </ion-col>
