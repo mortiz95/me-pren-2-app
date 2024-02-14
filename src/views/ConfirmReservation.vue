@@ -15,7 +15,8 @@
       </ion-toolbar>
     </ion-header>
     <ion-content :fullscreen="true">
-      <div v-if="showInfo" class="ion-padding-horizontal">
+      <div v-if="!showSpinner">  
+        <div v-if="showInfo" class="ion-padding-horizontal">
         <ion-grid class="wrapper">
           <ion-row>
             <ion-col size="auto">
@@ -76,8 +77,8 @@
             </ion-col>
           </ion-row>
         </ion-grid>
-      </div>
-      <div v-else>
+        </div>
+        <div v-else>
         <ion-grid class="wrapper-success">
           <ion-row
             style="flex: 1"
@@ -105,7 +106,11 @@
             </ion-col>
           </ion-row>
         </ion-grid>
+        </div>
       </div>
+    <div v-else class="loading">
+        <ion-spinner></ion-spinner>
+      </div> 
     </ion-content>
   </ion-page>
 </template>
@@ -133,8 +138,8 @@ import { useSearchStore } from "@/store/search";
 
 const router = useRouter();
 const route = useRoute();
-const loading = ref(true);
 const showInfo = ref(true);
+const showSpinner = ref(false);
 
 //Param info
 const routeParam: any = route?.params?.info;
@@ -143,10 +148,6 @@ const searchInfo: Search = JSON.parse(routeParam);
 const { parseDateTimeStampToISO } = useDateParser();
 const userStore = useUserStore();
 const searchStore = useSearchStore();
-
-onIonViewDidEnter(() => {
-  loading.value = false;
-});
 
 const searchDateParsed = computed(() => {
   const firestoreTimestamp = new Timestamp(
@@ -157,10 +158,11 @@ const searchDateParsed = computed(() => {
 });
 
 const joinSearch = async () => {
-  showInfo.value = false;
+  showSpinner.value = true;
   await searchStore.addPlayerToSearch(searchInfo.id)
   await userStore.addSearchToMySearchesAttended(searchInfo.id) //Historical
-
+  showSpinner.value = false;
+  showInfo.value = false;
 };
 
 const myUserName = computed(() => {
@@ -206,8 +208,11 @@ ion-icon {
   font-size: 60px;
 }
 
-.button-join{
-  --background: var(--rose);
-  --color: var(--white);
+.loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 75vh;
 }
+
 </style>

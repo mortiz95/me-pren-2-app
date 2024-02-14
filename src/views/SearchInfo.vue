@@ -25,7 +25,9 @@
       </ion-toolbar>
     </ion-header>
     <ion-content :fullscreen="true">
-      <div v-if="selectedTab === 'info'" class="ion-padding-horizontal">
+    <div v-if="!showSpinner">  
+      <div v-if="showInfo">
+        <div v-if="selectedTab === 'info'" class="ion-padding-horizontal">
         <ion-grid class="wrapper">
           <div>
             <ion-row class="ion-align-items-center">
@@ -118,11 +120,8 @@
             </ion-col>
           </ion-row>
         </ion-grid>
-        <div v-if="loading" class="spinner-container">
-          <ion-spinner></ion-spinner>
         </div>
-      </div>
-      <div v-if="selectedTab === 'players'" class="ion-padding-horizontal">
+        <div v-if="selectedTab === 'players'" class="ion-padding-horizontal">
         <ion-grid class="wrapper">
           <ion-row>
             <ion-col>
@@ -152,13 +151,38 @@
                 @didDismiss="logResult($event)"></ion-action-sheet>
             </ion-col>
           </ion-row>
-
         </ion-grid>
-
-        <div v-if="loading" class="spinner-container">
-          <ion-spinner></ion-spinner>
         </div>
-      </div>
+      </div> 
+      <div v-else>
+        <ion-grid class="wrapper-success">
+          <ion-row
+            style="flex: 1"
+            class="ion-align-items-center ion-justify-content-center"
+          >
+            <ion-col size="10">
+              <div class="ion-align-items-center flex-column ion-text-center">
+                <ion-icon
+                  :icon="personRemoveOutline"
+                  class="icon-60"
+                ></ion-icon>
+                <h1>Te has dado de baja correctamente</h1>
+              </div>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col size="12">
+              <ion-button class="ion-padding-horizontal btn-secondary" expand="full" shape="round" @click="backToSearches()">
+              Volver a Buscar
+              </ion-button>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </div>  
+    </div>
+    <div v-else class="loading">
+        <ion-spinner></ion-spinner>
+      </div> 
     </ion-content>
   </ion-page>
 </template>
@@ -175,7 +199,8 @@ import {
   calendarOutline,
   gameControllerOutline,
   openOutline,
-  accessibilityOutline
+  accessibilityOutline,
+  personRemoveOutline
 } from "ionicons/icons";
 
 import { computed, ref } from "vue";
@@ -199,6 +224,9 @@ const router = useRouter();
 const route = useRoute();
 const loading = ref(true);
 const selectedTab = ref("info");
+const showInfo = ref(true);
+const showSpinner = ref(false);
+
 
 //Param info
 const routeParamInfo: any = route?.params?.info;
@@ -228,7 +256,10 @@ const actionSheetButtons = [
 const logResult = async (ev: CustomEvent) => {
   const optionSelected = ev.detail.data.action
   if (optionSelected === 'delete') {
-    //await unsubscribe()
+    showSpinner.value = true;
+    await unsubscribe()
+    showSpinner.value = false;
+    showInfo.value = false;
   }
 };
 
@@ -297,6 +328,10 @@ const checkIfParticipating = computed(() => {
   return false;
 });
 
+const backToSearches = () => {
+  router.push("/tabs/tab1");
+};
+
 const goBack = () => {
   router.back();
 };
@@ -331,5 +366,24 @@ ion-text {
   min-height: 76vh;
   padding: 0;
 }
+
+.loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 75vh;
+}
+
+.wrapper-success {
+  display: flex;
+  flex-direction: column;
+  min-height: 75vh;
+  padding: 0;
+}
+
+.icon-60 {
+  font-size: 60px;
+}
+
 </style>
   
