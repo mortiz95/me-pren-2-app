@@ -40,10 +40,8 @@ const checkIsMe = (userId: any) => {
 
   ion-chip {
     --background: var(--light-black) !important;
-    --color: var(--white);
     border: 2px solid var(--black);
     width: 100%;
-    border-radius: 10px;
   }
 
    .player-icon{

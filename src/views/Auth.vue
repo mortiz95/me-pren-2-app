@@ -11,7 +11,7 @@
              <div class="login-title">   
               &iexcl;Bienvenido&excl;
              </div>
-             <div class="login-subtitle">   
+             <div v-if="!isRegistering" class="login-subtitle">   
               Ya tienes una cuenta? Iniciar sesion.
              </div>
           </ion-col>
@@ -95,8 +95,11 @@
             </ion-card>
           </ion-col>
           <ion-col size="12" class="ion-text-center ion-margin-vertical">
-             <div @click="toggleRegisterAndResetError">
+             <div  v-if="!isRegistering" @click="toggleRegisterAndResetError">
                No tienes una cuenta? <u>Registrarse</u>
+             </div>
+             <div v-else @click="toggleRegisterAndResetError">
+               Ya tienes una cuenta? <u>Login</u>
              </div>
           </ion-col>
         </ion-row>

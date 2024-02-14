@@ -2,10 +2,7 @@
     <ion-grid class="ion-no-padding">
       <ion-row>
         <ion-col size="6">
-          <ion-text>Confirmados: {{ totalUsersIdAttending }}</ion-text>
-        </ion-col>
-        <ion-col size="6" class="ion-text-end">
-          <ion-text>Lugar libres: {{ calculateFreeSpots }}</ion-text>
+          <ion-text>Confirmados: {{ totalUsersIdAttending }} / {{ searchSpots }} </ion-text>
         </ion-col>
         <ion-col size="12">
           <div class="progress-bar">
@@ -29,13 +26,6 @@ const props = defineProps<{
 
 const calculateProgressBarWidth = computed(() => {
   return `${(props.totalUsersIdAttending / props.searchSpots) * 100}%`;
-});
-
-const calculateFreeSpots = computed(() => {
-  if(props.searchSpots == props.totalUsersIdAttending)
-    return 'FULL'
-  else
-    return props.searchSpots - props.totalUsersIdAttending
 });
 
 onMounted(() => {});

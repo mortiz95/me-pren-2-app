@@ -74,18 +74,18 @@
             </ion-row>
             <ion-row class="mt-10">
               <ion-col size="12">
-                  <ion-chip v-if="searchInfo.size.text" class="chip-bg-black">
+                  <ion-chip v-if="searchInfo.size.text" >
                     <ion-label> {{ searchInfo?.size?.text }} </ion-label>
                   </ion-chip>
-                  <ion-chip v-if="searchInfo.gender.text" class="chip-bg-black">
+                  <ion-chip v-if="searchInfo.gender.text">
                     <ion-label> {{ searchInfo?.gender?.text }} </ion-label>
                     <ion-icon :icon="searchInfo.gender.icon"></ion-icon>
                   </ion-chip>
-                  <ion-chip v-if="searchInfo.type.text" class="chip-bg-black">
+                  <ion-chip v-if="searchInfo.type.text">
                     <ion-label> {{ searchInfo?.type?.text }}</ion-label>
                     <ion-icon :icon="searchInfo.type.icon"></ion-icon>
                   </ion-chip>
-                  <ion-chip v-if="searchInfo.grassType.text" class="chip-bg-black">
+                  <ion-chip v-if="searchInfo.grassType.text">
                     <ion-label> {{ searchInfo?.grassType?.text }}</ion-label>
                     <ion-icon :icon="searchInfo.grassType.icon"></ion-icon>
                   </ion-chip>
@@ -179,18 +179,6 @@
   ion-card-subtitle,
   ion-card-content {
     color: var(--white);
-  }
-  
-  ion-chip {
-    --background: var(--transparent);
-    color: var(--white);
-    font-size: 10px;
-    margin-left: 0px;
-    border: 1px solid var(--white);
-  }
-  
-  .chip-bg-black{
-    --background: var(--black);
   }
   
   .search-info__icon {

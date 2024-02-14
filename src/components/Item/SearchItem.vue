@@ -1,20 +1,20 @@
 <template>
   <ion-card @click="goToSearchInfo()">
-        <ion-card-header
-      class="ion-no-padding ion-padding-horizontal ion-padding-top"
-    >
+    <ion-card-header class="ion-no-padding ion-padding-horizontal ion-padding-top">
       <ion-grid class="ion-no-padding ion-no-margin">
         <ion-row>
-          <ion-col size="11">
+          <ion-col size="7">
             <ion-card-title>
               <div class="container-card-title">
-                <ion-icon
-                  :icon="locationOutline"
-                  class="ion-margin-end search-info__icon ion-text-capitalize"
-                ></ion-icon>
+                <ion-icon :icon="locationOutline" class="ion-margin-end search-info__icon ion-text-capitalize"></ion-icon>
                 {{ searchInfo.place }}
               </div>
             </ion-card-title>
+          </ion-col>
+          <ion-col size="4">
+            <ion-label color="warning">
+              {{ checkIfParticipating ? "Ya te has unido" : "" }}
+            </ion-label>
           </ion-col>
           <ion-col size="1">
             <ion-icon class="ion-float-end" :icon="chevronForward"></ion-icon>
@@ -25,114 +25,63 @@
           <ion-col size="12">
             <ion-card-subtitle>
               <div class="container-card-subtitle ion-text-capitalize">
-                <ion-icon
-                  :icon="calendarOutline"
-                  class="ion-margin-end search-info__icon"
-                ></ion-icon>
+                <ion-icon :icon="calendarOutline" class="ion-margin-end search-info__icon"></ion-icon>
                 {{ parseDateTimeStampToISO(searchInfo?.date) }}
               </div>
             </ion-card-subtitle>
           </ion-col>
         </ion-row>
-
         <ion-row class="mt-10">
-          <ion-col size="12">
-            <ion-card-subtitle v-show="checkIfParticipating">
-              <div class="container-card-subtitle">
-                <ion-chip>
-                  <ion-icon
-                    :icon="happyOutline"
-                    class="search-info__icon"
-                  ></ion-icon>
-                  <ion-label>
-                    {{ checkIfParticipating ? "Ya te has unido" : "" }}
-                  </ion-label>
-                </ion-chip>
-              </div>
-            </ion-card-subtitle>
+          <ion-col size="auto"> 
+            <ion-icon :icon="informationOutline" class="ion-margin-end search-info__icon ion-text-capitalize"></ion-icon>
+          </ion-col>
+          <ion-col>
+            <ion-chip :color="checkIsFull() === 'FULL' ? 'danger' : 'success'" class="mr-5">
+              {{ checkIsFull() }}
+            </ion-chip>
+
+            <template v-if="searchInfo.size">
+              <ion-chip color="dark" class="ion-text-center mr-5">
+                <div>{{ searchInfo.size.text }}</div>
+              </ion-chip>
+            </template>
+
+            <template v-if="searchInfo.gender">
+              <ion-chip color="dark" class="ion-text-center mr-5">
+                <div>{{ searchInfo.gender.text }}</div>
+                <ion-icon class="search-info-badge__icon" :icon="searchInfo.gender.icon"></ion-icon>
+              </ion-chip>
+            </template>
+
+            <template v-if="searchInfo.type">
+              <ion-chip color="dark" class="ion-text-center mr-5">
+                <div>{{ searchInfo.type.text }}</div>
+                <ion-icon class="search-info-badge__icon" :icon="searchInfo.type.icon"></ion-icon>
+              </ion-chip>
+            </template>
+
+            <template v-if="searchInfo.grassType">
+              <ion-chip color="dark" class="ion-text-center mr-5">
+                <div>{{ searchInfo.grassType.text }}</div>
+                <ion-icon class="search-info-badge__icon" :icon="searchInfo.grassType.icon"></ion-icon>
+              </ion-chip>
+            </template>
           </ion-col>
         </ion-row>
-
       </ion-grid>
     </ion-card-header>
-
     <ion-card-content>
-      <ion-grid class="ion-no-padding">
-        <ion-row class="ion-margin-top">
-          <ion-col size="2"> Info </ion-col>
-          <ion-col>
-            <ion-badge
-              :color="checkIsFull() === 'FULL' ? 'danger' : 'warning'"
-              class="tags mr-5"
-            >
-              {{ checkIsFull() }}
-            </ion-badge>
-
-            <ion-badge
-              v-if="Object.keys(searchInfo.size).length > 0"
-              color="dark"
-              class="ion-text-center tags mr-5"
-            >
-              {{ searchInfo?.size?.text }}
-            </ion-badge>
-
-            <ion-badge
-              v-if="Object.keys(searchInfo.grassType).length > 0"
-              color="dark"
-              class="ion-text-center tags mr-5"
-            >
-              <div>
-                {{ searchInfo?.grassType?.text }}
-              </div>
-              <ion-icon
-                class="search-info-badge__icon"
-                v-if="searchInfo.grassType"
-                :icon="searchInfo.grassType.icon"
-              ></ion-icon>
-            </ion-badge>
-
-            <ion-badge
-              v-if="Object.keys(searchInfo.gender).length > 0"
-              color="dark"
-              class="ion-text-center tags mr-5"
-            >
-              <div>
-                {{ searchInfo?.gender?.text }}
-              </div>
-              <ion-icon
-                class="search-info-badge__icon"
-                v-if="searchInfo.gender"
-                :icon="searchInfo.gender.icon"
-              ></ion-icon>
-            </ion-badge>
-
-            <ion-badge
-              v-if="Object.keys(searchInfo.type).length > 0"
-              color="dark"
-              class="ion-text-center tags mr-5"
-            >
-              <div>
-                {{ searchInfo?.type?.text }}
-              </div>
-              <ion-icon
-                class="search-info-badge__icon"
-                v-if="searchInfo.type"
-                :icon="searchInfo.type.icon"
-              ></ion-icon>
-            </ion-badge>
-          </ion-col>
-        </ion-row>
-      </ion-grid>
     </ion-card-content>
   </ion-card>
 </template>
   
-  <script setup lang="ts">
+<script setup lang="ts">
 import {
   chevronForward,
   locationOutline,
   calendarOutline,
   happyOutline,
+  informationOutline
 } from "ionicons/icons";
 import { useRouter } from "vue-router";
 import { Search } from "../../types/Search";
@@ -189,17 +138,12 @@ const checkIfParticipating = computed(() => {
 });
 </script>
 
-  <style scoped>
-ion-chip {
-  --background: var(--black);
-  --color: var(--white);
-  font-size: 10px;
-  margin-left: 0px;
-}
+<style scoped>
 
 ion-card {
   background: transparent;
 }
+
 ion-icon,
 ion-card-title,
 ion-card-subtitle,

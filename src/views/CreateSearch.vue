@@ -168,14 +168,14 @@
               <ion-grid class="ion-padding-top ion-no-padding">
                 <ion-row class="ion-margin-bottom">
                   <ion-col>
-                    <Tags :tags="searchGender" @tagClicked="saveTagSearchGender">
-                    </Tags>
+                    <Chips :chips="searchGender" @tagClicked="saveChipsearchGender">
+                    </Chips>
                   </ion-col>
                 </ion-row>
                 <ion-row class="ion-margin-bottom">
                   <ion-col>
-                    <Tags :tags="searchType" @tagClicked="saveTagSearchType">
-                    </Tags>
+                    <Chips :chips="searchType" @tagClicked="saveChipsearchType">
+                    </Chips>
                   </ion-col>
                 </ion-row>
                 <ion-row
@@ -183,19 +183,19 @@
                   class="ion-margin-bottom"
                 >
                   <ion-col>
-                    <Tags :tags="searchSize" @tagClicked="saveTagSearchSize">
-                    </Tags>
+                    <Chips :chips="searchSize" @tagClicked="saveChipsearchSize">
+                    </Chips>
                   </ion-col>
                 </ion-row>
                 <ion-row
                   v-if="search.sport === 'futbol'"
                 >
                   <ion-col>
-                    <Tags
-                      :tags="searchGrassType"
-                      @tagClicked="saveTagSearchGrassType"
+                    <Chips
+                      :chips="searchGrassType"
+                      @tagClicked="saveChipsearchGrassType"
                     >
-                    </Tags>
+                    </Chips>
                   </ion-col>
                 </ion-row>
               </ion-grid>
@@ -267,7 +267,7 @@ import {
 } from "ionicons/icons";
 
 import { computed, ref } from "vue";
-import Tags from "../components/Tags/Tags.vue";
+import Chips from "../components/Chips/Chip.vue";
 import { auth } from "@/firebase";
 import { Timestamp } from "firebase/firestore";
 import { format } from "date-fns";
@@ -372,19 +372,19 @@ const handleChangeCity = (event: CustomEvent) => {
   search.value.city = event.detail.value;
 };
 
-const saveTagSearchType = (searchType: any) => {
+const saveChipsearchType = (searchType: any) => {
   search.value.type = searchType;
 };
 
-const saveTagSearchGender = (searchGender: any) => {
+const saveChipsearchGender = (searchGender: any) => {
   search.value.gender = searchGender;
 };
 
-const saveTagSearchSize = (searchSize: any) => {
+const saveChipsearchSize = (searchSize: any) => {
   search.value.size = searchSize;
 };
 
-const saveTagSearchGrassType = (searchSizeGrassType: any) => {
+const saveChipsearchGrassType = (searchSizeGrassType: any) => {
   search.value.grassType = searchSizeGrassType;
 };
 

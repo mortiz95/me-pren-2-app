@@ -1,24 +1,24 @@
 <template>
-  <ion-badge 
-    v-for="option in tags"
+  <ion-chip 
+    v-for="option in chips"
     :key="option.value"
     @click="emitTagClicked(option)" 
     color="dark" 
-    class="ion-text-center tags mr-5"
+    class="ion-text-center chips mr-5"
     :class="{ 'selected': isSelected(option) }"
   >
   <div>
     {{ option.text }}
   </div>
     <ion-icon v-if="option.icon" :icon="option.icon"></ion-icon>
-  </ion-badge>
+  </ion-chip>
 </template>
   
 <script setup lang="ts">
 import { ref } from "vue";
 
 const props = defineProps({
-  tags: {
+  chips: {
     type: Array as () => Array<{ value: string, text: string, icon: string  }>,
     required: true
   }

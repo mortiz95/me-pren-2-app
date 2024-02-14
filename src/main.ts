@@ -10,7 +10,7 @@ import { createPinia } from 'pinia';
   IonPage,IonContent,IonHeader,IonGrid,IonRow,IonCol,IonToolbar,IonIcon,IonButton,
   IonFabButton,IonItem,IonToggle,IonList,IonSelect,IonSelectOption,IonLabel,
   IonCard,IonSpinner,IonInput,IonText,IonDatetimeButton, IonModal, IonDatetime,
-  IonButtons, IonTitle, IonBadge, IonToast, IonTextarea, IonCardContent, IonCardHeader,
+  IonButtons, IonTitle, IonToast, IonTextarea, IonCardContent, IonCardHeader,
   IonCardTitle, IonCardSubtitle, IonicVue, IonSegment, IonSegmentButton, IonAccordion, IonAccordionGroup,
   IonChip,IonActionSheet
 } from "@ionic/vue"; 
@@ -65,7 +65,6 @@ const app = createApp(App)
   app.component('ion-modal', IonModal)
   app.component('ion-buttons', IonButtons)
   app.component('ion-title', IonTitle)
-  app.component('ion-badge', IonBadge)
   app.component('ion-toast', IonToast)
   app.component('ion-textarea', IonTextarea)
   app.component('ion-card-content', IonCardContent)

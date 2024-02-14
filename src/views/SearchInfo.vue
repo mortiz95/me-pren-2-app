@@ -80,9 +80,9 @@
               <ion-row class="ion-align-items-center">
                 <ion-col size="auto">Lugares disponibles: </ion-col>
                 <ion-col>
-                  <ion-badge color="warning" class="tags">
+                  <ion-chip color="warning" class="Chips">
                     {{ checkIsFull }}
-                  </ion-badge>
+                  </ion-chip>
                 </ion-col>
               </ion-row>
             </div>
@@ -92,13 +92,13 @@
               <ion-row class="ion-align-items-center">
                 <ion-col size="4">Info del evento: </ion-col>
                 <ion-col size="8">
-                  <Tags v-if="Object.keys(searchInfo.size).length > 0" :tags="searchSize"> </Tags>
+                  <Chips v-if="Object.keys(searchInfo.size).length > 0" :chips="searchSize"> </Chips>
 
-                  <Tags v-if="Object.keys(searchInfo.type).length > 0" :tags="searchType"> </Tags>
+                  <Chips v-if="Object.keys(searchInfo.type).length > 0" :chips="searchType"> </Chips>
 
-                  <Tags v-if="Object.keys(searchInfo.gender).length > 0" :tags="searchGender"> </Tags>
+                  <Chips v-if="Object.keys(searchInfo.gender).length > 0" :chips="searchGender"> </Chips>
 
-                  <Tags v-if="Object.keys(searchInfo.grassType).length > 0" :tags="searchGrassType"> </Tags>
+                  <Chips v-if="Object.keys(searchInfo.grassType).length > 0" :chips="searchGrassType"> </Chips>
                 </ion-col>
               </ion-row>
             </div>
@@ -234,7 +234,7 @@ import { Timestamp } from "firebase/firestore";
 import { auth } from "@/firebase";
 import { useUserStore } from "@/store/user";
 
-import Tags from "@/components/Tags/Tags.vue";
+import Chips from "@/components/Chips/Chip.vue";
 import ProgressBar from "../components/Progress-bar/ProgressBar.vue";
 import PlayerItem from "../components/Item/PlayerItem.vue"
 
