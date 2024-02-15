@@ -92,7 +92,9 @@ const options: any = {
 
 const handleChangeCity = async (event: any) => {
   city.value = event.detail.value
+  loading.value = true
   await searchStore.loadSearches(city.value, date.value);
+  loading.value = false
 };
 
 const loadSearchesByDay = async (day: any) => {
@@ -135,6 +137,11 @@ const parseDateStringToTimestamp = (dateString: any) => {
 </script>
 
 <style scoped>
+
+ion-select{
+  --highlight-color-focused: var(--transparent)
+}
+
 .scrolling-list {
   margin-top: 80px;
   /* Adjust to match the height of the fixed component */
