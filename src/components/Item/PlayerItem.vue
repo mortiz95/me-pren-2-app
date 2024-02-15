@@ -43,10 +43,11 @@ const checkIsMe = (userId: any) => {
     border: 2px solid var(--black);
     width: 100%;
     font-size:14px !important;
+    height: 60px;
   }
 
    .player-icon{
-    font-size:23px !important;
+    font-size: 30px !important;
   }
 
 </style>

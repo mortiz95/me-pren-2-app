@@ -154,7 +154,7 @@ const parseDateStringToTimestamp = (dateString: any) => {
 }
 
 .no-data {
-  margin-top: 35vh;
+  margin-top: 30vh;
   /* Adjust to match the height of the fixed component */
   overflow-y: auto;
   /* Enable vertical scrolling for the list */
