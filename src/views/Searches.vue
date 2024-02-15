@@ -35,14 +35,14 @@
       </ion-toolbar>
     </ion-header>
     <ion-content :fullscreen="true">
-      <Calendar class="fixed-component"></Calendar>
+      <Calendar class="fixed-component" @returnDaySelected="loadSearchesByDay"></Calendar>
       <div v-show="!loading" class="scrolling-list">
         <div v-if="searchStore.searches.length > 0">
           <SearchItem v-for="item in searchStore.searches" :key="item.id" :searchInfo="item">
           </SearchItem>
         </div>
-        <div v-else class="flex-justify-center no-data">
-          No hay datos disponibles.
+        <div v-else class="flex-justify-center no-data ion-text-center">
+          No hay busquedas disponibles <br> para esta fecha.
         </div>
       </div>
       <div v-show="loading" class="loading">
@@ -70,16 +70,20 @@ import { useRoute } from "vue-router";
 import SearchItem from "../components/Item/SearchItem.vue";
 import Calendar from "../components/Calendar/Calendar.vue";
 import { ref } from "vue";
+import { Timestamp } from "firebase/firestore";
 
 const route = useRoute();
 const searchStore = useSearchStore();
 
 const loading = ref(true);
 const city = ref("capital");
+const date = ref()
 
 onIonViewDidEnter(async () => {
   searchStore.clearData();
-  await searchStore.loadSearches(city.value);
+  //Get today's games
+  const today = Timestamp.now();
+  await searchStore.loadSearches(city.value, today);
   loading.value = false;
 
 });
@@ -98,6 +102,44 @@ const handleChangeCity = (event: any) => {
   city.value = event.detail.value
 
 };
+
+const loadSearchesByDay = async (day: any) => {
+  searchStore.clearData();
+  if (day.includes('Hoy')) {
+    const today = Timestamp.now();
+    await searchStore.loadSearches(city.value, today);
+  } else {
+    const date = parseDateStringToTimestamp(day)
+    await searchStore.loadSearches(city.value, date);
+  }
+};
+const parseDateStringToTimestamp = (dateString: any) => {
+
+  const currentDate = new Date();
+
+  // Mapea los nombres de los días de la semana en español a inglés
+  const dayMappings: any = {
+    'lun': 'Mon',
+    'mar': 'Tue',
+    'mié': 'Wed',
+    'jue': 'Thu',
+    'vie': 'Fri',
+    'sáb': 'Sat',
+    'dom': 'Sun'
+  };
+  const [dayOfWeek, dayOfMonth] = dateString.split(' ');
+  const englishDayOfWeek = dayMappings[dayOfWeek];
+
+  // Obtén el día del mes a partir de la cadena
+  const dayOfMonthNumber = parseInt(dayOfMonth);
+
+  // Crea una nueva fecha con el año, mes y día actual, y establece la hora a la medianoche (00:00:00)
+  const formattedDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), dayOfMonthNumber);
+
+  // Convierte la fecha formateada a Timestamp
+  return Timestamp.fromDate(formattedDate);
+};
+
 
 </script>
 
