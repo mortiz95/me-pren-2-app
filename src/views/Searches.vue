@@ -90,8 +90,9 @@ const options: any = {
   cssClass: "my-custom-interface",
 };
 
-const handleChangeCity = (event: any) => {
+const handleChangeCity = async (event: any) => {
   city.value = event.detail.value
+  await searchStore.loadSearches(city.value, date.value);
 };
 
 const loadSearchesByDay = async (day: any) => {
