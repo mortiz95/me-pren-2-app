@@ -8,7 +8,9 @@
           @click="selectDay(day)"
           :class="{ 'selected': isSelected(day)}"
         >
+         <div class="ion-padding">
           {{ day }}
+         </div> 
         </div>
       </div>
     </div>
@@ -39,9 +41,16 @@
   };
   
   const formatDate = (date: any) => {
-    const options = { day: '2-digit', month: 'short' };
+  const today = new Date();
+  let options : any = { day: '2-digit' };
+  if (date.getDate() === today.getDate() && date.getMonth() === today.getMonth()) {
+    return `Hoy ${date.toLocaleDateString('es', options)}`;
+  } else {
+    options['weekday'] = 'short';
     return date.toLocaleDateString('es', options);
-  };
+  }
+};
+
   
   const scrollToToday = () => {
     const today = new Date();

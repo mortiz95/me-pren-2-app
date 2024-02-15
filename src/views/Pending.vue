@@ -4,12 +4,13 @@
       <ion-toolbar>
         <ion-grid class="ion-padding">
           <ion-row>
-            <ion-col size="12">
-              <h3>Te anotaste en una busqueda?</h3>
-              <p>
-                Aqui encontraras la info de las busquedas en las que te has anotado para
-                participar.
-              </p>
+            <ion-col size="auto" class="ion-no-padding">
+              <h2>Te anotaste en una busqueda? </h2>
+            </ion-col>
+            <ion-col size="auto" class="ion-no-padding" >
+              <ion-title size="small" class="ion-no-padding ion-padding-bottom">
+                Aquí encontrarás la información de las búsquedas en las que te has registrado para participar.
+              </ion-title>
             </ion-col>
           </ion-row>
         </ion-grid>

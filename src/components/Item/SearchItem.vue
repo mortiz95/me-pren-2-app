@@ -25,8 +25,8 @@
           <ion-col size="12">
             <ion-card-subtitle>
               <div class="container-card-subtitle ion-text-capitalize">
-                <ion-icon :icon="calendarOutline" class="ion-margin-end search-info__icon"></ion-icon>
-                {{ parseDateTimeStampToISO(searchInfo?.date) }}
+                <ion-icon :icon="timeOutline" class="ion-margin-end search-info__icon"></ion-icon>
+                {{ parseDateTimeStampToISO_GetHours(searchInfo?.date) }}
               </div>
             </ion-card-subtitle>
           </ion-col>
@@ -79,7 +79,7 @@
 import {
   chevronForward,
   locationOutline,
-  calendarOutline,
+  timeOutline,
   happyOutline,
   informationOutline
 } from "ionicons/icons";
@@ -95,7 +95,7 @@ const props = defineProps<{
 
 const router = useRouter();
 
-const { parseDateTimeStampToISO } = useDateParser();
+const { parseDateTimeStampToISO_GetHours } = useDateParser();
 
 const goToSearchInfo = () => {
   router.push({

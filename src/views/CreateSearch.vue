@@ -3,33 +3,15 @@
     <ion-header>
       <ion-toolbar>
         <ion-grid class="ion-padding">
-          <ion-row>
-            <ion-col v-if="showForm" size="10">
-              <h3>Estas buscando jugadores?</h3>
-              <p>
+          <ion-row v-if="showForm">
+            <ion-col size="auto" class="ion-no-padding">
+              <h2>Estas buscando jugadores?</h2>
+            </ion-col>
+            <ion-col size="auto" class="ion-no-padding">
+              <ion-title size="small" class="ion-no-padding ion-padding-bottom">
                 Crea una busqueda indicando cuantos jugadores necesitas para que se sumen a tu
                 equipo.
-              </p>
-            </ion-col>
-            <ion-col v-else>
-              <ion-button
-                @click="showForm = true"
-                class="ion-margin-top"
-                fill="outline"
-              >
-                <ion-icon :icon="chevronBackOutline" class="mr-5"></ion-icon>
-                Atras
-              </ion-button>
-            </ion-col>
-            <ion-col size="2">
-              <ion-button
-                v-if="showForm"
-                @click="handleSubmit"
-                class="ion-float-right ion-margin-top btn-secondary"
-                fill="outline"
-              >
-                <ion-icon :icon="checkmarkOutline"></ion-icon>
-              </ion-button>
+              </ion-title>
             </ion-col>
           </ion-row>
         </ion-grid>
@@ -38,7 +20,7 @@
     <ion-content :fullscreen="true">
       <form v-if="showForm" @submit.prevent="handleSubmit()">
         <div>
-          <ion-list :inset="true" lines="inset">
+          <ion-list :inset="true" lines="inset" class="ion-no-padding">
             <ion-item>
               <!--             <ion-select
               :value="search.sport"
@@ -59,6 +41,7 @@
               <ion-input
                 v-model="search.sport"
                 readonly
+                color="light"
                 label="Deporte"
                 label-placement="floating"
                 class="ion-text-capitalize"
@@ -69,6 +52,7 @@
               <ion-input
                 v-model="search.province"
                 readonly
+                color="light"
                 label="Provincia"
                 label-placement="floating"
                 class="ion-text-capitalize"
@@ -80,6 +64,7 @@
                     :value="city"
                     @ionChange="handleChangeCity($event)"
                     label="Municipio"
+                    color="light"
                     label-placement="stacked"
                     class="title-city ion-text-capitalize"
                     :interface-options="options"
@@ -103,12 +88,25 @@
             </ion-item>
 
             <ion-item class="ion-margin-top">
+              <ion-input
+                required
+                class="ion-text-capitalize"
+                color="light"
+                v-model="search.place"
+                label="* En que cancha jugaras?"
+                label-placement="floating"
+              ></ion-input>
+            </ion-item>
+
+            <ion-item class="ion-margin-top">
               <ion-select
                 :value="search.payment"
                 @ionChange="handleHasToPay($event)"
                 label="* Es un evento pago?"
                 label-placement="stacked"
+                color="light"
                 :interface-options="options"
+                class="ion-text-capitalize"
               >
                 <ion-select-option selected value="true">Si</ion-select-option>
                 <ion-select-option value="false">No</ion-select-option>
@@ -118,25 +116,20 @@
             <ion-item class="ion-margin-top">
               <ion-input
                 required
-                v-model="search.place"
-                label="* En que cancha jugaras?"
-                label-placement="floating"
-              ></ion-input>
-            </ion-item>
-
-            <ion-item class="ion-margin-top">
-              <ion-input
-                required
+                color="light"
                 v-model="search.spots"
                 type="number"
                 label="* Cuantos jugadores necesitas?"
                 label-placement="floating"
+                class="ion-text-capitalize"
               ></ion-input>
             </ion-item>
 
             <ion-item class="ion-margin-top">
               <ion-input
                 required
+                color="light"
+                class="ion-text-capitalize"
                 v-model="selectedDateTimeParsed"
                 label="* Fecha"
                 label-placement="floating"
@@ -161,11 +154,11 @@
             </ion-item>
 
             <ion-item class="ion-margin-top">
-              <ion-text class="ion-padding-top">
+              <ion-text class="ion-text-capitalize mt-10">
                 Agrega informacion extra a tu partido:</ion-text
               >
 
-              <ion-grid class="ion-padding-top ion-no-padding">
+              <ion-grid class="ion-padding-vertical ion-no-padding">
                 <ion-row class="ion-margin-bottom">
                   <ion-col>
                     <Chips :chips="searchGender" @tagClicked="saveChipsearchGender">
@@ -205,6 +198,7 @@
               <ion-textarea
                 v-model="search.description"
                 class="custom"
+                color="light"
                 :clear-on-edit="true"
                 :counter="true"
                 maxlength="100"
@@ -212,6 +206,18 @@
                 label-placement="floating"
                 placeholder="Agrega informacion extra, por ej: Buscas arquero, defensor o delantero"
               ></ion-textarea>
+            </div>
+            
+            <div class="ion-margin-top">
+              <ion-button
+                v-if="showForm"
+                @click="handleSubmit"
+                expand="block"
+                class="btn-secondary ion-text-uppercase"
+                fill="outline"
+              >
+              CREAR
+              </ion-button>
             </div>
           </ion-list>
         </div>
@@ -448,6 +454,7 @@ const datetimeMaxDate = computed(() => {
 </script>
 
 <style scoped>
+
 .icon-60 {
   font-size: 60px;
 }
@@ -457,4 +464,9 @@ const datetimeMaxDate = computed(() => {
   min-height: 65vh;
   padding: 0;
 }
+
+.border-bottom {
+  border-bottom: 1px solid var(--white);
+}
+
 </style>

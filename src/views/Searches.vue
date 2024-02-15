@@ -3,38 +3,34 @@
     <ion-header>
       <ion-toolbar>
         <ion-grid class="ion-padding">
-          <ion-row class="ion-align-items-end">
-            <ion-col size="auto" class="ion-no-padding"> <div><h2>Busquedas en Salta,</h2></div> </ion-col>
-            <ion-col class="ion-no-padding ml-5">
-              <ion-select
-                    :value="city"
-                    @ionChange="handleChangeCity($event)"
-                    justify="start"
-                    class="title-city ion-text-capitalize"
-                    :interface-options="options"
-                  >
-                    <ion-select-option selected value="capital"
-                      >Capital</ion-select-option
-                    >
-                    <ion-select-option value="san lorenzo"
-                      >San Lorenzo</ion-select-option
-                    >
+          <ion-row>
+            <ion-col size="auto" class="ion-no-padding">
+              <ion-row class="ion-align-items-baseline">
+                <ion-col size="auto" class="ion-no-padding">
+                  <h2>Busquedas en Salta,</h2>
+                </ion-col>
+                <ion-col size="auto" class="ion-no-padding ml-5">
+                  <ion-select :value="city" @ionChange="handleChangeCity($event)" justify="start"
+                    class="title-city ion-text-capitalize ion-align-self-end" :interface-options="options">
+                    <ion-select-option selected value="capital">Capital</ion-select-option>
+                    <ion-select-option value="san lorenzo">San Lorenzo</ion-select-option>
                     <ion-select-option value="cerrillos">
                       Cerrillos
                     </ion-select-option>
                     <ion-select-option value="vaqueros">
-                      Vaqueros</ion-select-option
-                    >
-                    <ion-select-option value="san luis"
-                      >San Luis</ion-select-option
-                    >
-              </ion-select>
+                      Vaqueros</ion-select-option>
+                    <ion-select-option value="san luis">San Luis</ion-select-option>
+                  </ion-select>
+                </ion-col>
+              </ion-row>
+            </ion-col>
+            <ion-col size="auto" class="ion-no-padding">
+              <ion-title size="small" class="ion-no-padding ion-padding-bottom">
+                Aquí encontrarás las búsquedas creadas por personas
+                que buscan sumar jugadores a su equipo.
+              </ion-title>
             </ion-col>
           </ion-row>
-              <p>
-                Aqui encontraras las busquedas creados por personas que
-                necesitan sumar jugadores a su equipo.
-              </p>
         </ion-grid>
       </ion-toolbar>
     </ion-header>
@@ -42,11 +38,7 @@
       <Calendar class="fixed-component"></Calendar>
       <div v-show="!loading" class="scrolling-list">
         <div v-if="searchStore.searches.length > 0">
-          <SearchItem
-            v-for="item in searchStore.searches"
-            :key="item.id"
-            :searchInfo="item"
-          >
+          <SearchItem v-for="item in searchStore.searches" :key="item.id" :searchInfo="item">
           </SearchItem>
         </div>
         <div v-else class="flex-justify-center no-data">
@@ -111,26 +103,34 @@ const handleChangeCity = (event: any) => {
 
 <style scoped>
 .scrolling-list {
-  margin-top: 80px; /* Adjust to match the height of the fixed component */
-  overflow-y: auto; /* Enable vertical scrolling for the list */
-  height: calc(100vh - 80px); /* Adjust to fit the remaining viewport height */
+  margin-top: 80px;
+  /* Adjust to match the height of the fixed component */
+  overflow-y: auto;
+  /* Enable vertical scrolling for the list */
+  height: calc(100vh - 80px);
+  /* Adjust to fit the remaining viewport height */
 }
 
 .no-data {
-  margin-top: 35vh; /* Adjust to match the height of the fixed component */
-  overflow-y: auto; /* Enable vertical scrolling for the list */
-  height: calc(100vh - 35vh); /* Adjust to fit the remaining viewport height */
+  margin-top: 35vh;
+  /* Adjust to match the height of the fixed component */
+  overflow-y: auto;
+  /* Enable vertical scrolling for the list */
+  height: calc(100vh - 35vh);
+  /* Adjust to fit the remaining viewport height */
 }
+
 .fixed-component {
   width: 100%;
   overflow-x: auto;
   position: fixed;
-  z-index: 999; /* Ensure it's above the scrolling list */
+  z-index: 999;
+  /* Ensure it's above the scrolling list */
   background-color: rgb(100, 101, 103);
 }
 
 .title-city {
-  font-size: 20px;
+  font-size: 18px;
   color: var(--gray);
 }
 

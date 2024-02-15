@@ -4,25 +4,21 @@
       <ion-toolbar>
         <ion-grid class="ion-padding">
           <ion-row>
-            <ion-col size="12">
+            <ion-col size="auto" class="ion-no-padding">
               <h2>Mis busquedas creadas</h2>
-              <p>
-                Aquí podras ver y realizar un seguimiento las búsquedas realizadas por ti.
-              </p>
+            </ion-col>
+            <ion-col size="auto" class="ion-no-padding">
+              <ion-title size="small" class="ion-no-padding ion-padding-bottom">
+                Aquí podrás ver y dar seguimiento a las búsquedas que has realizado.
+              </ion-title>
             </ion-col>
           </ion-row>
           <ion-row>
             <ion-segment :value="selectedTab">
-              <ion-segment-button
-                value="active"
-                @click="selectedTab = 'active'"
-              >
+              <ion-segment-button value="active" @click="selectedTab = 'active'">
                 <ion-label>Activas</ion-label>
               </ion-segment-button>
-              <ion-segment-button
-                value="past"
-                @click="selectedTab = 'past'"
-              >
+              <ion-segment-button value="past" @click="selectedTab = 'past'">
                 <ion-label>Pasadas</ion-label>
               </ion-segment-button>
             </ion-segment>
@@ -31,13 +27,9 @@
       </ion-toolbar>
     </ion-header>
     <ion-content :fullscreen="true">
-      <div v-show="!loading"  v-if="selectedTab === 'active'">
+      <div v-show="!loading" v-if="selectedTab === 'active'">
         <div v-if="searchStore.myActiveSearches.length != 0">
-          <ActiveSearchItem
-            v-for="(item, index) in searchStore.myActiveSearches"
-            :key="index"
-            :searchInfo="item"
-          >
+          <ActiveSearchItem v-for="(item, index) in searchStore.myActiveSearches" :key="index" :searchInfo="item">
           </ActiveSearchItem>
         </div>
         <div v-else class="flex-justify-center ion-padding">
@@ -45,13 +37,9 @@
         </div>
       </div>
 
-      <div v-if="selectedTab === 'past'" >
+      <div v-if="selectedTab === 'past'">
         <div v-if="searchStore.myPastSearches.length != 0">
-          <PastSearchItem
-            v-for="(item, index) in searchStore.myPastSearches"
-            :key="index"
-            :searchInfo="item"
-          >
+          <PastSearchItem v-for="(item, index) in searchStore.myPastSearches" :key="index" :searchInfo="item">
           </PastSearchItem>
         </div>
         <div v-else class="flex-justify-center ion-padding">
