@@ -74,24 +74,16 @@ import { Timestamp } from "firebase/firestore";
 
 const route = useRoute();
 const searchStore = useSearchStore();
-
 const loading = ref(true);
 const city = ref("capital");
-const date = ref()
+
+const date = ref(Timestamp.now());
 
 onIonViewDidEnter(async () => {
-  searchStore.clearData();
   //Get today's games
-  const today = Timestamp.now();
-  await searchStore.loadSearches(city.value, today);
-  loading.value = false;
-
-});
-
-onIonViewDidLeave(() => {
   loading.value = true;
-  searchStore.clearData();
-
+  await searchStore.loadSearches(city.value, date.value);
+  loading.value = false;
 });
 
 const options: any = {
@@ -100,17 +92,15 @@ const options: any = {
 
 const handleChangeCity = (event: any) => {
   city.value = event.detail.value
-
 };
 
 const loadSearchesByDay = async (day: any) => {
-  searchStore.clearData();
   if (day.includes('Hoy')) {
-    const today = Timestamp.now();
-    await searchStore.loadSearches(city.value, today);
+    date.value = Timestamp.now();
+    await searchStore.loadSearches(city.value, date.value);
   } else {
-    const date = parseDateStringToTimestamp(day)
-    await searchStore.loadSearches(city.value, date);
+    date.value = parseDateStringToTimestamp(day)
+    await searchStore.loadSearches(city.value, date.value);
   }
 };
 const parseDateStringToTimestamp = (dateString: any) => {

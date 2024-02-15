@@ -15,6 +15,7 @@ http://ionicframework.com/docs/theming/ */
   --ion-card-background: var(--black); /* Example: white with 50% transparency */
 
   --white: #ffffff;
+  --light-transparent: #ffffff1c;
   --black: #000000;
   --light-black: #3a3838;
   --gray: #707070;
@@ -167,7 +168,7 @@ ion-textarea.custom.md .textarea-bottom .counter {
 }
 
 ion-chip {
-  --background: var(--transparent);
+  --background: var(--light-transparent);
   color: var(--white);
   padding: 8px !important;
   border-radius: 15px !important;

@@ -31,6 +31,7 @@ export const useSearchStore = defineStore("search", {
   actions: {
     async loadSearches(city: string, date: any) {
       try {
+        this.searches = [];
         const startTimestamp = date;
         const endTimestamp = new Timestamp(
           date.seconds + 86399,
