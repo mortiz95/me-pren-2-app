@@ -92,8 +92,8 @@
                 ></ion-icon>
                 <h1>Te has unido correctamente</h1>
                 <ion-text class="ion-text-center">
-                  Puedes ver tus proximos juegos en el apartado
-                  <u @click="goToPending()"> Por jugar </u>.</ion-text
+                  Puedes ver tus proximos juegos tu 
+                  <u @click="goToProfile()"> Perfil </u>.</ion-text
                 >
               </div>
             </ion-col>
@@ -169,8 +169,8 @@ const myUserName = computed(() => {
   return userStore.myUserInfo.name + " " + userStore.myUserInfo.lastName;
 });
 
-const goToPending = () => {
-  router.push("/tabs/tab4");
+const goToProfile = () => {
+  router.push("/tabs/tab5");
 };
 
 const backToSearches = () => {

@@ -8,13 +8,14 @@ http://ionicframework.com/docs/theming/ */
   --ion-color-primary-rgb: 1, 132, 36;
 
   --ion-background-color: rgb(2,0,36);
-  --ion-background-color:linear-gradient(180deg, rgb(100 101 103) 24%, rgb(1, 132, 36)100%, rgb(79 87 42) 100%);
+  --ion-background-color:linear-gradient(180deg, #646567 24%, rgb(1, 132, 36)100%, rgb(79 87 42) 100%);
   --ion-border-color: var(--gray);
 
   --ion-item-background: var(--transparent) ; /* Example: white with 50% transparency */
   --ion-card-background: var(--black); /* Example: white with 50% transparency */
 
   --white: #ffffff;
+  --bg-start: #646567;
   --light-transparent: #ffffff1c;
   --black: #000000;
   --light-black: #3a3838;
