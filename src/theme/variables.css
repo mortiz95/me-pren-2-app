@@ -83,9 +83,9 @@ http://ionicframework.com/docs/theming/ */
 /*  --ion-background-color:  rgb(0,124,0);
     --ion-background-color:  linear-gradient(0deg, rgba(0,124,0,1) 0%, rgba(0,0,0,1) 100%); */
 
-    --ion-border-color: var(--white);
-    --ion-toolbar-background: #1f1f1f;
-    --ion-tab-bar-background: #1f1f1f;
+    --ion-border-color: var(--transparent);
+    --ion-toolbar-background: var(--black);
+    --ion-tab-bar-background: var(--black);
 
    /*  --ion-item-background: rgba(255, 255, 255, 0); */
    /*  --ion-card-background: rgba(255, 255, 255, 0); */
@@ -97,6 +97,16 @@ html {
   /* For more information on dynamic font scaling, visit the documentation: 
   https://ionicframework.com/docs/layout/dynamic-font-scaling */
   --ion-dynamic-font: var(--ion-default-dynamic-font);
+}
+
+ion-header{
+  --ion-background-color: var(--black)
+}
+
+ion-tabs,
+ion-tab-button,
+ion-toolbar{
+  --background: var(--black)
 }
 
 ion-segment-button::part(indicator-background) {
