@@ -12,7 +12,7 @@ import { createPinia } from 'pinia';
   IonCard,IonSpinner,IonInput,IonText,IonDatetimeButton, IonModal, IonDatetime,
   IonButtons, IonTitle, IonToast, IonTextarea, IonCardContent, IonCardHeader,
   IonCardTitle, IonCardSubtitle, IonicVue, IonSegment, IonSegmentButton, IonAccordion, IonAccordionGroup,
-  IonChip,IonActionSheet,IonLoading, IonAvatar
+  IonChip,IonActionSheet,IonLoading, IonAvatar, IonCheckbox
 } from "@ionic/vue"; 
 
 /* Core CSS required for Ionic components to work properly */
@@ -79,6 +79,7 @@ const app = createApp(App)
   app.component('ion-action-sheet', IonActionSheet)
   app.component('ion-loading', IonLoading)
   app.component('ion-avatar', IonAvatar)
+  app.component('ion-checkbox', IonCheckbox)
   
 
 router.isReady().then(() => {

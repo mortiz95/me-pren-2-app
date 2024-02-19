@@ -174,6 +174,7 @@ const authenticate = async () => {
           if (!authStore.error) {
             store.clearData();
             goToTabs();
+            goToProfileRegister();
           } else error.value = authStore.error;
         } else error.value = "* Datos invalidos. Debe completar todos los campos";
       } else error.value = "* Las contraseñas no coinciden";
@@ -195,6 +196,10 @@ const authenticate = async () => {
 
 const goToTabs = () => {
   router.replace("/tabs/tab1");
+};
+
+const goToProfileRegister = () => {
+  router.replace("/profileRegister");
 };
 
 const toggleRegisterAndResetError = () => {

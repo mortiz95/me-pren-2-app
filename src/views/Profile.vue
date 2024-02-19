@@ -37,7 +37,7 @@
               <h4 class="ion-no-margin">Sobre Mi</h4>
             </ion-col>
             <ion-col>
-              <div class="ion-float-end">
+              <div class="ion-float-end" @click="goToProfileEditInfo()">
                 <ion-icon :icon="pencilOutline" class="ion-float-end icon-edit"></ion-icon>
                 <ion-text>Editar</ion-text>
               </div>
@@ -88,7 +88,7 @@
           </ion-row>
           <ion-row>
             <ion-col size="12">
-              <ion-button class="btn-secondary" shape="round" expand="full">VER TODO</ion-button>
+              <ion-button @click="goToProfileEditInfo()" class="btn-secondary" shape="round" expand="full">VER TODO</ion-button>
             </ion-col>
           </ion-row>
           <ion-row class="ion-margin-top ion-align-items-center">
@@ -168,6 +168,11 @@ const goToSearch = () => {
   router.push("/tabs/tab1");
 };
 
+const goToProfileEditInfo = () => {
+  router.push({
+    name: "ProfileEditInfo",
+  });
+};
 
 const showingLoading = async () => {
   loading.value = true;

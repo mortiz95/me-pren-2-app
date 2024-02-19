@@ -10,6 +10,11 @@ const routes: Array<RouteRecordRaw> = [
     redirect: '/auth'
   },
   {
+    path: '/profileRegister',
+    name: 'ProfileRegister',
+    component: () => import('@/views/ProfileRegister.vue'),
+  },
+  {
     path: '/tabs/',
     component: TabsPage,
     children: [
@@ -81,6 +86,14 @@ const routes: Array<RouteRecordRaw> = [
         meta: {
           requiresAuth: true
         }
+      },
+      {
+        path: 'tab5/editUserInfo',
+        name: "ProfileEditInfo",
+        component: () => import('@/views/ProfileInfo.vue'),
+        meta: {
+          requiresAuth: true,
+        },
       },
     ]
   },

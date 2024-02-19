@@ -241,21 +241,28 @@ p {
 }
 
 
-/* checkbox radius color md */
+/* radio radius color md */
 .my-custom-interface
   .select-interface-option[aria-checked="true"].sc-ion-alert-md
   .alert-radio-icon.sc-ion-alert-md {
   border-color: var(--green-flour) !important;
 }
 
-/* checkbox radius color md */
+/* radio radius color md */
 .my-custom-interface
   .select-interface-option[aria-checked="false"].sc-ion-alert-md
   .alert-radio-icon.sc-ion-alert-md {
   border-color: var(--white) !important;
 }
 
-/* checkbox color md */
+/* checkbox radius color md */
+.my-custom-interface
+  .select-interface-option[aria-checked="false"].sc-ion-alert-md
+  .alert-checkbox-icon.sc-ion-alert-md {
+  border-color: var(--white) !important;
+}
+
+/* radio color md */
 .my-custom-interface
   .select-interface-option[aria-checked="true"].sc-ion-alert-md
   .alert-radio-inner.sc-ion-alert-md {
@@ -272,10 +279,18 @@ p {
   --backdrop-opacity: var(--ion-backdrop-opacity, 0.5);
 }
 
-/* option name label color */
+/* option name radio label color */
 .my-custom-interface
   .select-interface-option[aria-checked="true"]
   .alert-radio-label {
+  color: var(--green-flour) !important;
+}
+
+
+/* option name checkbox label color */
+.my-custom-interface
+  .select-interface-option[aria-checked="true"]
+  .alert-checkbox-label  {
   color: var(--green-flour) !important;
 }
 
@@ -297,14 +312,25 @@ p {
   color: var(--white) !important;
 }
 
-/* Alert Interface: set color for alert options (single selection) */
+/* Alert Interface: set color for alert radio options (single selection) */
 .my-custom-interface .select-interface-option .alert-radio-label {
+  color: var(--white)  !important;
+}
+
+/* Alert Interface: set color for alert checkbox options (single selection) */
+.my-custom-interface .select-interface-option .alert-checkbox-label {
   color: var(--white)  !important;
 }
 
 /* Alert Interface: title color */
 .my-custom-interface .alert-title.sc-ion-alert-md {
   color: var(--white);
+}
+
+
+
+.h-100{
+height: 100vh !important;
 }
 
 .ml-5{
