@@ -20,10 +20,9 @@ export const useAuthStore = defineStore('auth', {
           name: user.name,
           lastName: user.lastName,
           email: user.email,
-          country: 'Argentina',
-          province: 'Salta',
+          country: '',
+          province: '',
           city: '',
-          age: 30,
           registerDate: Timestamp.now(),
           attendedSearches: [],
           ownerField: false,
@@ -31,11 +30,24 @@ export const useAuthStore = defineStore('auth', {
           rating: [],
           phone: 0,
           lastLogin: Timestamp.now(),
+          gender: '',
+          dateOfBirth: null,
+          sport: "futbol",
+          position: [],
+          motivation: [],
+          level: "",
+          freeCreateSearch: 4,
+          freeJoinSearch: 4,
+          dateStartSubscription: null,
+          dateEndOfSubscription: null,
+          typeSubscription: 1,
+          comments: []
         };
          // Signed up 
          this.isLoggedIn = true;
-         await setDoc(doc(db, "users", userCredential.user.uid), userInfo);
+         //await setDoc(doc(db, "users", userCredential.user.uid), userInfo);
          const store = useUserStore();
+         await store.addUser(userCredential.user.uid, userInfo)
          await store.loadMyUserInfo()
          this.error = null
        })

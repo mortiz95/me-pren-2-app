@@ -19,6 +19,7 @@ import { Timestamp } from "firebase/firestore";
 import { auth } from "@/firebase";
 import Search from "@/types/Search";
 import Historical from "@/types/Historical";
+import { AnimationStyles } from "@ionic/core/dist/types/utils/animation/animation-interface";
 
 export const useUserStore = defineStore("user", {
   state: () => ({
@@ -26,6 +27,7 @@ export const useUserStore = defineStore("user", {
     myNextGames: [] as Historical[],
     userInfo: {} as User,
   }),
+
   actions: {
     async loadUserInfo(userId: any) {
       try {
@@ -61,7 +63,6 @@ export const useUserStore = defineStore("user", {
       }
     },
 
-
     async loadMyUserInfo() {
       try {
         const docRef = doc(db, "users", auth!.currentUser!.uid);
@@ -79,10 +80,10 @@ export const useUserStore = defineStore("user", {
 
     async addSearchToMySearchesAttended(searchId: string) {
       try {
-       // Get updated doc with users attending ids
+        // Get updated doc with users attending ids
         const docRef = doc(db, "searches", searchId);
         const docSnap = await getDoc(docRef);
-  
+
         const searchDocRef = doc(db, "users", auth!.currentUser!.uid);
 
         await updateDoc(searchDocRef, {
@@ -106,15 +107,29 @@ export const useUserStore = defineStore("user", {
       const docSnap = await getDoc(searchDocRef);
       if (docSnap.exists()) {
         const attendedSearches = docSnap.data().attendedSearches || []; // Ensure attendedSearches is an array
-        const filteredSearchesArray = attendedSearches.filter((item: any) => item.searchId !== searchId);
-      
+        const filteredSearchesArray = attendedSearches.filter(
+          (item: any) => item.searchId !== searchId
+        );
+
         await updateDoc(searchDocRef, {
-          attendedSearches: filteredSearchesArray
+          attendedSearches: filteredSearchesArray,
         });
-      
       }
     },
 
-    updateUser() {},
+    async addUser(userId: any, userInfo: any) {
+      try {
+        await setDoc(doc(db, "users", userId), userInfo);
+      } catch (error) {}
+    },
+
+   async updateUserInfo(userInfo: any) {
+    try {
+      const docRef = doc(db, "users", auth!.currentUser!.uid);
+      await updateDoc(docRef, userInfo);
+    } catch (error) {
+      
+    }
+   },
   },
 });

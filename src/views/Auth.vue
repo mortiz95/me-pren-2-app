@@ -173,7 +173,6 @@ const authenticate = async () => {
           await authStore.register(userCredentials.value);
           if (!authStore.error) {
             store.clearData();
-            goToTabs();
             goToProfileRegister();
           } else error.value = authStore.error;
         } else error.value = "* Datos invalidos. Debe completar todos los campos";

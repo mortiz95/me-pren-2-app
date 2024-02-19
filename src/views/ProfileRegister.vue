@@ -20,7 +20,8 @@
                                     <ion-col>
                                         <ion-list :inset="false" lines="inset" class="ion-no-margin ion-no-padding">
                                             <ion-item>
-                                                <ion-icon slot="start" :icon="flagOutline" class="ion-no-margin ion-margin-end"></ion-icon>
+                                                <ion-icon slot="start" :icon="flagOutline"
+                                                    class="ion-no-margin ion-margin-end"></ion-icon>
                                                 <ion-input v-model="userInfo.country" readonly color="light" label="Pais"
                                                     label-placement="floating" class="ion-text-capitalize"></ion-input>
                                             </ion-item>
@@ -30,7 +31,7 @@
                                                 <ion-select :value="userInfo.province" label="Provincia" color="light"
                                                     label-placement="stacked" :interface-options="options"
                                                     :toggle-icon="chevronDownCircleOutline" :expanded-icon="remove">
-                                                    <ion-select-option selected value="salta">Salta</ion-select-option>
+                                                    <ion-select-option value="salta">Salta</ion-select-option>
                                                     <!--                                              <ion-select-option value="basket">Basket</ion-select-option>
                                                 <ion-select-option value="paddle">Paddle</ion-select-option>
                                                 <ion-select-option value="tenis">Tenis</ion-select-option>
@@ -41,10 +42,10 @@
                                             <ion-item>
                                                 <ion-icon :icon="businessOutline" class="ion-padding-end"></ion-icon>
                                                 <ion-select :value="userInfo.city" @ionChange="handleCity($event)"
-                                                    :toggle-icon="chevronDownCircleOutline" :expanded-icon="remove" label="Municipio"
-                                                    color="light" label-placement="stacked"
+                                                    :toggle-icon="chevronDownCircleOutline" :expanded-icon="remove"
+                                                    label="Municipio" color="light" label-placement="stacked"
                                                     class="title-city ion-text-capitalize" :interface-options="options">
-                                                    <ion-select-option selected value="capital">Capital</ion-select-option>
+                                                    <ion-select-option value="capital">Capital</ion-select-option>
                                                     <ion-select-option value="san Lorenzo">San Lorenzo</ion-select-option>
                                                     <ion-select-option value="cerrillos">
                                                         Cerrillos
@@ -70,22 +71,23 @@
                                             </ion-item>
 
                                             <ion-item>
-                                                <ion-icon slot="start" :icon="balloonOutline" class="ion-no-margin ion-margin-end"></ion-icon>
+                                                <ion-icon slot="start" :icon="balloonOutline"
+                                                    class="ion-no-margin ion-margin-end"></ion-icon>
                                                 <ion-input required color="light" v-model="selectedDOBTimeParsed"
                                                     label="Fecha de nacimiento" label-placement="floating"
                                                     @click="toggleDateTimeInput()" class="ion-no-padding"></ion-input>
-                                                </ion-item>
-                                                <ion-datetime v-if="dateTimeVisible" v-model="userInfo.dateOfBirth"
-                                                    ref="refDatetime" class="ion-margin-vertical"
-                                                    @ionChange="handleDateTimeChange" :min="1990"
-                                                    :max="currentDateFormattedDate_ISO_8601">
-                                                    <ion-buttons slot="buttons">
-                                                        <ion-button color="success"
-                                                            @click="toggleDateTimeInput()">CANCELAR</ion-button>
-                                                        <ion-button color="success" @click="confirmDOB()">OK</ion-button>
-                                                    </ion-buttons>
-                                                </ion-datetime>
-                                            
+                                            </ion-item>
+                                            <ion-datetime v-if="dateTimeVisible" v-model="userInfo.dateOfBirth"
+                                                ref="refDatetime" class="ion-margin-vertical"
+                                                @ionChange="handleDateTimeChange" :min="1990"
+                                                :max="currentDateFormattedDate_ISO_8601">
+                                                <ion-buttons slot="buttons">
+                                                    <ion-button color="success"
+                                                        @click="toggleDateTimeInput()">CANCELAR</ion-button>
+                                                    <ion-button color="success" @click="confirmDOB()">OK</ion-button>
+                                                </ion-buttons>
+                                            </ion-datetime>
+
 
 
                                             <ion-item>
@@ -114,10 +116,11 @@
 
                                             <ion-item>
                                                 <ion-icon :icon="shirtOutline" class="ion-padding-end"></ion-icon>
-                                                <ion-select :value="userInfo.position" multiple :toggle-icon="chevronDownCircleOutline"
-                                                    :expanded-icon="remove" @ionChange="handlePosition($event)"
-                                                    label="Posicion:" label-placement="floating" color="light"
-                                                    :interface-options="options" class="ion-text-capitalize ion-select-skills">
+                                                <ion-select :value="userInfo.position" multiple
+                                                    :toggle-icon="chevronDownCircleOutline" :expanded-icon="remove"
+                                                    @ionChange="handlePosition($event)" label="Posicion:"
+                                                    label-placement="floating" color="light" :interface-options="options"
+                                                    class="ion-text-capitalize ion-select-skills">
                                                     <ion-select-option value="keeper">Arquero</ion-select-option>
                                                     <ion-select-option value="defender">Defensor</ion-select-option>
                                                     <ion-select-option value="midfielder">Mediocampista</ion-select-option>
@@ -128,9 +131,10 @@
 
                                             <ion-item>
                                                 <ion-icon :icon="flashOutline" class="ion-padding-end"></ion-icon>
-                                                <ion-select :value="userInfo.motivation" :toggle-icon="chevronDownCircleOutline" multiple
-                                                    :expanded-icon="remove" @ionChange="handleMotivation($event)"
-                                                    label="Motivacion:" label-placement="floating" color="light" class="ion-select-skills"
+                                                <ion-select :value="userInfo.motivation"
+                                                    :toggle-icon="chevronDownCircleOutline" multiple :expanded-icon="remove"
+                                                    @ionChange="handleMotivation($event)" label="Motivacion:"
+                                                    label-placement="floating" color="light" class="ion-select-skills"
                                                     :interface-options="options">
                                                     <ion-select-option value="meetPeople">Hacer
                                                         nuevos
@@ -146,8 +150,9 @@
 
                                             <ion-item>
                                                 <ion-icon :icon="cellularOutline" class="ion-padding-end"></ion-icon>
-                                                <ion-select :value="userInfo.level" :toggle-icon="chevronDownCircleOutline" class="ion-select-skills"
-                                                    :expanded-icon="remove" @ionChange="handleLevel($event)" label="Nivel:"
+                                                <ion-select :value="userInfo.level" :toggle-icon="chevronDownCircleOutline"
+                                                    class="ion-select-skills" :expanded-icon="remove"
+                                                    @ionChange="handleLevel($event)" label="Nivel:"
                                                     label-placement="floating" color="light" :interface-options="options">
                                                     <ion-select-option value="beginner">Principiante:
                                                         Juegas muy
@@ -180,7 +185,10 @@
                                 </ion-row>
                                 <ion-row style="flex:1" class="ion-align-items-center">
                                     <ion-col>
-                                        <div>
+                                        <div v-if="loading" class="ion-text-center">
+                                            <ion-spinner />
+                                        </div>
+                                        <div v-else>
                                             <ion-button @click="handleSubmit" expand="block"
                                                 class="btn-secondary ion-text-uppercase" fill="outline">
                                                 CONTINUAR
@@ -219,9 +227,13 @@ import { ref } from "vue";
 import useDateParser from "@/composables/date";
 import { add, remove } from 'ionicons/icons';
 import { format } from "date-fns";
+import { useUserStore } from "@/store/user";
+import { useRouter } from "vue-router";
 
 const { parseDate } = useDateParser();
+const userStore = useUserStore();
 
+const router = useRouter();
 const dateTimeVisible = ref(false);
 const refDatetime = ref();
 const selectedDOBTimeParsed = ref();
@@ -230,6 +242,7 @@ const currentDateFormattedDate_ISO_8601 = format(
     currentDate,
     "yyyy-MM-dd'T'HH:mm:ssXXX"
 ); // ISO 8601 format
+const loading = ref(false)
 
 const userInfo = ref({
     country: "argentina",
@@ -243,7 +256,6 @@ const userInfo = ref({
     level: "",
     freeCreateSearch: 4,
     freeJoinSearch: 4,
-    dateSignUp: Timestamp.now(),
     dateStartSubscription: '',
     dateEndOfSubscription: '',
     typeSubscription: 1,
@@ -287,15 +299,15 @@ const confirmDOB = () => {
     toggleDateTimeInput();
 };
 
-const handleSubmit = () => {
+const handleSubmit = async () => {
     try {
-
+        loading.value = true
+        await userStore.updateUserInfo(userInfo.value)
+        router.replace("/tabs/tab1");
     } catch (error) {
-
+        console.log(error)
     }
-
 }
-
 
 </script>
   
