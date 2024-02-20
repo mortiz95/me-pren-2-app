@@ -90,7 +90,7 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: 'tab5/editUserInfo',
         name: "ProfileEditInfo",
-        component: () => import('@/views/ProfileInfo.vue'),
+        component: () => import('@/views/ProfileEditInfo.vue'),
         meta: {
           requiresAuth: true,
         },

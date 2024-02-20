@@ -125,6 +125,12 @@ export const useUserStore = defineStore("user", {
 
    async updateUserInfo(userInfo: any) {
     try {
+      if(userInfo.dateOfBirth != null){
+        const dateString = userInfo.dateOfBirth;
+        const dateObject = new Date(dateString);
+        const parseDOB = Timestamp.fromDate(dateObject)
+        userInfo.dateOfBirth = parseDOB
+      }
       const docRef = doc(db, "users", auth!.currentUser!.uid);
       await updateDoc(docRef, userInfo);
     } catch (error) {

@@ -207,11 +207,7 @@
   
 <script setup lang="ts">
 import {
-    shareOutline,
-    personOutline,
     locationOutline,
-    calendarOutline,
-    gameControllerOutline,
     cellularOutline,
     flashOutline,
     footballOutline,

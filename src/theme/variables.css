@@ -103,6 +103,9 @@ html {
 ion-header{
   --ion-background-color: var(--black)
 }
+ion-select{
+  opacity: 1 !important;
+}
 
 ion-tabs,
 ion-tab-button,
@@ -240,6 +243,9 @@ p {
   height: 50vh; /* Set the height to take the full viewport height */
 }
 
+.my-custom-interface{
+  opacity: 1 !important;
+}
 
 /* radio radius color md */
 .my-custom-interface
