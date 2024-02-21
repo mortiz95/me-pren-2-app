@@ -165,7 +165,7 @@
 
             <div class="btn-create">
               <ion-button v-if="showForm" @click="handleSubmit" expand="block"
-                class="btn-secondary ion-text-uppercase ion-margin" fill="outline"
+                class="btn-secondary ion-text-uppercase ion-margin"
                :disabled="disableButton"  >
                 CREAR
               </ion-button>

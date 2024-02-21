@@ -17,7 +17,7 @@
         </ion-header>
         <ion-content :fullscreen="true">
 
-            <form @submit.prevent="handleSubmit()">
+            <form v-if="showForm" @submit.prevent="handleSubmit()">
                 <ion-grid>
                     <div class="card-profile">
                         <ion-row>
@@ -205,9 +205,40 @@
                                 </div>
                             </ion-col>
                         </ion-row>
+                        <ion-row style="flex:1" class="ion-align-items-center">
+                            <ion-col>
+                                <div v-if="loading" class="ion-text-center">
+                                    <ion-spinner />
+                                </div>
+                                <div v-else>
+                                    <ion-col>
+                                        <ion-button @click="handleSubmit()" expand="block"
+                                            class="btn-secondary ion-text-uppercase ion-margin-top">
+                                            GUARDAR
+                                        </ion-button>
+                                    </ion-col>
+                                </div>
+                            </ion-col>
+                        </ion-row>
                     </div>
                 </ion-grid>
             </form>
+
+            <div v-else>
+                <ion-grid class="wrapper">
+                    <ion-row style="flex: 1" class="ion-align-items-center ion-justify-content-center">
+                        <ion-col size="10">
+                            <div class="ion-align-items-center flex-column">
+                                <ion-icon :icon="checkmarkCircleOutline" class="icon-60"></ion-icon>
+                                <h1>Modificado correctamente</h1>
+                                <ion-text class="ion-text-center">
+                                    Volver a tu 
+                                    <u @click="goToProfile()"> Perfil </u>.</ion-text>
+                            </div>
+                        </ion-col>
+                    </ion-row>
+                </ion-grid>
+            </div>
         </ion-content>
     </ion-page>
 </template>
@@ -224,7 +255,8 @@ import {
     balloonOutline,
     shirtOutline,
     chevronDownCircleOutline,
-    chevronBackOutline
+    chevronBackOutline,
+    checkmarkCircleOutline
 } from "ionicons/icons";
 import { Timestamp } from "firebase/firestore";
 import { ref } from "vue";
@@ -233,11 +265,13 @@ import { add, remove } from 'ionicons/icons';
 import { format } from "date-fns";
 import { useUserStore } from "@/store/user";
 import { useRouter } from "vue-router";
+import { onIonViewDidLeave } from "@ionic/vue";
 
 const { parseDate, parseDateStampToISO } = useDateParser();
 const userStore = useUserStore();
-
 const router = useRouter();
+
+const showForm = ref(true);
 const dateTimeVisible = ref(false);
 const refDatetime = ref();
 const selectedDOBTimeParsed = ref();
@@ -249,17 +283,17 @@ const currentDateFormattedDate_ISO_8601 = format(
 const loading = ref(false)
 
 const checkDOB = () => {
-  return  userStore.myUserInfo.dateOfBirth != null ? parseDateStampToISO(userStore.myUserInfo.dateOfBirth) : ''
+    return userStore.myUserInfo.dateOfBirth != null ? parseDateStampToISO(userStore.myUserInfo.dateOfBirth) : ''
 }
 
-selectedDOBTimeParsed.value = checkDOB()  
+selectedDOBTimeParsed.value = checkDOB()
 
 const userInfo = ref({
     country: userStore.myUserInfo.country,
     province: userStore.myUserInfo.province,
     city: userStore.myUserInfo.city,
     gender: userStore.myUserInfo.gender,
-    dateOfBirth: userStore.myUserInfo.dateOfBirth ,
+    dateOfBirth: userStore.myUserInfo.dateOfBirth,
     sport: userStore.myUserInfo.sport,
     position: userStore.myUserInfo.position,
     motivation: userStore.myUserInfo.motivation,
@@ -271,6 +305,10 @@ const userInfo = ref({
 const options: any = {
     cssClass: "my-custom-interface",
 };
+
+onIonViewDidLeave(() => {
+  showForm.value = true;
+});
 
 const handleCity = (event: CustomEvent) => {
     userInfo.value.city = event.detail.value
@@ -300,7 +338,6 @@ const handleDateTimeChange = (event: CustomEvent) => {
     selectedDOBTimeParsed.value = parseDate(event.detail.value);
 };
 
-
 const confirmDOB = () => {
     refDatetime.value.$el.confirm();
     toggleDateTimeInput();
@@ -308,9 +345,8 @@ const confirmDOB = () => {
 
 const handleSubmit = async () => {
     try {
-        loading.value = true
+        showForm.value = false;
         await userStore.updateUserInfo(userInfo.value)
-        router.replace("/tabs/tab1");
     } catch (error) {
         console.log(error)
     }
@@ -318,13 +354,16 @@ const handleSubmit = async () => {
 
 const backToProfile = async () => {
     try {
-
         router.back();
     } catch (error) {
         console.log(error)
     }
 }
-backToProfile
+
+const goToProfile = () => {
+  router.push("/tabs/tab5");
+};
+
 
 </script>
       
@@ -342,6 +381,17 @@ backToProfile
 
 ion-icon {
     font-size: 20px;
+}
+
+.icon-60 {
+  font-size: 60px;
+}
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 80vh;
+  padding: 0;
 }
 </style>
     
