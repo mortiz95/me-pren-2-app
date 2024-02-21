@@ -67,7 +67,6 @@ export const useUserStore = defineStore("user", {
       try {
         const docRef = doc(db, "users", auth!.currentUser!.uid);
         const docSnap = await getDoc(docRef);
-        console.log("myUserInfo()", docSnap.data());
         if (docSnap.exists()) {
           const userData = docSnap.data() as User;
           userData.id = docSnap.id; // Add user ID to my user data
@@ -125,6 +124,7 @@ export const useUserStore = defineStore("user", {
 
    async updateUserInfo(userInfo: any) {
     try {
+      debugger
       if(userInfo.dateOfBirth != null){
         const dateString = userInfo.dateOfBirth;
         const dateObject = new Date(dateString);

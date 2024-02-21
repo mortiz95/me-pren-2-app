@@ -299,6 +299,7 @@ const handleSubmit = async () => {
     try {
         loading.value = true
         await userStore.updateUserInfo(userInfo.value)
+        await userStore.loadMyUserInfo()
         router.replace("/tabs/tab1");
     } catch (error) {
         console.log(error)

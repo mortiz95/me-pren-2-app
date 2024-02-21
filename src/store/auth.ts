@@ -48,7 +48,6 @@ export const useAuthStore = defineStore('auth', {
          //await setDoc(doc(db, "users", userCredential.user.uid), userInfo);
          const store = useUserStore();
          await store.addUser(userCredential.user.uid, userInfo)
-         await store.loadMyUserInfo()
          this.error = null
        })
        .catch((error) => {

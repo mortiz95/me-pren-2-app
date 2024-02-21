@@ -4,7 +4,7 @@
       <ion-router-outlet></ion-router-outlet>
       <ion-tab-bar>
         <ion-tab-button tab="tab1" href="/tabs/tab1">
-          <ion-icon aria-hidden="true" :icon="footballOutline" />
+          <ion-icon aria-hidden="true" :icon="searchOutline" />
           <ion-label>Buscar</ion-label>
         </ion-tab-button>
 
@@ -35,5 +35,5 @@
 
 <script setup lang="ts">
 import { IonTabBar, IonTabButton, IonTabs, IonLabel, IonIcon, IonPage, IonRouterOutlet } from '@ionic/vue';
-import { footballOutline, addCircleOutline, albumsOutline, personCircleOutline,ticketOutline } from 'ionicons/icons';
+import { searchOutline, addCircleOutline, albumsOutline, personCircleOutline,ticketOutline } from 'ionicons/icons';
 </script>
