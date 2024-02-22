@@ -124,7 +124,6 @@ export const useUserStore = defineStore("user", {
 
    async updateUserInfo(userInfo: any) {
     try {
-      debugger
       if(userInfo.dateOfBirth != null){
         const dateString = userInfo.dateOfBirth;
         const dateObject = new Date(dateString);

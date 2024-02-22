@@ -34,6 +34,15 @@ export default function useDateParser() {
     return "";
   };
 
+  const parseDateStampToISOHours = (date_TIMESTAMP: any) => {
+    if (date_TIMESTAMP != null) {
+      const newDate = date_TIMESTAMP.toDate();
+      const formattedDate = format(newDate, "EEEE d MMMM, yyyy HH:mm", { locale: es });
+      return formattedDate;
+    }
+    return "";
+  };
+
   const parseDateTimeStampToISO_GetHours = (date_TIMESTAMP: any) => {
     const newDate = date_TIMESTAMP.toDate();
     const formattedDate = format(newDate, "HH:mm", { locale: es });
@@ -52,5 +61,6 @@ export default function useDateParser() {
     parseDateTimeStampToISO_GetHours,
     parseDateTimeStampToISO_GetDay,
     parseDateStampToISO,
+    parseDateStampToISOHours
   };
 }

@@ -174,6 +174,10 @@ ion-datetime {
  background-color: var(--black);
 }
 
+ion-text{
+  color: var(--white);
+}
+
 ion-textarea.custom.ios .textarea-bottom .helper-text,
 ion-textarea.custom.ios .textarea-bottom .counter,
 ion-textarea.custom.md .textarea-bottom .helper-text,

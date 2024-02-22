@@ -65,6 +65,15 @@ const routes: Array<RouteRecordRaw> = [
         }
       },
       {
+        path: 'tab3/:info',
+        name: 'EditHistoricalActiveInfo',
+        component: () => import('@/views/HistorialEditActiveSearch.vue'),
+        props: true,
+        meta: {
+          requiresAuth: true,
+        },
+      },
+      {
         path: 'tab4',
         component: () => import('@/views/Pending.vue'),
         meta: {

@@ -21,10 +21,15 @@ const props = defineProps({
   chips: {
     type: Array as () => Array<{ value: string, text: string, icon: string  }>,
     required: true
+  },
+  chipSelected : {
+    type: Object,
+    required: false
   }
 });
 
 const selectedOption = ref<string | null>(null);
+selectedOption.value = props.chipSelected?.value;
 
 const emits = defineEmits(['tagClicked']);
 
@@ -34,7 +39,7 @@ const emitTagClicked = (option: { value: any, text: string, icon: string }) => {
 };
 
 const isSelected = (option: { value: any, text: string }) => {
-  return selectedOption.value === option.text;
+  return selectedOption.value === option.text || selectedOption.value == option.value ;
 };
 </script>
 

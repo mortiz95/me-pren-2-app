@@ -265,7 +265,7 @@ import { add, remove } from 'ionicons/icons';
 import { format } from "date-fns";
 import { useUserStore } from "@/store/user";
 import { useRouter } from "vue-router";
-import { onIonViewDidLeave } from "@ionic/vue";
+import { onIonViewDidEnter, onIonViewDidLeave, onIonViewWillEnter } from "@ionic/vue";
 
 const { parseDate, parseDateStampToISO } = useDateParser();
 const userStore = useUserStore();
@@ -281,6 +281,10 @@ const currentDateFormattedDate_ISO_8601 = format(
     "yyyy-MM-dd'T'HH:mm:ssXXX"
 ); // ISO 8601 format
 const loading = ref(false)
+
+onIonViewWillEnter(() => {
+  loading.value = false;
+});
 
 const checkDOB = () => {
     return userStore.myUserInfo.dateOfBirth != null ? parseDateStampToISO(userStore.myUserInfo.dateOfBirth) : ''
@@ -345,8 +349,9 @@ const confirmDOB = () => {
 
 const handleSubmit = async () => {
     try {
-        showForm.value = false;
+        loading.value = true;
         await userStore.updateUserInfo(userInfo.value)
+        showForm.value = false;
     } catch (error) {
         console.log(error)
     }

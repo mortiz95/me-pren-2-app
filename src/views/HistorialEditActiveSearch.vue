@@ -1,30 +1,28 @@
 <template>
-  <ion-page>
-    <ion-header>
-      <ion-toolbar>
-        <ion-grid class="ion-padding">
-          <ion-row v-if="showForm">
-            <ion-col size="auto" class="ion-no-padding">
-              <h2>Estas buscando jugadores?</h2>
-            </ion-col>
-            <ion-col size="auto" class="ion-no-padding">
-              <ion-title size="small" class="ion-no-padding ion-padding-bottom">
-                Crea una busqueda indicando cuantos jugadores necesitas para que se sumen a tu
-                equipo.
-              </ion-title>
-            </ion-col>
-          </ion-row>
-        </ion-grid>
-      </ion-toolbar>
-    </ion-header>
-    <ion-content :fullscreen="true">
+    <ion-page>
+        <ion-header>
+            <ion-toolbar>
+                <ion-grid class="ion-padding">
+                    <ion-row class="ion-align-items-center">
+                        <ion-col size="auto">
+                            <ion-icon :icon="chevronBackOutline" class="ion-align-item-start"
+                                @click="goToHistorial()"></ion-icon>
+                        </ion-col>
+                        <ion-col>
+                            <h2 class="ion-no-margin ion-margin-start">Editar busqueda</h2>
+                        </ion-col>
+                    </ion-row>
+                </ion-grid>
+            </ion-toolbar>
+        </ion-header>
+        <ion-content :fullscreen="true">
       <form v-if="showForm" @submit.prevent="handleSubmit()">
         <div>
           <ion-list :inset="false">
 
             <ion-item>
               <ion-icon :icon="footballOutline" class="ion-padding-end"></ion-icon>
-              <ion-select :value="search.sport" label="Deporte" color="light" label-placement="stacked"
+              <ion-select :value="searchInfo.sport" label="Deporte" color="light" label-placement="stacked"
                 class="ion-text-capitalize" :interface-options="options" :toggle-icon="chevronDownCircleOutline"
                 :expanded-icon="remove">
                 <ion-select-option selected value="futbol">Futbol</ion-select-option>
@@ -37,7 +35,7 @@
 
             <ion-item>
               <ion-icon :icon="locationOutline" class="ion-padding-end"></ion-icon>
-              <ion-select :value="search.province" label="Provincia" color="light" label-placement="stacked"
+              <ion-select :value="searchInfo.province" label="Provincia" color="light" label-placement="stacked"
                 :interface-options="options" :toggle-icon="chevronDownCircleOutline" :expanded-icon="remove">
                 <ion-select-option value="salta">Salta</ion-select-option>
                 <!--                                              <ion-select-option value="basket">Basket</ion-select-option>
@@ -49,7 +47,7 @@
 
             <ion-item>
               <ion-icon :icon="businessOutline" class="ion-padding-end"></ion-icon>
-              <ion-select :value="search.city" @ionChange="handleChangeCity($event)"
+              <ion-select :value="searchInfo.city" @ionChange="handleChangeCity($event)"
                 :toggle-icon="chevronDownCircleOutline" :expanded-icon="remove" label="* Municipio" color="light"
                 label-placement="stacked" class="title-city ion-text-capitalize" :interface-options="options">
                 <ion-select-option value="capital">Capital</ion-select-option>
@@ -65,13 +63,13 @@
 
             <ion-item>
               <ion-icon slot="start" :icon="pinOutline" class="ion-no-margin"></ion-icon>
-              <ion-input required color="light" v-model="search.place" class="ion-margin-start"
+              <ion-input required color="light" v-model="searchInfo.place" class="ion-margin-start"
                 label="* En que cancha jugaras?" label-placement="floating"></ion-input>
             </ion-item>
 
             <ion-item>
               <ion-icon slot="start" :icon="peopleCircleOutline" class="ion-no-margin"></ion-icon>
-              <ion-input required color="light" v-model="search.spots" class="ion-margin-start" type="number"
+              <ion-input required color="light" v-model="searchInfo.spots" class="ion-margin-start" type="number"
                 label="* Cuantos jugadores necesitas?" label-placement="floating"></ion-input>
             </ion-item>
 
@@ -79,10 +77,10 @@
             <ion-item>
               <ion-icon slot="start" :icon="calendarOutline" class="ion-no-margin"></ion-icon>
               <ion-input required color="light" class="ion-text-capitalize ion-margin-start"
-                v-model="selectedDateTimeParsed" label="* Fecha del partido" label-placement="floating"
+                v-model="searchDateParsed" label="* Fecha del partido" label-placement="floating"
                 @click="toggleDateTimeInput()"></ion-input>
-              <ion-datetime v-if="dateTimeVisible" v-model="search.date" ref="refDatetime" class="ion-margin-vertical"
-                @ionChange="handleDateTimeChange" :min="currentDateFormattedDate_ISO_8601" :max="datetimeMaxDate">
+              <ion-datetime v-if="dateTimeVisible" v-model="searchDateParseISO" ref="refDatetime" class="ion-margin-vertical"
+                @ionChange="handleDateTimeChange" :max="datetimeMaxDate">
                 <ion-buttons slot="buttons">
                   <ion-button color="success" @click="toggleDateTimeInput()">CANCELAR</ion-button>
                   <ion-button color="success" @click="confirm()">OK</ion-button>
@@ -92,7 +90,7 @@
 
             <ion-item>
               <ion-icon :icon="cashOutline" class="ion-padding-end"></ion-icon>
-              <ion-select :value="search.payment" @ionChange="handleHasToPay($event)"
+              <ion-select :value="searchInfoPaymentParse" @ionChange="handleHasToPay($event)"
                 :toggle-icon="chevronDownCircleOutline" :expanded-icon="remove" label="Es un evento pago?" color="light"
                 label-placement="stacked" class="title-city ion-text-capitalize" :interface-options="options">
                 <ion-select-option selected value="true">Si</ion-select-option>
@@ -112,19 +110,19 @@
                 </ion-row>
                 <ion-row class="ion-margin-bottom">
                   <ion-col>
-                    <Chips :chips="searchType" @tagClicked="saveChipSearchType">
+                    <Chips :chips="searchType" @tagClicked="saveChipsearchType" :chipSelected="searchInfo.type">
                     </Chips>
                   </ion-col>
                 </ion-row>
-                <ion-row v-if="search.sport === 'futbol'">
+                <ion-row v-if="searchInfo.sport === 'futbol'">
                   <ion-col>
                     <ion-text>
                       Indica tamaño del partido:</ion-text>
                   </ion-col>
                 </ion-row>
-                <ion-row v-if="search.sport === 'futbol'" class="ion-margin-bottom">
+                <ion-row v-if="searchInfo.sport === 'futbol'" class="ion-margin-bottom">
                   <ion-col>
-                    <Chips :chips="searchSize" @tagClicked="saveChipSearchSize">
+                    <Chips :chips="searchSize" @tagClicked="saveChipsearchSize" :chipSelected="searchInfo.size">
                     </Chips>
                   </ion-col>
                 </ion-row>
@@ -136,19 +134,19 @@
                 </ion-row>
                 <ion-row class="ion-margin-bottom">
                   <ion-col>
-                    <Chips :chips="searchGender" @tagClicked="saveChipSearchGender">
+                    <Chips :chips="searchGender" @tagClicked="saveChipsearchGender" :chipSelected="searchInfo.gender">
                     </Chips>
                   </ion-col>
                 </ion-row>
-                <ion-row v-if="search.sport === 'futbol'">
+                <ion-row v-if="searchInfo.sport === 'futbol'">
                   <ion-col>
                     <ion-text>
                       Indica el tipo de terreno:</ion-text>
                   </ion-col>
                 </ion-row>
-                <ion-row v-if="search.sport === 'futbol'">
+                <ion-row v-if="searchInfo.sport === 'futbol'">
                   <ion-col>
-                    <Chips :chips="searchGrassType" @tagClicked="saveChipsearchGrassType">
+                    <Chips :chips="searchGrassType" @tagClicked="saveChipsearchGrassType" :chipSelected="searchInfo.grassType">
                     </Chips>
                   </ion-col>
                 </ion-row>
@@ -157,7 +155,7 @@
 
             <ion-item>
               <ion-icon slot="start" :icon="peopleCircleOutline" class="ion-no-margin"></ion-icon>
-              <ion-textarea v-model="search.description" class="custom ion-margin-start" color="light"
+              <ion-textarea v-model="searchInfo.description" class="custom ion-margin-start" color="light"
                 :clear-on-edit="true" :counter="true" maxlength="100" label="Añade informacion extra"
                 label-placement="floating"
                 placeholder="Agrega informacion extra, por ej: Buscas arquero, defensor o delantero"></ion-textarea>
@@ -167,7 +165,7 @@
               <ion-button v-if="showForm" @click="handleSubmit" expand="block"
                 class="btn-secondary ion-text-uppercase ion-margin"
                :disabled="disableButton"  >
-                CREAR
+                ACTUALIZAR
               </ion-button>
             </div>
 
@@ -230,57 +228,36 @@ import { Timestamp } from "firebase/firestore";
 import { format } from "date-fns";
 import useDateParser from "@/composables/date";
 import { useSearchStore } from "@/store/search";
-import { useUserStore } from "@/store/user";
-import { useRouter } from "vue-router";
-import { onIonViewDidEnter, onIonViewDidLeave } from "@ionic/vue";
+import { useRouter , useRoute} from "vue-router";
+import { onIonViewDidLeave } from "@ionic/vue";
+import Search from "@/types/Search";
 
-const { parseDate } = useDateParser();
+const { parseDate, parseDateTimeStampToISO, parseDateStampToISOHours } = useDateParser();
 const router = useRouter();
+const route = useRoute();
 
-const city = ref('')
 const showForm = ref(true);
 const dateTimeVisible = ref(false);
 const refDatetime = ref();
 const formErrorText = ref();
 const isFormError = ref(false);
 
-
+//Param info
+const routeParamInfo: any = route?.params?.info;
+const searchInfo: Search = JSON.parse(routeParamInfo);
+console.log(searchInfo)
 const currentDate = new Date();
 const currentDateFormattedDate_ISO_8601 = format(
   currentDate,
   "yyyy-MM-dd'T'HH:mm:ssXXX"
 ); // ISO 8601 format
 
+
 const selectedDateTimeParsed = ref();
+selectedDateTimeParsed.value = searchInfo.date
 
-const store = useSearchStore();
-const userStore = useUserStore();
 
-const search = ref({
-  country: "argentina",
-  province: "salta",
-  city: city.value,
-  date: currentDateFormattedDate_ISO_8601,
-  place: "",
-  organizerId: auth!.currentUser!.uid,
-  organizerInfo: {
-    fullName: userStore.myUserInfo.name + " " + userStore.myUserInfo.lastName,
-    email: userStore.myUserInfo.email,
-  },
-  dateCreated: Timestamp.now(),
-  sport: "futbol",
-  spots: null,
-  payment: true,
-  gender: [],
-  type: [],
-  size: [],
-  grassType: [],
-  status: "open",
-  description: "",
-  usersAttending: [],
-  usersIdAttending: [],
-  usersWaiting: [],
-});
+const storeSearch = useSearchStore();
 
 onIonViewDidLeave(() => {
   showForm.value = true;
@@ -322,46 +299,50 @@ const confirm = () => {
 };
 
 const handleDateTimeChange = (event: CustomEvent) => {
-  selectedDateTimeParsed.value = parseDate(event.detail.value);
+  selectedDateTimeParsed.value = selectedDateTimeParsed
 };
 
 const handleChangeCity = (event: CustomEvent) => {
-  search.value.city = event.detail.value;
+  searchInfo.city = event.detail.value;
 };
 
-const saveChipSearchType = (searchType: any) => {
-  search.value.type = searchType;
+const saveChipsearchType = (searchType: any) => {
+  searchInfo.type = searchType;
 };
 
-const saveChipSearchGender = (searchGender: any) => {
-  search.value.gender = searchGender;
+const saveChipsearchGender = (searchGender: any) => {
+  searchInfo.gender = searchGender;
 };
 
-const saveChipSearchSize = (searchSize: any) => {
-  search.value.size = searchSize;
+const saveChipsearchSize = (searchSize: any) => {
+  searchInfo.size = searchSize;
 };
 
 const saveChipsearchGrassType = (searchSizeGrassType: any) => {
-  search.value.grassType = searchSizeGrassType;
+  searchInfo.grassType = searchSizeGrassType;
 };
 
 /* const handleSport = (ev: any) => {
-  search.value.sport = ev.detail.value;
+  searchInfo.sport = ev.detail.value;
 }; */
 
 const handleHasToPay = (ev: any) => {
-  search.value.payment = Boolean(ev.detail.value);
+  searchInfo.payment = Boolean(ev.detail.value);
 };
+
+const searchInfoPaymentParse = computed(() => {
+    return searchInfo.payment ? "true" : "false"
+})
 
 const disableButton = computed(() => {
   try {
-    if (search.value.city != "") {
-      if (search.value.place != "") {
-        if (search.value.date != "") {
+    if (searchInfo.city != "") {
+      if (searchInfo.place != "") {
+        if (searchInfo.date != null) {
           if (
-            search.value.spots &&
-            search.value.spots > 0 &&
-            search.value.spots < 10
+            searchInfo.spots &&
+            searchInfo.spots > 0 &&
+            searchInfo.spots < 10
           ) {
               return false
           } else {
@@ -384,16 +365,16 @@ const disableButton = computed(() => {
 
 const handleSubmit = async () => {
   try {
-    if (search.value.city != "") {
-      if (search.value.place != "") {
-        if (search.value.date != "") {
+    if (searchInfo.city != "") {
+      if (searchInfo.place != "") {
+        if (searchInfo.date != null) {
           if (
-            search.value.spots &&
-            search.value.spots > 0 &&
-            search.value.spots < 10
+            searchInfo.spots &&
+            searchInfo.spots > 0 &&
+            searchInfo.spots < 10
           ) {
             isFormError.value = false;
-            await store.addSearch(search.value);
+            await storeSearch.updateSearch(searchInfo);
             showForm.value = false;
           } else {
             formErrorText.value = "Debe elegir entre 1 y 10 jugadores";
@@ -424,12 +405,33 @@ const goToHistorial = () => {
   router.push("/tabs/tab3");
 };
 
+const searchDateParsed = computed(() => {
+
+  const firestoreTimestamp = new Timestamp(
+    selectedDateTimeParsed.value.seconds,
+    selectedDateTimeParsed.value.nanoseconds
+  );
+  
+  return parseDateTimeStampToISO(firestoreTimestamp);
+});
+
 const datetimeMaxDate = computed(() => {
   const today = new Date();
   const next30Days = new Date(today);
   next30Days.setDate(today.getDate() + 30);
   return format(next30Days, "yyyy-MM-dd'T'HH:mm:ssXXX");
 });
+
+const searchDateParseISO = computed(() => {
+    const firestoreTimestamp = new Timestamp(
+    searchInfo.date.seconds,
+    searchInfo.date.nanoseconds
+  );
+
+  return format(parseDateStampToISOHours(firestoreTimestamp), "yyyy-MM-dd'T'HH:mm:ssXXX"); 
+});
+
+
 </script>
 
 <style scoped>

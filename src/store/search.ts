@@ -190,9 +190,31 @@ export const useSearchStore = defineStore("search", {
 
     async updateSearch(updatedSearch: any) {
       try {
+        debugger
+        if(updatedSearch.date != null){
+          const dateString = updatedSearch.date;
+          const dateObject = new Date(dateString);
+          const parseDOB = Timestamp.fromDate(dateObject)
+          updatedSearch.date = parseDOB
+        }
+        const docRef = doc(db, "searches", auth!.currentUser!.uid);
+        await updateDoc(docRef, updatedSearch);
+
       } catch (error: any) {
         console.error("Error updating search:", error.message);
       }
     },
+
+    async updateStatusSearch(newStatus: any) {
+      try {
+
+        const docRef = doc(db, "searches", auth!.currentUser!.uid);
+        await updateDoc(docRef, {status: newStatus});
+
+      } catch (error: any) {
+        console.error("Error updating search:", error.message);
+      }
+    },
+
   },
 });

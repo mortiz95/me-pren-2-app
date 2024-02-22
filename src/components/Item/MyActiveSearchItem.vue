@@ -11,12 +11,13 @@
               </div>
             </ion-card-title>
           </ion-col>
-          <ion-col size="1">
-            <ion-icon class="ion-float-end actions-info__icon" :icon="pencilOutline"></ion-icon>
+          <ion-col size="2">
+            <ion-icon @click="goToEditMActiveSearch" class="ion-float-end actions-info__icon" :icon="pencilOutline"></ion-icon>
+            <ion-text color="">Editar</ion-text>
           </ion-col>
-          <ion-col size="1">
+        <!--   <ion-col size="1">
             <ion-icon class="ion-float-end actions-info__icon" :icon="trashOutline"></ion-icon>
-          </ion-col>
+          </ion-col> -->
         </ion-row>
 
         <ion-row class="mt-5">
@@ -141,6 +142,15 @@ import ProgressBar from "../Progress-bar/ProgressBar.vue";
 const props = defineProps<{
   searchInfo: Search;
 }>();
+
+const goToEditMActiveSearch = () => {
+  router.push({
+    name: "EditHistoricalActiveInfo",
+    params: {
+      info: JSON.stringify(props.searchInfo),
+    },
+  });
+}
 
 const router = useRouter();
 const { parseDateTimeStampToISO } = useDateParser();
